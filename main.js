@@ -207,7 +207,13 @@ function pollStates() {
 				"Battery:SmartBatteryControl:Enable": "devices.local.battery.SmartBatteryControl",
 				"Battery:Strategy": "devices.local.battery.Strategy",
 				"Battery:SupportedTypes": "devices.local.battery.SupportedTypes",
-				"Battery:Type": "devices.local.battery.Type",
+				"Battery:Type": "devices.local.battery.Type"
+			}
+		},
+		{
+			"moduleid": "devices:local",
+			"type": "settings",
+			"mappings": {
 				"EnergySensor:InstalledSensor": "devices.local.EnergySensor",
 				"Inverter:MaxApparentPower": "devices.local.inverter.MaxApparentPower",
 				"OptionKeys:StateKey0": "devices.local.StateKey0",
