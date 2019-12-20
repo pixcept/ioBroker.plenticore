@@ -72,9 +72,8 @@ function startAdapter(options) {
 			adapter.log.info("id=" + id);
 			
 			// you can use the ack flag to detect if it is status (true) or command (false)
-			if(state && !state.ack) {
-				adapter.log.info('ack is not set!');
-				/* TODO: SET STATE IN KOSTAL */
+			if(state) {
+				processStateChange(id, state);
 			}
 		} catch(e) {
 			adapter.log.info("Fehler Befehlsauswertung: " + e);
@@ -137,6 +136,31 @@ function main() {
 
 function loggedIn() {
 	return false;
+}
+
+function processStateChange(id, value) {
+	if(id === 'devices.local.battery.MinSoc') {
+		let payload = [
+			{
+				"moduleid": "devices:local",
+				"settings": [
+					{
+						"id": "Battery:MinSoc",
+						"value":"20"
+					}
+				]
+			}
+		];
+		apiCall('PUT', 'settings', payload, function(body, code, headers) {
+			adapter.log.info('PUT to settings battery resulted in code ' + code + ': ' + body);
+			if(code === 200) {
+				processDataResponse(body, {"Battery:MinSoc": "devices.local.battery.MinSoc"}, 'settings');
+			}
+		});
+	} else {
+		adapter.log.warn('State changing of ' + id + ' not yet implemented.');
+	}
+
 }
 
 function processDataResponse(data, mappings, dataname) {
