@@ -209,9 +209,9 @@ function pollStates() {
 				"Battery:SupportedTypes": "devices.local.battery.SupportedTypes",
 				"Battery:Type": "devices.local.battery.Type",
 				"EnergySensor:InstalledSensor": "devices.local.EnergySensor",
-				"Inverter:MaxApparentPower": "devices.local.Inverter.MaxApparentPower",
+				"Inverter:MaxApparentPower": "devices.local.inverter.MaxApparentPower",
 				"OptionKeys:StateKey0": "devices.local.StateKey0",
-				"Properties:InverterType": "devices.local.Inverter.Type"
+				"Properties:InverterType": "devices.local.inverter.Type"
 				// "Inverter:ActivePowerLimitation","Inverter:MinActivePowerLimitation","Inverter:MaxApparentPower","Inverter:MaxActivePowerLimitation","EnergySensor:InstalledSensor","EnergySensor:SupportedSensors","EnergySensor:SensorPosition","EnergySensor:SupportedPositions","DigitalOutputs:Customer:ConfigurationFlags","DigitalInputs:Mode","EnergyMgmt:AcStorage","Battery:Type","Battery:SmartBatteryControl:Enable","Battery:DynamicSoc:Enable"
 			}
 		},
@@ -227,7 +227,7 @@ function pollStates() {
 				"HomeOwn_P": "devices.local.HomeOwn_P",
 				"HomePv_P": "devices.local.HomePv_P",
 				"Home_P": "devices.local.Home_P",
-				"Inverter:State": "devices.local.Inverter.State",
+				"Inverter:State": "devices.local.inverter.State",
 				"LimitEvuAbs": "devices.local.LimitEvuAbs"
 			}
 		},
@@ -733,7 +733,7 @@ function setPlenticoreObjects() {
 	}
 
 	
-	adapter.setObjectNotExists('devices.local.Inverter.Type', {
+	adapter.setObjectNotExists('devices.local.inverter.Type', {
 		type: 'state',
 		common: {
 			name: 'Inverter type',
@@ -750,7 +750,7 @@ function setPlenticoreObjects() {
 		native: {}
 	});
 	
-	adapter.setObjectNotExists('devices.local.Inverter.MaxApparentPower', {
+	adapter.setObjectNotExists('devices.local.inverter.MaxApparentPower', {
 		type: 'state',
 		common: {
 			name: 'Inverter max. power',
@@ -1252,7 +1252,7 @@ function setPlenticoreObjects() {
 		native: {}
 	});
 	
-	adapter.setObjectNotExists('devices.local.Inverter.State', {
+	adapter.setObjectNotExists('devices.local.inverter.State', {
 		type: 'state',
 		common: {
 			name: 'Inverter state',
