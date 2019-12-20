@@ -355,7 +355,7 @@ function pollStates() {
 			if(code === 200) {
 				processDataResponse(body, pl.mappings, act);
 			} else {
-				adapter.log.warn(pl.moduleid + ' (' + act + ') failed with code ' + code + ': ' + body);
+				adapter.log.warn(pl.moduleid + ' (' + act + ' - ' +  params[idname].join(',') + ') failed with code ' + code + ': ' + body);
 			}
 		});	
 	}
