@@ -21,6 +21,7 @@ var loginSessionId = null;
 var http = require('http');
 
 let polling;
+let pollingTime;
 
 function startAdapter(options) {
 	options = options || {};
@@ -40,7 +41,7 @@ function startAdapter(options) {
 					adapter.log.info('Logged out from API');
 				}
 			});
-			/*clearInterval(polling);*/
+			clearInterval(polling);
 			http.destroy();
 			adapter.log.info('[END] Stopping plenticore adapter...');
 			adapter.setState('info.connection', false, true);
@@ -61,22 +62,22 @@ function startAdapter(options) {
 		// Warning, state can be null if it was deleted
 
 		try {
-			adapter.log.debug('stateChange ' + id + ' ' + JSON.stringify(state));
+			adapter.log.info('stateChange ' + id + ' ' + JSON.stringify(state));
 			//adapter.log.debug("Adapter=" + adapter.toString());
 
 			if(!id || state.ack)
 				return; // Ignore acknowledged state changes or error states
 			id = id.substring(adapter.namespace.length + 1); // remove instance name and id
 			state = state.val;
-			adapter.log.debug("id=" + id);
+			adapter.log.info("id=" + id);
 			
 			// you can use the ack flag to detect if it is status (true) or command (false)
 			if(state && !state.ack) {
-				adapter.log.debug('ack is not set!');
+				adapter.log.info('ack is not set!');
 				/* TODO: SET STATE IN KOSTAL */
 			}
 		} catch(e) {
-			adapter.log.debug("Fehler Befehlsauswertung: " + e);
+			adapter.log.info("Fehler Befehlsauswertung: " + e);
 		}
 	});
 
@@ -118,7 +119,10 @@ function main() {
 
 	setPlenticoreObjects();
 
-	const pollingTime = adapter.config.pollinterval || 300000;
+	pollingTime = adapter.config.pollinterval || 300000;
+	if(pollingTime < 5000) {
+		pollingTime = 5000;
+	}
 	adapter.log.info('[INFO] Configured polling interval: ' + pollingTime);
 	adapter.log.debug('[START] Started Adapter with: ' + adapter.config.ipaddress);
 
@@ -339,6 +343,7 @@ function loginSuccess() {
 		adapter.log.info('auth/me: ' + body);
 	});
 
+	polling = setInterval(function() { pollStates(); }, pollingTime);
 	pollStates();
 
 	/*
@@ -649,6 +654,10 @@ function apiCall(method, endpoint, data, callback) {
 		});
 		response.on('end', function() {
 			adapter.log.debug('Result of request: ' + JSON.stringify({code: code, headers: headers, body: body}));
+			if(code === 401 || code === 403) {
+				process.exit();
+				return;
+			}
 			callback(body, code, headers);
 		});
 	});
@@ -1510,7 +1519,9 @@ function setPlenticoreObjects() {
 			role: 'value.info',
 			read: true,
 			write: true,
-			min: 0
+			min: 0,
+			max: 10000,
+			unit: 'W'
 		},
 		native: {}
 	});
@@ -1524,7 +1535,8 @@ function setPlenticoreObjects() {
 			read: true,
 			write: true,
 			min: 0,
-			max: 100
+			max: 100,
+			unit: '%'
 		},
 		native: {}
 	});
@@ -1639,13 +1651,6 @@ if(module && module.parent) {
 
 /** helper functions */
 
-/*userURL = o.endpoint + '/api/v1/auth/me';
- startURL = o.endpoint + '/api/v1/auth/start';
- finishURL = o.endpoint + '/api/v1/auth/finish';
- setPasswordURL = o.endpoint + '/api/v1/auth/set_password';
- getSessionURL = o.endpoint + '/api/v1/auth/create_session';
- logOutURL = o.endpoint + '/api/v1/auth/logout';
- */
 function getNonce() {
 	return base64.fromBits(random.randomWords(3))
 }
@@ -2224,152 +2229,7 @@ var random = {
 					i.push(r[0], r[1], r[2], r[3]);
 		return c(this),
 				i.slice(0, t)
-	}/*,
-	 addEntropy: function(t, e, n) {
-	 n = n || 'user';
-	 var r,
-	 i,
-	 a = (new Date).valueOf(),
-	 u = this.H[n],
-	 c = this.isReady(),
-	 l = 0;
-	 switch(void 0 === (r = this.U[n]) && (r = this.U[n] = this.ha++), void 0 === u && (u = this.H[n] = 0), this.H[n] = (this.H[n] + 1) % this.c.length, typeof t) {
-	 case 'number':
-	 void 0 === e && (e = 1),
-	 this.c[u].update([r,
-	 this.N++,
-	 1,
-	 e,
-	 a,
-	 1,
-	 0 | t]);
-	 break;
-	 case 'object':
-	 if('[object Uint32Array]' === (n = Object.prototype.toString.call(t))) {
-	 for(i = [
-	 ], n = 0; n < t.length; n++)
-	 i.push(t[n]);
-	 t = i
-	 } else
-	 for('[object Array]' !== n && (l = 1), n = 0; n < t.length && !l; n++)
-	 'number' != typeof t[n] && (l = 1);
-	 if(!l) {
-	 if(void 0 === e)
-	 for(n = e = 0; n < t.length; n++)
-	 for(i = t[n]; 0 < i; )
-	 e++,
-	 i >>>= 1;
-	 this.c[u].update([r,
-	 this.N++,
-	 2,
-	 e,
-	 a,
-	 t.length].concat(t))
-	 }
-	 break;
-	 case 'string':
-	 void 0 === e && (e = t.length),
-	 this.c[u].update([r,
-	 this.N++,
-	 3,
-	 e,
-	 a,
-	 t.length]),
-	 this.c[u].update(t);
-	 break;
-	 default:
-	 l = 1
-	 }
-	 if(l)
-	 throw new exception.bug('random: addEntropy only supports number, array of numbers or string');
-	 this.m[u] += e,
-	 this.f += e,
-	 c === this.u && (this.isReady() !== this.u && s('seeded', Math.max(this.o, this.f)), s('progress', this.getProgress()))
-	 },
-	 isReady: function(t) {
-	 return t = this.T[void 0 !== t ? t : this.M],
-	 this.o && this.o >= t ? this.m[0] > this.ba && (new Date).valueOf() > this.Z ? this.J | this.I : this.I : this.f >= t ? this.J | this.u : this.u
-	 },
-	 getProgress: function(t) {
-	 return t = this.T[t || this.M],
-	 this.o >= t ? 1 : this.f > t ? 1 : this.f / t
-	 },
-	 startCollectors: function() {
-	 if(!this.D) {
-	 if(this.a = {
-	 loadTimeCollector: d(this, this.ma),
-	 mouseCollector: d(this, this.oa),
-	 keyboardCollector: d(this, this.la),
-	 accelerometerCollector: d(this, this.ea),
-	 touchCollector: d(this, this.qa)
-	 }, window.addEventListener)
-	 window.addEventListener('load', this.a.loadTimeCollector, !1),
-	 window.addEventListener('mousemove', this.a.mouseCollector, !1),
-	 window.addEventListener('keypress', this.a.keyboardCollector, !1),
-	 window.addEventListener('devicemotion', this.a.accelerometerCollector, !1),
-	 window.addEventListener('touchmove', this.a.touchCollector, !1);
-	 else {
-	 if(!document.attachEvent)
-	 throw new exception.bug('can\'t attach event');
-	 document.attachEvent('onload', this.a.loadTimeCollector),
-	 document.attachEvent('onmousemove', this.a.mouseCollector),
-	 document.attachEvent('keypress', this.a.keyboardCollector)
-	 }
-	 this.D = !0
-	 }
-	 },
-	 stopCollectors: function() {
-	 this.D && (window.removeEventListener ? (window.removeEventListener('load', this.a.loadTimeCollector, !1), window.removeEventListener('mousemove', this.a.mouseCollector, !1), window.removeEventListener('keypress', this.a.keyboardCollector, !1), window.removeEventListener('devicemotion', this.a.accelerometerCollector, !1), window.removeEventListener('touchmove', this.a.touchCollector, !1)) : document.detachEvent && (document.detachEvent('onload', this.a.loadTimeCollector), document.detachEvent('onmousemove', this.a.mouseCollector), document.detachEvent('keypress', this.a.keyboardCollector)), this.D = !1)
-	 },
-	 addEventListener: function(t, e) {
-	 this.K[t][this.ga++] = e
-	 },
-	 removeEventListener: function(t, e) {
-	 var n,
-	 r,
-	 o = this.K[t],
-	 i = [
-	 ];
-	 for(r in o)
-	 o.hasOwnProperty(r) && o[r] === e && i.push(r);
-	 for(n = 0; n < i.length; n++)
-	 delete o[r = i[n]]
-	 },
-	 la: function() {
-	 u(this, 1)
-	 },
-	 oa: function(t) {
-	 var e,
-	 n;
-	 try {
-	 e = t.x || t.clientX || t.offsetX || 0,
-	 n = t.y || t.clientY || t.offsetY || 0
-	 } catch(t) {
-	 n = e = 0
-	 }
-	 0 != e && 0 != n && this.addEntropy([e,
-	 n], 2, 'mouse'),
-	 u(this, 0)
-	 },
-	 qa: function(t) {
-	 t = t.touches[0] || t.changedTouches[0],
-	 this.addEntropy([t.pageX || t.clientX,
-	 t.pageY || t.clientY], 1, 'touch'),
-	 u(this, 0)
-	 },
-	 ma: function() {
-	 u(this, 2)
-	 },
-	 ea: function(t) {
-	 if(t = t.accelerationIncludingGravity.x || t.accelerationIncludingGravity.y || t.accelerationIncludingGravity.z, window.orientation) {
-	 var e = window.orientation;
-	 'number' == typeof e && this.addEntropy(e, 1, 'accelerometer')
-	 }
-	 t && this.addEntropy(t, 2, 'accelerometer'),
-	 u(this, 0)
-	 }
-	 },
-	 o.random = new o.prng(6);*/
+	}
 };
 
 function a(t, e) {

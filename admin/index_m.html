@@ -32,6 +32,9 @@
                         ;
                 } else {
                     // do not call onChange direct, because onChange could expect some arguments
+					if(id === 'pollinterval' && !settings[id]) {
+						settings[id] = 60000;
+					}
                     $key.val(settings[id])
                         .on('change', () => onChange())
                         .on('keyup', () => onChange())
