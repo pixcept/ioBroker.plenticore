@@ -202,20 +202,14 @@ function pollStates() {
 			"type": "settings",
 			"mappings": {
 				"Battery:DynamicSoc:Enable": "devices.local.battery.DynamicSoc",
-				"Battery:MinHomeConsumption": "devices.local.battery.MinHomeConsumption",
+				"Battery:MinHomeComsumption": "devices.local.battery.MinHomeConsumption", // YES, it is named Comsumption in the API
 				"Battery:MinSoc": "devices.local.battery.MinSoc",
 				"Battery:SmartBatteryControl:Enable": "devices.local.battery.SmartBatteryControl",
 				"Battery:Strategy": "devices.local.battery.Strategy",
 				"Battery:SupportedTypes": "devices.local.battery.SupportedTypes",
-				"Battery:Type": "devices.local.battery.Type"
-			}
-		},
-		{
-			"moduleid": "devices:local",
-			"type": "settings",
-			"mappings": {
-				"EnergySensor:InstalledSensor": "devices.local.EnergySensor",
+				"Battery:Type": "devices.local.battery.Type",
 				"Inverter:MaxApparentPower": "devices.local.inverter.MaxApparentPower",
+				"EnergySensor:InstalledSensor": "devices.local.EnergySensor",
 				"OptionKeys:StateKey0": "devices.local.StateKey0",
 				"Properties:InverterType": "devices.local.inverter.Type"
 				// "Inverter:ActivePowerLimitation","Inverter:MinActivePowerLimitation","Inverter:MaxApparentPower","Inverter:MaxActivePowerLimitation","EnergySensor:InstalledSensor","EnergySensor:SupportedSensors","EnergySensor:SensorPosition","EnergySensor:SupportedPositions","DigitalOutputs:Customer:ConfigurationFlags","DigitalInputs:Mode","EnergyMgmt:AcStorage","Battery:Type","Battery:SmartBatteryControl:Enable","Battery:DynamicSoc:Enable"
