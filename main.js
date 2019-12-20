@@ -146,7 +146,7 @@ function processStateChange(id, value) {
 				"settings": [
 					{
 						"id": "Battery:MinSoc",
-						"value":"20"
+						"value": value
 					}
 				]
 			}
