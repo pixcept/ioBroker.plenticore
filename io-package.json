@@ -1,0 +1,76 @@
+{
+	"common": {
+		"name": "plenticore",
+		"version": "0.0.2",
+		"news": {
+			"0.0.1": {
+				"en": "Initial version",
+				"de": "Initiale Version"
+			}
+		},
+		"title": "Kostal Plenticore API",
+		"titleLang": {
+			"en": "Kostal Plenticore API",
+			"de": "Kostal Plenticore API"
+		},
+		"desc": {
+			"en": "Adapter to communicate with a Kostal Plenticore Plus via local network (non-modbus)",
+			"de": "Adapter um mit einem Kostal Plenticore Plus im lokalen Netzwerk (nicht via modbus) zu kommunizieren"
+		},
+		"authors": [
+			"Marius Burkard <m.burkard@pixcept.de>"
+		],
+		"platform": "Javascript/Node.js",
+		"main": "main.js",
+		"mode": "daemon",
+		"icon": "plenticore.png",
+		"extIcon": "https://raw.githubusercontent.com/StrathCole/iobroker.plenticore/master/admin/plenticore.png",
+		"keywords": [
+			"kostal",
+			"plenticore",
+			"api",
+			"inverter"
+		],
+		"readme": "https://github.com/StrathCole/iobroker.plenticore/blob/master/README.md",
+		"loglevel": "info",
+		"type": "energy",
+		"license": "MIT",
+		"messagebox": true,
+		"materialize": true,
+		"enabled": false,
+		"compact": true,
+		"dependencies": [
+			{
+				"admin": ">=3.0.0"
+			}
+		]
+	},
+	"native": {
+		"password": "",
+		"pollInterval": 60
+	},
+	"objects": [],
+	"instanceObjects": [
+		{
+			"_id": "info",
+			"type": "channel",
+			"common": {
+				"name": "Adapter-Information"
+			},
+			"native": {}
+		},
+		{
+			"_id": "info.connection",
+			"type": "state",
+			"common": {
+				"role": "indicator.connected",
+				"name": "Whether the adapter is connected to the gateway",
+				"type": "boolean",
+				"read": true,
+				"write": false,
+				"def": false
+			},
+			"native": {}
+		}
+	]
+}
