@@ -146,7 +146,7 @@ function processStateChange(id, value) {
 				"settings": [
 					{
 						"id": "Battery:MinSoc",
-						"value": value
+						"value": value + "" // make sure it is a string
 					}
 				]
 			}
