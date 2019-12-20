@@ -352,11 +352,10 @@ function pollStates() {
 		
 		adapter.log.info('Requesting ' + params[idname].join(',') + ' from ' + pl.moduleid + ' (' + act + ')');
 		apiCall('POST', act, [params], function(body, code, headers) {
-			adapter.log.info('Result code is ' + code);
 			if(code === 200) {
 				processDataResponse(body, pl.mappings, act);
 			} else {
-				adapter.log.warn('Failed with code ' + code + ': ' + body);
+				adapter.log.warn(pl.moduleid + ' (' + act + ') failed with code ' + code + ': ' + body);
 			}
 		});	
 	}
