@@ -174,16 +174,16 @@ function pollStates() {
 			"type": "settings",
 			"mappings": {
 				"Battery:DynamicSoc:Enable": "devices.local.battery.DynamicSoc",
-				"Battery:MinHomeComsumption": "devices.local.battery.MinHomeComsumption",
+				"Battery:MinHomeConsumption": "devices.local.battery.MinHomeConsumption",
 				"Battery:MinSoc": "devices.local.battery.MinSoc",
 				"Battery:SmartBatteryControl:Enable": "devices.local.battery.SmartBatteryControl",
 				"Battery:Strategy": "devices.local.battery.Strategy",
 				"Battery:SupportedTypes": "devices.local.battery.SupportedTypes",
 				"Battery:Type": "devices.local.battery.Type",
 				"EnergySensor:InstalledSensor": "devices.local.EnergySensor",
-				"Inverter:MaxApparentPower": "devices.local.inverter.MaxApparentPower",
+				"Inverter:MaxApparentPower": "devices.local.Inverter.MaxApparentPower",
 				"OptionKeys:StateKey0": "devices.local.StateKey0",
-				"Properties:InverterType": "devices.local.InverterType"
+				"Properties:InverterType": "devices.local.Inverter.Type"
 				// "Inverter:ActivePowerLimitation","Inverter:MinActivePowerLimitation","Inverter:MaxApparentPower","Inverter:MaxActivePowerLimitation","EnergySensor:InstalledSensor","EnergySensor:SupportedSensors","EnergySensor:SensorPosition","EnergySensor:SupportedPositions","DigitalOutputs:Customer:ConfigurationFlags","DigitalInputs:Mode","EnergyMgmt:AcStorage","Battery:Type","Battery:SmartBatteryControl:Enable","Battery:DynamicSoc:Enable"
 			}
 		},
@@ -199,7 +199,7 @@ function pollStates() {
 				"HomeOwn_P": "devices.local.HomeOwn_P",
 				"HomePv_P": "devices.local.HomePv_P",
 				"Home_P": "devices.local.Home_P",
-				"Inverter:State": "devices.local.inverter.State",
+				"Inverter:State": "devices.local.Inverter.State",
 				"LimitEvuAbs": "devices.local.LimitEvuAbs"
 			}
 		},
@@ -286,7 +286,14 @@ function pollStates() {
 			"moduleid": "scb:export",
 			"type": "data",
 			"mappings": {
-				"PortalConActive": "scb.export.PortalConActive",
+				"PortalConActive": "scb.export.PortalConActive"
+				
+			}
+		},
+		{
+			"moduleid": "scb:export",
+			"type": "settings",
+			"mappings": {
 				"LastExport": "scb.export.LastExport",
 				"LastExportOk": "scb.export.LastExportOk",
 				"Portal": "scb.export.Portal",
@@ -693,7 +700,7 @@ function setPlenticoreObjects() {
 	}
 
 	
-	adapter.setObjectNotExists('devices.local.InverterType', {
+	adapter.setObjectNotExists('devices.local.Inverter.Type', {
 		type: 'state',
 		common: {
 			name: 'Inverter type',
@@ -956,6 +963,85 @@ function setPlenticoreObjects() {
 		native: {}
 	});
 	
+	adapter.setObjectNotExists('devices.local.pv1.I', {
+		type: 'state',
+		common: {
+			name: 'PV line 1 current',
+			type: 'number',
+			role: 'value.info',
+			unit: 'A',
+			read: true,
+			write: false
+		},
+		native: {}
+	});
+	
+	adapter.setObjectNotExists('devices.local.pv1.U', {
+		type: 'state',
+		common: {
+			name: 'PV line 1 voltage',
+			type: 'number',
+			role: 'value.info',
+			unit: 'V',
+			read: true,
+			write: false
+		},
+		native: {}
+	});
+	
+	adapter.setObjectNotExists('devices.local.pv1.P', {
+		type: 'state',
+		common: {
+			name: 'PV line 1 power',
+			type: 'number',
+			role: 'value.info',
+			unit: 'W',
+			read: true,
+			write: false
+		},
+		native: {}
+	});
+
+	adapter.setObjectNotExists('devices.local.pv2.I', {
+		type: 'state',
+		common: {
+			name: 'PV line 2 current',
+			type: 'number',
+			role: 'value.info',
+			unit: 'A',
+			read: true,
+			write: false
+		},
+		native: {}
+	});
+	
+	adapter.setObjectNotExists('devices.local.pv2.U', {
+		type: 'state',
+		common: {
+			name: 'PV line 2 voltage',
+			type: 'number',
+			role: 'value.info',
+			unit: 'V',
+			read: true,
+			write: false
+		},
+		native: {}
+	});
+	
+	adapter.setObjectNotExists('devices.local.pv2.P', {
+		type: 'state',
+		common: {
+			name: 'PV line 2 power',
+			type: 'number',
+			role: 'value.info',
+			unit: 'W',
+			read: true,
+			write: false
+		},
+		native: {}
+	});
+
+	
 	adapter.setObjectNotExists('devices.local.battery.Cycles', {
 		type: 'state',
 		common: {
@@ -1133,7 +1219,7 @@ function setPlenticoreObjects() {
 		native: {}
 	});
 	
-	adapter.setObjectNotExists('devices.local.inverter.State', {
+	adapter.setObjectNotExists('devices.local.Inverter.State', {
 		type: 'state',
 		common: {
 			name: 'Inverter state',
