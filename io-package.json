@@ -1,9 +1,9 @@
 {
 	"common": {
 		"name": "plenticore",
-		"version": "0.0.2",
+		"version": "0.1.0",
 		"news": {
-			"0.0.1": {
+			"0.1.0": {
 				"en": "Initial version",
 				"de": "Initiale Version"
 			}
