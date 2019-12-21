@@ -290,9 +290,18 @@ function processStateChange(id, value) {
 	];
 	apiCall('PUT', 'settings', payload, function(body, code, headers) {
 		if(code === 200) {
-			payload = {};
-			payload[settingid] = id;
-			processDataResponse(body, payload, 'settings');
+			// we need to request current value as the response to PUT is not always correct!
+			payload = {
+				"moduleid": moduleid,
+				"settingids": [settingid]
+			};
+			apiCall('POST', 'settings', payload, function(body, code, headers) {
+				if(code === 200) {
+					processDataResponse(body, 'settings');
+				} else {
+					adapter.log.warn('Requesting settings (after PUT) - ' + JSON.stringify(payload) + ') failed with code ' + code + ': ' + body);
+				}
+			});	
 		} else {
 			adapter.log.warn('PUT to settings ' + moduleid + ' / ' + settingid + ' (' + value + ') resulted in code ' + code + ': ' + body);
 		}
@@ -301,39 +310,43 @@ function processStateChange(id, value) {
 	return;
 }
 
-function processDataResponse(data, mappings, dataname) {
+function processDataResponse(data, dataname) {
 	let json = JSON.parse(data);
 	if('undefined' === typeof json) {
 		adapter.log.warn('Invalid json data received: ' + data);
 		return;
 	}
 	
-	if(json.length > 0 && json[0]) {
-		json = json[0];
-	} else {
+	if(json.length <= 0 || !json[0]) {
 		adapter.log.warn('Invalid json data received: ' + JSON.stringify(data));
 		return;
 	}
-	if(json[dataname]) {
-		for(let i in json[dataname]) {
-			let setting = json[dataname][i];
-			if(mappings[setting.id]) {
-				let objid = mappings[setting.id];
-				if(boolean_states.includes(objid)) {
-					setting.value = (setting.value == 1);
+
+	let mappings = (dataname === 'settings' ? payload_settings : payload_data);
+	
+	for(let j = 0; j < json.length; j++) {
+		if(json[j][dataname]) {
+			for(let i in json[j][dataname]) {
+				let setting = json[j][dataname][i];
+				if(mappings[setting.id]) {
+					let objid = mappings[setting.id];
+					if(boolean_states.includes(objid)) {
+						setting.value = (setting.value == 1);
+					}
+
+					adapter.log.debug('Setting ' + objid + ' to ' + setting.value + " now.");
+					adapter.setState(objid, setting.value, true);
+				} else {
+					adapter.log.warn('Not in mappings: ' + setting.id + ' = ' + setting.value);
 				}
-				
-				adapter.log.debug('Setting ' + objid + ' to ' + setting.value + " now.");
-				adapter.setState(objid, setting.value, true);
-			} else {
-				adapter.log.warn('Not in mappings: ' + setting.id + ' = ' + setting.value);
 			}
 		}
 	}
-	
 }
 
 function pollStates() {
+	let payload = [];
+	
 	for(let p = 0; p < payload_data.length; p++) {
 		let pl = payload_data[p];
 		
@@ -346,15 +359,17 @@ function pollStates() {
 		}
 		
 		adapter.log.debug('Requesting ' + params.processdataids.join(',') + ' from ' + pl.moduleid + ' (processdata)');
-		apiCall('POST', 'processdata', [params], function(body, code, headers) {
-			if(code === 200) {
-				processDataResponse(body, pl.mappings, 'processdata');
-			} else {
-				adapter.log.warn(pl.moduleid + ' (processdata - ' +  params.processdataids.join(',') + ') failed with code ' + code + ': ' + body);
-			}
-		});	
+		payload.push(params);
 	}
+	apiCall('POST', 'processdata', payload, function(body, code, headers) {
+		if(code === 200) {
+			processDataResponse(body, 'processdata');
+		} else {
+			adapter.log.warn('Requesting processdata - ' + JSON.stringify(payload) + ') failed with code ' + code + ': ' + body);
+		}
+	});	
 	
+	payload = [];
 	for(let p = 0; p < payload_settings.length; p++) {
 		let pl = payload_settings[p];
 		
@@ -367,14 +382,15 @@ function pollStates() {
 		}
 		
 		adapter.log.debug('Requesting ' + params.settingids.join(',') + ' from ' + pl.moduleid + ' (settings)');
-		apiCall('POST', 'settings', [params], function(body, code, headers) {
-			if(code === 200) {
-				processDataResponse(body, pl.mappings, 'settings');
-			} else {
-				adapter.log.warn(pl.moduleid + ' (settings - ' +  params.settingids.join(',') + ') failed with code ' + code + ': ' + body);
-			}
-		});	
+		payload.push(params);
 	}
+	apiCall('POST', 'settings', payload, function(body, code, headers) {
+		if(code === 200) {
+			processDataResponse(body, 'settings');
+		} else {
+			adapter.log.warn('Requesting settings - ' + JSON.stringify(payload) + ') failed with code ' + code + ': ' + body);
+		}
+	});	
 }
 
 function loginSuccess() {
