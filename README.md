@@ -29,7 +29,7 @@ I have not yet implemented all the API endpoints, especially the energy flow sta
 
 ## Objects
 
-Following is an excerpt of the most important objects used and filled by this adapter. All Settings marked with [**] should be editable but not all of them were tested and there may be (and will be) bugs.
+Following is an excerpt of the most important objects used and filled by this adapter. All Settings marked with `[**]` should be editable but not all of them were tested and there may be (and will be) bugs.
 
 ### plenticore.X.devices.local
 
@@ -56,11 +56,11 @@ This channel contains information about the AC side of the inverter. Most import
 #### plenticore.X.devices.local.battery
 
 `plenticore.X.devices.local.battery.Cycles` - the lifetime battery cycles up to now  
-[**] `plenticore.X.devices.local.battery.DynamicSoc` - true if dynamic SoC is enabled (only if `SmartBatteryControl` is true, too)  
-[**] `plenticore.X.devices.local.battery.MinHomeConsumption` - the minimum home power consumption that is needed for the battery to be used  
-[**] `plenticore.X.devices.local.battery.MinSoc` - the desired minimum SoC (State of Charge) of the battery. The actual SoC might go below this if there is lacking sun power.  
+`[**] plenticore.X.devices.local.battery.DynamicSoc` - true if dynamic SoC is enabled (only if `SmartBatteryControl` is true, too)  
+`[**] plenticore.X.devices.local.battery.MinHomeConsumption` - the minimum home power consumption that is needed for the battery to be used  
+`[**] plenticore.X.devices.local.battery.MinSoc` - the desired minimum SoC (State of Charge) of the battery. The actual SoC might go below this if there is lacking sun power.  
 `plenticore.X.devices.local.battery.P` - the current battery power (negative if charging, positive if discharging)  
-[**] `plenticore.X.devices.local.battery.SmartBatteryControl` - true if the smart battery management is enabled. Regarding the official manual this shall only be enabled if there is no further AC source like a second inverter involved  
+`[**] plenticore.X.devices.local.battery.SmartBatteryControl` - true if the smart battery management is enabled. Regarding the official manual this shall only be enabled if there is no further AC source like a second inverter involved  
 `plenticore.X.devices.local.battery.SoC` - the current state of charge of the battery  
 
 #### plenticore.X.devices.local.inverter
@@ -77,23 +77,23 @@ This channel contains information and settings of the device itself
 
 #### plenticore.X.scb.modbus
 
-[**] `plenticore.X.scb.modbus.ModbusEnable` - true if the modbus tcp is enabled  
-[**] `plenticore.X.scb.modbus.ModbusUnitId` - modbus unit id of the device
+`[**] plenticore.X.scb.modbus.ModbusEnable` - true if the modbus tcp is enabled  
+`[**] plenticore.X.scb.modbus.ModbusUnitId` - modbus unit id of the device
 
 #### plenticore.X.scb.network
 
-[**] `plenticore.X.scb.network.Hostname` - the current host name of the inverter  
-[**] `plenticore.X.scb.network.IPv4Auto` - use DHCP to provide the ip address settings for the inverter  
-[**] `plenticore.X.scb.network.IPv4Address` - the current ip address of the inverter  
-[**] `plenticore.X.scb.network.IPv4DNS1` and `plenticore.X.scb.network.IPv4DNS2` - the currently used DNS servers  
-[**] `plenticore.X.scb.network.IPv4Gateway` - the currently used network gateway  
-[**] `plenticore.X.scb.network.IPv4Subnetmask` - the network subnet mask  
+`[**] plenticore.X.scb.network.Hostname` - the current host name of the inverter  
+`[**] plenticore.X.scb.network.IPv4Auto` - use DHCP to provide the ip address settings for the inverter  
+`[**] plenticore.X.scb.network.IPv4Address` - the current ip address of the inverter  
+`[**] plenticore.X.scb.network.IPv4DNS1` and `plenticore.X.scb.network.IPv4DNS2` - the currently used DNS servers  
+`[**] plenticore.X.scb.network.IPv4Gateway` - the currently used network gateway  
+`[**] plenticore.X.scb.network.IPv4Subnetmask` - the network subnet mask  
 
 #### plenticore.X.scb.time
 
-[**] `plenticore.X.scb.time.NTPservers` - the currently used time servers (NTP). Those can be multiple ones separated by space.  
-[**] `plenticore.X.scb.time.NTPuse` - use NTP to set current device time settings  
-[**] `plenticore.X.scb.time.Timezone` - the time zone of the device
+`[**] plenticore.X.scb.time.NTPservers` - the currently used time servers (NTP). Those can be multiple ones separated by space.  
+`[**] plenticore.X.scb.time.NTPuse` - use NTP to set current device time settings  
+`[**] plenticore.X.scb.time.Timezone` - the time zone of the device
 
 
 ## Changelog
