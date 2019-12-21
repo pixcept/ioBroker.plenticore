@@ -304,7 +304,9 @@ function processStateChange(id, value) {
 	];
 	apiCall('PUT', 'settings', payload, function(body, code, headers) {
 		if(code === 200) {
-			processDataResponse(body, {settingid: id}, 'settings');
+			payload = {};
+			payload[settingid] = id;
+			processDataResponse(body, payload, 'settings');
 		} else {
 			adapter.log.info('PUT to settings ' + moduleid + ' / ' + settingsid + ' (' + value + ') resulted in code ' + code + ': ' + body);
 		}
