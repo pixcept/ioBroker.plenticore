@@ -400,7 +400,7 @@ function loginSuccess() {
 
 
 function login() {
-	let nonce = getNonce();
+	let nonce = KOSTAL.getNonce();
 	let payload = {
 		username: 'user',
 		nonce: nonce
