@@ -291,10 +291,10 @@ function processStateChange(id, value) {
 	apiCall('PUT', 'settings', payload, function(body, code, headers) {
 		if(code === 200) {
 			// we need to request current value as the response to PUT is not always correct!
-			payload = {
+			payload = [{
 				"moduleid": moduleid,
 				"settingids": [settingid]
-			};
+			}];
 			apiCall('POST', 'settings', payload, function(body, code, headers) {
 				if(code === 200) {
 					processDataResponse(body, 'settings');
