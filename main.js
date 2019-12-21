@@ -1514,7 +1514,7 @@ if(module && module.parent) {
 var KOSTAL = {};
 
 KOSTAL.getNonce = function() {
-	return KOSTAL.KOSTAL.base64.fromBits(KOSTAL.random.randomWords(3));
+	return KOSTAL.base64.fromBits(KOSTAL.random.randomWords(3));
 };
 
 KOSTAL.hash = {
