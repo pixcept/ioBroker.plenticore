@@ -1876,53 +1876,54 @@ var KOSTAL = {
 				i[e] = 4 >= t || 4 > e ? n : s[0][a[n >>> 24]] ^ s[1][a[n >> 16 & 255]] ^ s[2][a[n >> 8 & 255]] ^ s[3][a[255 & n]];
 			}
 		}
-	},
-	random: {
-		c: [new KOSTAL.hash.sha256],
-		m: [0],
-		P: 0,
-		H: {},
-		N: 0,
-		U: {},
-		Z: 0,
-		f: 0,
-		o: 0,
-		ha: 0,
-		b: [0, 0, 0, 0, 0, 0, 0, 0],
-		h: [0, 0, 0, 0],
-		L: void 0,
-		M: 6,
-		D: !1,
-		K: {
-			progress: {},
-			seeded: {}
-		},
-		u: 0,
-		ga: 0,
-		I: 1,
-		J: 2,
-		ca: 65536,
-		T: [0, 48, 64, 96, 128, 192, 256, 384, 512, 768, 1024],
-		da: 30000,
-		ba: 80,
-		randomWords: function(t, e) {
-			var n, r = [], i = [], a, s = 0;
-			for(this.Z = r[0] = (new Date).valueOf() + this.da, a = 0; 16 > a; a++) {
-				r.push(4294967296 * Math.random() | 0);
-			}
-			for(a = 0; a < this.c.length && (r = r.concat(this.c[a].finalize()), s += this.m[a], this.m[a] = 0, n || !(this.P & 1 << a)); a++)
-				;
-			for(this.P >= 1 << this.c.length && (this.c.push(new KOSTAL.hash.sha256), this.m.push(0)), this.f -= s, s > this.o && (this.o = s), this.P++, this.b = KOSTAL.hash.sha256.hash(this.b.concat(r)), this.L = new KOSTAL.cipher.aes(this.b), n = 0; 4 > n && (this.h[n] = this.h[n] + 1 | 0, !this.h[n]); n++)
-				;
+	}
+};
 
-			for(n = 0; n < t; n += 4) {
-				0 == (n + 1) % this.ca && KOSTAL.c(this);
-				r =KOSTAL.l(this);
-				i.push(r[0], r[1], r[2], r[3]);
-			}
-			KOSTAL.c(this);
-			return i.slice(0, t);
+KOSTAL.random = {
+	c: [new KOSTAL.hash.sha256],
+	m: [0],
+	P: 0,
+	H: {},
+	N: 0,
+	U: {},
+	Z: 0,
+	f: 0,
+	o: 0,
+	ha: 0,
+	b: [0, 0, 0, 0, 0, 0, 0, 0],
+	h: [0, 0, 0, 0],
+	L: void 0,
+	M: 6,
+	D: !1,
+	K: {
+		progress: {},
+		seeded: {}
+	},
+	u: 0,
+	ga: 0,
+	I: 1,
+	J: 2,
+	ca: 65536,
+	T: [0, 48, 64, 96, 128, 192, 256, 384, 512, 768, 1024],
+	da: 30000,
+	ba: 80,
+	randomWords: function(t, e) {
+		var n, r = [], i = [], a, s = 0;
+		for(this.Z = r[0] = (new Date).valueOf() + this.da, a = 0; 16 > a; a++) {
+			r.push(4294967296 * Math.random() | 0);
 		}
+		for(a = 0; a < this.c.length && (r = r.concat(this.c[a].finalize()), s += this.m[a], this.m[a] = 0, n || !(this.P & 1 << a)); a++)
+			;
+		for(this.P >= 1 << this.c.length && (this.c.push(new KOSTAL.hash.sha256), this.m.push(0)), this.f -= s, s > this.o && (this.o = s), this.P++, this.b = KOSTAL.hash.sha256.hash(this.b.concat(r)), this.L = new KOSTAL.cipher.aes(this.b), n = 0; 4 > n && (this.h[n] = this.h[n] + 1 | 0, !this.h[n]); n++)
+			;
+
+		for(n = 0; n < t; n += 4) {
+			0 == (n + 1) % this.ca && KOSTAL.c(this);
+			r =KOSTAL.l(this);
+			i.push(r[0], r[1], r[2], r[3]);
+		}
+		KOSTAL.c(this);
+		return i.slice(0, t);
 	}
 };
 
