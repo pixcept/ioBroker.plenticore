@@ -1513,11 +1513,11 @@ if(module && module.parent) {
 
 var KOSTAL = {}
 
-KOSTAl.prototype.getNonce = function() {
+KOSTAL.prototype.getNonce = function() {
 	return KOSTAL.KOSTAL.base64.fromBits(KOSTAL.random.randomWords(3));
 };
 
-KOSTAl.prototype.hash = {
+KOSTAL.prototype.hash = {
 	sha256: function(t) {
 		this.b[0] || this.O(), t ? (this.F = t.F.slice(0), this.A = t.A.slice(0), this.l = t.l) : this.reset();
 	},
@@ -1534,7 +1534,7 @@ KOSTAl.prototype.hash = {
 	}
 };
 
-KOSTAl.prototype.pbkdf2 = function(t, e, n, r, i) {
+KOSTAL.prototype.pbkdf2 = function(t, e, n, r, i) {
 	n = n || 10000;
 	if(0 > r || 0 > n) {
 		throw new KOSTAL.exception.invalid('invalid params to pbkdf2');
@@ -1554,7 +1554,7 @@ KOSTAl.prototype.pbkdf2 = function(t, e, n, r, i) {
 	return r && (l = d.clamp(l, r)), l;
 };
 
-KOSTAl.prototype.encrypt = function(l, n) {
+KOSTAL.prototype.encrypt = function(l, n) {
 	var u = new KOSTAL.cipher.aes(l),
 		t = KOSTAL.random.randomWords(4),
 		e = KOSTAL.gcm.encrypt(u, KOSTAL.utf8String.toBits(n), t);
@@ -1565,7 +1565,7 @@ KOSTAl.prototype.encrypt = function(l, n) {
 	};
 };
 
-KOSTAl.prototype.gcm = {
+KOSTAL.prototype.gcm = {
 	name: 'gcm',
 	encrypt: function(t, e, n, r, i) {
 		var a = e.slice(0);
@@ -1643,7 +1643,7 @@ KOSTAl.prototype.gcm = {
 	}
 };
 
-KOSTAl.prototype.bitArray = {
+KOSTAL.prototype.bitArray = {
 	bitSlice: function(t, e, n) {
 		t = KOSTAL.bitArray.$(t.slice(e / 32), 32 - (31 & e)).slice(1);
 		return void 0 === n ? t : KOSTAL.bitArray.clamp(t, n - e);
@@ -1725,7 +1725,7 @@ KOSTAl.prototype.bitArray = {
 	}
 };
 
-KOSTAl.prototype.exception = {
+KOSTAL.prototype.exception = {
 	corrupt: function(t) {
 		this.toString = function() {
 			return 'CORRUPT: ' + this.message;
@@ -1740,7 +1740,7 @@ KOSTAl.prototype.exception = {
 	}
 };
 
-KOSTAl.prototype.base64 = {
+KOSTAL.prototype.base64 = {
 	B: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/',
 	fromBits: function(t, e, n) {
 		var r = '', i = 0, a = KOSTAL.base64.B, s = 0, u = KOSTAL.bitArray.bitLength(t);
@@ -1767,7 +1767,7 @@ KOSTAl.prototype.base64 = {
 	}
 };
 
-KOSTAl.prototype.a = function(t, e) {
+KOSTAL.prototype.a = function(t, e) {
 	var n, r, o, i = t.F, a = t.b,
 		s = i[0],
 		u = i[1],
@@ -1798,7 +1798,7 @@ KOSTAl.prototype.a = function(t, e) {
 	i[7] = i[7] + p | 0;
 };
 
-KOSTAl.prototype.utf8String = {
+KOSTAL.prototype.utf8String = {
 	fromBits: function(t) {
 		var e,
 			n,
@@ -1825,18 +1825,18 @@ KOSTAl.prototype.utf8String = {
 	}
 };
 
-KOSTAl.prototype.c = function(t) {
+KOSTAL.prototype.c = function(t) {
 	t.b = KOSTAL.l(t).concat(KOSTAL.l(t));
 	t.L = new KOSTAL.cipher.aes(t.b);
 };
 
-KOSTAl.prototype.l = function(t) {
+KOSTAL.prototype.l = function(t) {
 	for(var e = 0; 4 > e && (t.h[e] = t.h[e] + 1 | 0, !t.h[e]); e++)
 		;
 	return t.L.encrypt(t.h);
 };
 
-KOSTAl.prototype.i = function(t, e, n) {
+KOSTAL.prototype.i = function(t, e, n) {
 	if(4 !== e.length) {
 		throw new KOSTAL.exception.invalid('invalid aes block size');
 	}
@@ -1873,7 +1873,7 @@ KOSTAl.prototype.i = function(t, e, n) {
 	return p;
 };
 
-KOSTAl.prototype.cipher = {
+KOSTAL.prototype.cipher = {
 	aes: function(t) {
 		this.s[0][0][0] || this.O();
 		var e, n, r, i, a = this.s[0][4], s = this.s[1], u = 1;
