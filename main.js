@@ -164,7 +164,6 @@ function startAdapter(options) {
 
 	adapter = new utils.Adapter(options);
 
-	// when adapter shuts down
 	adapter.on('unload', function(callback) {
 		try {
 			apiCall('POST', 'auth/logout', null, function(body, code, headers) {
@@ -184,50 +183,44 @@ function startAdapter(options) {
 		}
 	});
 
-	// is called if a subscribed object changes
 	adapter.on('objectChange', function(id, obj) {
 		// Warning, obj can be null if it was deleted
-		adapter.log.info('objectChange ' + id + ' ' + JSON.stringify(obj));
+		adapter.log.debug('objectChange ' + id + ' ' + JSON.stringify(obj));
 	});
 
-	// is called if a subscribed state changes
 	adapter.on('stateChange', function(id, state) {
 		// Warning, state can be null if it was deleted
-
 		try {
-			adapter.log.info('stateChange ' + id + ' ' + JSON.stringify(state));
-			//adapter.log.debug("Adapter=" + adapter.toString());
+			adapter.log.debug('stateChange ' + id + ' ' + JSON.stringify(state));
 
-			if(!id || state.ack)
-				return; // Ignore acknowledged state changes or error states
+			if(!id || state.ack) {
+				return;
+			}
+			
 			id = id.substring(adapter.namespace.length + 1); // remove instance name and id
 			state = state.val;
-			adapter.log.info("id=" + id);
+			adapter.log.debug("id=" + id);
 			
-			// you can use the ack flag to detect if it is status (true) or command (false)
 			if(state) {
 				processStateChange(id, state);
 			}
 		} catch(e) {
-			adapter.log.info("Fehler Befehlsauswertung: " + e);
+			adapter.log.info("Error processing stateChange: " + e);
 		}
 	});
 
-	// Some message was sent to adapter instance over message box. Used by email, pushover, text2speech, ...
 	adapter.on('message', function(obj) {
 		if(typeof obj === 'object' && obj.message) {
 			if(obj.command === 'send') {
-				// e.g. send email or pushover or whatever
 				adapter.log.debug('send command');
 
-				// Send response in callback if required
-				if(obj.callback)
+				if(obj.callback) {
 					adapter.sendTo(obj.from, obj.command, 'Message received', obj.callback);
+				}
 			}
 		}
 	});
 
-	// is called when databases are connected and adapter received configuration.
 	adapter.on('ready', function() {
 		if(!adapter.config.ipaddress) {
 			adapter.log.warn('[START] IP address not set');
@@ -241,11 +234,10 @@ function startAdapter(options) {
 	});
 
 	return adapter;
-} // endStartAdapter
+}
 
 
 function main() {
-	// Vars
 	deviceIpAdress = adapter.config.ipaddress;
 	devicePassword = adapter.config.password;
 
@@ -260,13 +252,7 @@ function main() {
 
 	login();
 
-	// all states changes inside the adapters namespace are subscribed
 	adapter.subscribeStates('*');
-} // endMain
-
-
-function loggedIn() {
-	return false;
 }
 
 function processStateChange(id, value) {
@@ -308,7 +294,7 @@ function processStateChange(id, value) {
 			payload[settingid] = id;
 			processDataResponse(body, payload, 'settings');
 		} else {
-			adapter.log.info('PUT to settings ' + moduleid + ' / ' + settingsid + ' (' + value + ') resulted in code ' + code + ': ' + body);
+			adapter.log.warn('PUT to settings ' + moduleid + ' / ' + settingid + ' (' + value + ') resulted in code ' + code + ': ' + body);
 		}
 	});
 	
@@ -337,7 +323,7 @@ function processDataResponse(data, mappings, dataname) {
 					setting.value = (setting.value == 1);
 				}
 				
-				adapter.log.info('Setting ' + objid + ' to ' + setting.value + " now.");
+				adapter.log.debug('Setting ' + objid + ' to ' + setting.value + " now.");
 				adapter.setState(objid, setting.value, true);
 			} else {
 				adapter.log.warn('Not in mappings: ' + setting.id + ' = ' + setting.value);
@@ -359,7 +345,7 @@ function pollStates() {
 			params.processdataids.push(idx);
 		}
 		
-		adapter.log.info('Requesting ' + params.processdataids.join(',') + ' from ' + pl.moduleid + ' (processdata)');
+		adapter.log.debug('Requesting ' + params.processdataids.join(',') + ' from ' + pl.moduleid + ' (processdata)');
 		apiCall('POST', 'processdata', [params], function(body, code, headers) {
 			if(code === 200) {
 				processDataResponse(body, pl.mappings, 'processdata');
@@ -380,7 +366,7 @@ function pollStates() {
 			params.settingids.push(idx);
 		}
 		
-		adapter.log.info('Requesting ' + params.settingids.join(',') + ' from ' + pl.moduleid + ' (settings)');
+		adapter.log.debug('Requesting ' + params.settingids.join(',') + ' from ' + pl.moduleid + ' (settings)');
 		apiCall('POST', 'settings', [params], function(body, code, headers) {
 			if(code === 200) {
 				processDataResponse(body, pl.mappings, 'settings');
@@ -393,7 +379,7 @@ function pollStates() {
 
 function loginSuccess() {
 	apiCall('GET', 'auth/me', null, function(body, code, headers) {
-		adapter.log.info('auth/me: ' + body);
+		adapter.log.debug('auth/me: ' + body);
 	});
 
 	polling = setInterval(function() { pollStates(); }, pollingTime);
@@ -408,8 +394,8 @@ function login() {
 		nonce: nonce
 	};
 	apiCall('POST', 'auth/start', payload, function(body, code, headers) {
-		adapter.log.info('login start result is ' + code);
 		if(code !== 200) {
+			adapter.log.warn('Login failed with code ' + code + ': ' + body);
 			return;
 		}
 
@@ -419,31 +405,30 @@ function login() {
 			return;
 		}
 
-		var e = json.transactionId;
-		var i = json.nonce;
-		var a = json.salt;
-		var o = parseInt(json.rounds);
+		var mainTransactionId = json.transactionId;
+		var serverNonce = json.nonce;
+		var salt = json.salt;
+		var hashRounds = parseInt(json.rounds);
 
-		var r = KOSTAL.pbkdf2(devicePassword, KOSTAL.base64.toBits(a), o);
-		var s = new KOSTAL.hash.hmac(r, KOSTAL.hash.sha256).mac('Client Key');
-		var c = new KOSTAL.hash.hmac(r, KOSTAL.hash.sha256).mac('Server Key');
-		var _ = KOSTAL.hash.sha256.hash(s);
-		var d = 'n=user,r=' + nonce + ',r=' + i + ',s=' + a + ',i=' + o + ',c=biws,r=' + i;
-		adapter.log.info('hash base string: ' + d);
-		var g = new KOSTAL.hash.hmac(_, KOSTAL.hash.sha256).mac(d);
-		var p = new KOSTAL.hash.hmac(c, KOSTAL.hash.sha256).mac(d);
-		var f = s.map(function(l, n) {
-			return l ^ g[n];
+		var r = KOSTAL.pbkdf2(devicePassword, KOSTAL.base64.toBits(salt), hashRounds);
+		var sKey = new KOSTAL.hash.hmac(r, KOSTAL.hash.sha256).mac('Client Key');
+		var cKey = new KOSTAL.hash.hmac(r, KOSTAL.hash.sha256).mac('Server Key');
+		var sHash = KOSTAL.hash.sha256.hash(sKey);
+		var hashString = 'n=user,r=' + nonce + ',r=' + serverNonce + ',s=' + salt + ',i=' + hashRounds + ',c=biws,r=' + serverNonce;
+		var sHmac = new KOSTAL.hash.hmac(sHash, KOSTAL.hash.sha256).mac(hashString);
+		var cHmac = new KOSTAL.hash.hmac(cKey, KOSTAL.hash.sha256).mac(hashString);
+		var proof = sKey.map(function(l, n) {
+			return l ^ sHmac[n];
 		});
 		
 		var payload = {
-			transactionId: e,
-			proof: KOSTAL.base64.fromBits(f)
+			transactionId: mainTransactionId,
+			proof: KOSTAL.base64.fromBits(proof)
 		};
 
 		apiCall('POST', 'auth/finish', payload, function(body, code, headers) {
-			adapter.log.info('login finish result is ' + code);
 			if(code !== 200) {
+				adapter.log.warn('auth/finish failed with code ' + code + ': ' + body);
 				return;
 			}
 
@@ -453,28 +438,28 @@ function login() {
 				return;
 			}
 
-			var b = KOSTAL.base64.toBits(json.signature);
+			var bitSignature = KOSTAL.base64.toBits(json.signature);
 
-			if(!KOSTAL.bitArray.equal(b, p)) {
+			if(!KOSTAL.bitArray.equal(bitSignature, cHmac)) {
 				adapter.log.warn('Signature verification failed!');
 				return;
 			}
 
-			var y = new KOSTAL.hash.hmac(_, KOSTAL.hash.sha256);
-			y.update('Session Key');
-			y.update(d);
-			y.update(s);
-			var P = y.digest();
-			json.protocol_key = P;
-			json.transactionId = e;
+			var hashHmac = new KOSTAL.hash.hmac(sHash, KOSTAL.hash.sha256);
+			hashHmac.update('Session Key');
+			hashHmac.update(hashString);
+			hashHmac.update(sKey);
+			var digest = hashHmac.digest();
+			json.protocol_key = digest;
+			json.transactionId = mainTransactionId;
 
 			var pkey = json.protocol_key,
 				tok = json.token,
 				transId = json.transactionId,
-				t = KOSTAL.encrypt(pkey, tok);
-			var iv = t.iv,
-				tag = t.tag,
-				ciph = t.ciphertext,
+				encToken = KOSTAL.encrypt(pkey, tok);
+			var iv = encToken.iv,
+				tag = encToken.tag,
+				ciph = encToken.ciphertext,
 				payload = {
 					transactionId: transId,
 					iv: KOSTAL.base64.fromBits(iv),
@@ -483,8 +468,8 @@ function login() {
 				};
 			
 			apiCall('POST', 'auth/create_session', payload, function(body, code, headers) {
-				adapter.log.info('login create session result is ' + code);
 				if(code !== 200) {
+					adapter.log.warn('auth/create_session failed with code ' + code + ': ' + body);
 					return;
 				}
 
@@ -495,7 +480,7 @@ function login() {
 				}
 
 				loginSessionId = json.sessionId;
-				adapter.log.info('Session id is ' + loginSessionId);
+				adapter.log.debug('Session id is ' + loginSessionId);
 
 				loginSuccess();
 			});
@@ -1182,7 +1167,7 @@ function setPlenticoreObjects() {
 			type: 'boolean',
 			role: 'value.info',
 			read: true,
-			write: true,
+			write: true
 		},
 		native: {}
 	});
@@ -1678,7 +1663,7 @@ var KOSTAL = {
 			}
 			for(this.b = [r = t.slice(0), i = []], t = e; t < 4 * e + 28; t++) {
 				n = r[t - 1];
-				(0 == t % e || 8 === e && 4 == t % e) && (n = a[n >>> 24] << 24 ^ a[n >> 16 & 255] << 16 ^ a[n >> 8 & 255] << 8 ^ a[255 & n], 0 == t % e && (n = n << 8 ^ n >>> 24 ^ u << 24, u = u << 1 ^ 283 * (u >> 7)));
+				(0 === t % e || 8 === e && 4 === t % e) && (n = a[n >>> 24] << 24 ^ a[n >> 16 & 255] << 16 ^ a[n >> 8 & 255] << 8 ^ a[255 & n], 0 === t % e && (n = n << 8 ^ n >>> 24 ^ u << 24, u = u << 1 ^ 283 * (u >> 7)));
 				r[t] = r[t - e] ^ n;
 			}
 			for(e = 0; t; e++, t--) {
@@ -1713,8 +1698,8 @@ var KOSTAL = {
 		ka: function(t, e) {
 			var n, r, i, a, s, u = KOSTAL.bitArray.i;
 			for(i = [0, 0, 0, 0], a = e.slice(0), n = 0; 128 > n; n++) {
-				(r = 0 != (t[Math.floor(n / 32)] & 1 << 31 - n % 32)) && (i = u(i, a));
-				s = 0 != (1 & a[3]);
+				(r = 0 !== (t[Math.floor(n / 32)] & 1 << 31 - n % 32)) && (i = u(i, a));
+				s = 0 !== (1 & a[3]);
 				for(r = 3; 0 < r; r--) {
 					a[r] = a[r] >>> 1 | (1 & a[r - 1]) << 31;
 				}
@@ -1785,7 +1770,9 @@ var KOSTAL = {
 				r = '',
 				i = KOSTAL.bitArray.bitLength(t);
 			for(e = 0; e < i / 8; e++) {
-				0 == (3 & e) && (n = t[e / 4]);
+				if(0 === (3 & e)) { 
+					n = t[e / 4];
+				}
 				r += String.fromCharCode(n >>> 8 >>> 8 >>> 8);
 				n <<= 8;
 			}
@@ -1798,7 +1785,9 @@ var KOSTAL = {
 				r = 0;
 			for(e = 0; e < t.length; e++) {
 				r = r << 8 | t.charCodeAt(e);
-				3 == (3 & e) && (n.push(r), r = 0);
+				if(3 === (3 & e)) { 
+					n.push(r); r = 0;
+				}
 			}
 			3 & e && n.push(KOSTAL.bitArray.partial(8 * (3 & e), r));
 			return n;
@@ -1961,7 +1950,7 @@ KOSTAL.hash.sha256.prototype = {
 		}
 		for(var e, n, r = 0, o = 2; 64 > r; o++) {
 			for(n = true, e = 2; e * e <= o; e++) {
-				if(0 == o % e) {
+				if(0 === o % e) {
 					n = false;
 					break;
 				}
@@ -2010,7 +1999,9 @@ KOSTAL.random = {
 			;
 
 		for(n = 0; n < t; n += 4) {
-			0 == (n + 1) % this.ca && KOSTAL.c(this);
+			if(0 === (n + 1) % this.ca) {
+				KOSTAL.c(this);
+			}
 			r = KOSTAL.l(this);
 			i.push(r[0], r[1], r[2], r[3]);
 		}
