@@ -322,12 +322,22 @@ function processDataResponse(data, dataname) {
 		return;
 	}
 
-	let mappings = (dataname === 'settings' ? payload_settings : payload_data);
+	let mappings_base = (dataname === 'settings' ? payload_settings : payload_data);
 	
 	for(let j = 0; j < json.length; j++) {
+		let moduleid = json[j].moduleid;
 		if(json[j][dataname]) {
 			for(let i in json[j][dataname]) {
 				let setting = json[j][dataname][i];
+				
+				let mappings = {};
+				for(let m = 0; m < mappings_base.length; m++) {
+					if(mappings_base[m].moduleid === moduleid) {
+						mappings = mappings_base[m].mappings;
+						break;
+					}
+				}
+				
 				if(mappings[setting.id]) {
 					let objid = mappings[setting.id];
 					if(boolean_states.includes(objid)) {
