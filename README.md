@@ -98,6 +98,10 @@ This channel contains information and settings of the device itself
 
 ## Changelog
 
+### 0.1.1
+
+-   Removed admin adapter dependency
+
 ### 0.1.0
 
 -   First running Version

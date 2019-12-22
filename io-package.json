@@ -1,8 +1,12 @@
 {
 	"common": {
 		"name": "plenticore",
-		"version": "0.1.0",
+		"version": "0.1.1",
 		"news": {
+			"0.1.1": {
+				"en": "Removed admin adapter dependency",
+				"de": "Abhängigkeit zu Admin-Adapter entfernt"
+			},
 			"0.1.0": {
 				"en": "Initial version",
 				"de": "Initiale Version"
@@ -40,9 +44,6 @@
 		"enabled": false,
 		"compact": true,
 		"dependencies": [
-			{
-				"admin": ">=3.0.0"
-			}
 		]
 	},
 	"native": {
