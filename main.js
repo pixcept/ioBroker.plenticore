@@ -81,8 +81,48 @@ const payload_data = [
 			"PortalConActive": "scb.export.PortalConActive"
 
 		}
+	},
+	{
+		"moduleid": "scb:statistics:EnergyFlow",
+		"mappings": {
+			"Statistic:Autarky:Day": "scb.statistics.EnergyFlow.AutarkyDay",
+			"Statistic:Autarky:Month": "scb.statistics.EnergyFlow.AutarkyMonth",
+			"Statistic:Autarky:Total": "scb.statistics.EnergyFlow.AutarkyTotal",
+			"Statistic:Autarky:Year": "scb.statistics.EnergyFlow.AutarkyYear",
+			"Statistic:EnergyHome:Day": "scb.statistics.EnergyFlow.EnergyHomeDay",
+			"Statistic:EnergyHome:Month": "scb.statistics.EnergyFlow.EnergyHomeMonth",
+			"Statistic:EnergyHome:Total": "scb.statistics.EnergyFlow.EnergyHomeTotal",
+			"Statistic:EnergyHome:Year": "scb.statistics.EnergyFlow.EnergyHomeYear",
+			"Statistic:EnergyHomeBat:Day": "scb.statistics.EnergyFlow.EnergyHomeBatDay",
+			"Statistic:EnergyHomeBat:Month": "scb.statistics.EnergyFlow.EnergyHomeBatMonth",
+			"Statistic:EnergyHomeBat:Total": "scb.statistics.EnergyFlow.EnergyHomeBatTotal",
+			"Statistic:EnergyHomeBat:Year": "scb.statistics.EnergyFlow.EnergyHomeBatYear",
+			"Statistic:EnergyHomeGrid:Day": "scb.statistics.EnergyFlow.EnergyHomeGridDay",
+			"Statistic:EnergyHomeGrid:Month": "scb.statistics.EnergyFlow.EnergyHomeGridMonth",
+			"Statistic:EnergyHomeGrid:Total": "scb.statistics.EnergyFlow.EnergyHomeGridTotal",
+			"Statistic:EnergyHomeGrid:Year": "scb.statistics.EnergyFlow.EnergyHomeGridYear",
+			"Statistic:EnergyHomePv:Day": "scb.statistics.EnergyFlow.EnergyHomePvDay",
+			"Statistic:EnergyHomePv:Month": "scb.statistics.EnergyFlow.EnergyHomePvMonth",
+			"Statistic:EnergyHomePv:Total": "scb.statistics.EnergyFlow.EnergyHomePvTotal",
+			"Statistic:EnergyHomePv:Year": "scb.statistics.EnergyFlow.EnergyHomePvYear",
+			"Statistic:OwnConsumptionRate:Day": "scb.statistics.EnergyFlow.OwnConsumptionRateDay",
+			"Statistic:OwnConsumptionRate:Month": "scb.statistics.EnergyFlow.OwnConsumptionRateMonth",
+			"Statistic:OwnConsumptionRate:Total": "scb.statistics.EnergyFlow.OwnConsumptionRateTotal",
+			"Statistic:OwnConsumptionRate:Year": "scb.statistics.EnergyFlow.OwnConsumptionRateYear",
+			"Statistic:Yield:Day": "scb.statistics.EnergyFlow.YieldDay",
+			"Statistic:Yield:Month": "scb.statistics.EnergyFlow.YieldMonth",
+			"Statistic:Yield:Total": "scb.statistics.EnergyFlow.YieldTotal",
+			"Statistic:Yield:Year": "scb.statistics.EnergyFlow.YieldYear",
+			"Statistic:CO2Saving:Day": "scb.statistics.EnergyFlow.CO2SavingDay",
+			"Statistic:CO2Saving:Month": "scb.statistics.EnergyFlow.CO2SavingMonth",
+			"Statistic:CO2Saving:Year": "scb.statistics.EnergyFlow.CO2SavingYear",
+			"Statistic:CO2Saving:Total": "scb.statistics.EnergyFlow.CO2Saving:Total"
+		}
 	}
 ];
+
+
+
 
 const payload_settings = [
 	{
@@ -165,6 +205,7 @@ function startAdapter(options) {
 	adapter = new utils.Adapter(options);
 
 	adapter.on('unload', function(callback) {
+		clearInterval(polling);
 		try {
 			apiCall('POST', 'auth/logout', null, function(body, code, headers) {
 				if(code !== 200) {
@@ -173,7 +214,6 @@ function startAdapter(options) {
 					adapter.log.info('Logged out from API');
 				}
 			});
-			clearInterval(polling);
 			http.destroy();
 			adapter.log.info('[END] Stopping plenticore adapter...');
 			adapter.setState('info.connection', false, true);
@@ -181,11 +221,6 @@ function startAdapter(options) {
 		} catch(e) {
 			callback();
 		}
-	});
-
-	adapter.on('objectChange', function(id, obj) {
-		// Warning, obj can be null if it was deleted
-		adapter.log.debug('objectChange ' + id + ' ' + JSON.stringify(obj));
 	});
 
 	adapter.on('stateChange', function(id, state) {
@@ -229,7 +264,16 @@ function startAdapter(options) {
 		} else {
 			adapter.log.info('[START] Starting plenticore adapter');
 			adapter.setState('info.connection', true, true);
-			main();
+			adapter.getForeignObject('system.config', (err, obj) => {
+				if (obj && obj.native && obj.native.secret) {
+					//noinspection JSUnresolvedVariable
+					adapter.config.password = decrypt(obj.native.secret, adapter.config.password);
+				} else {
+					//noinspection JSUnresolvedVariable
+					adapter.config.password = decrypt('DF5uuSc61xV21', adapter.config.password);
+				}
+				main();
+			});
 		}
 	});
 
@@ -634,7 +678,7 @@ function setPlenticoreObjects() {
 		common: {
 			name: 'Inverter max. power',
 			type: 'number',
-			role: 'value.info',
+			role: 'value.max',
 			read: true,
 			write: false,
 			unit: 'W'
@@ -712,7 +756,7 @@ function setPlenticoreObjects() {
 			name: 'Phase 1 current',
 			desc: 'Phase 1 current',
 			type: 'number',
-			role: 'value.info',
+			role: 'value.current',
 			unit: 'A',
 			read: true,
 			write: false
@@ -726,7 +770,7 @@ function setPlenticoreObjects() {
 			name: 'Phase 1 voltage',
 			desc: 'Phase 1 voltage',
 			type: 'number',
-			role: 'value.info',
+			role: 'value.voltage',
 			unit: 'V',
 			read: true,
 			write: false
@@ -740,7 +784,7 @@ function setPlenticoreObjects() {
 			name: 'Phase 1 power',
 			desc: 'Phase 1 power',
 			type: 'number',
-			role: 'value.info',
+			role: 'value.power',
 			unit: 'W',
 			read: true,
 			write: false
@@ -754,7 +798,7 @@ function setPlenticoreObjects() {
 			name: 'Phase 2 current',
 			desc: 'Phase 2 current',
 			type: 'number',
-			role: 'value.info',
+			role: 'value.current',
 			unit: 'A',
 			read: true,
 			write: false
@@ -768,7 +812,7 @@ function setPlenticoreObjects() {
 			name: 'Phase 2 voltage',
 			desc: 'Phase 2 voltage',
 			type: 'number',
-			role: 'value.info',
+			role: 'value.voltage',
 			unit: 'V',
 			read: true,
 			write: false
@@ -782,7 +826,7 @@ function setPlenticoreObjects() {
 			name: 'Phase 2 power',
 			desc: 'Phase 2 power',
 			type: 'number',
-			role: 'value.info',
+			role: 'value.power',
 			unit: 'W',
 			read: true,
 			write: false
@@ -796,7 +840,7 @@ function setPlenticoreObjects() {
 			name: 'Phase 3 current',
 			desc: 'Phase 3 current',
 			type: 'number',
-			role: 'value.info',
+			role: 'value.current',
 			unit: 'A',
 			read: true,
 			write: false
@@ -810,7 +854,7 @@ function setPlenticoreObjects() {
 			name: 'Phase 3 voltage',
 			desc: 'Phase 3 voltage',
 			type: 'number',
-			role: 'value.info',
+			role: 'value.voltage',
 			unit: 'V',
 			read: true,
 			write: false
@@ -824,7 +868,7 @@ function setPlenticoreObjects() {
 			name: 'Phase 3 power',
 			desc: 'Phase 3 power',
 			type: 'number',
-			role: 'value.info',
+			role: 'value.power',
 			unit: 'W',
 			read: true,
 			write: false
@@ -839,7 +883,7 @@ function setPlenticoreObjects() {
 			name: 'AC power',
 			desc: 'AC power',
 			type: 'number',
-			role: 'value.info',
+			role: 'value.power',
 			unit: 'W',
 			read: true,
 			write: false
@@ -853,7 +897,7 @@ function setPlenticoreObjects() {
 			name: '???',
 			desc: '???',
 			type: 'number',
-			role: 'value.info',
+			role: 'value',
 			unit: '',
 			read: true,
 			write: false
@@ -867,7 +911,7 @@ function setPlenticoreObjects() {
 			name: '???',
 			desc: '???',
 			type: 'number',
-			role: 'value.info',
+			role: 'value',
 			unit: '',
 			read: true,
 			write: false
@@ -880,7 +924,7 @@ function setPlenticoreObjects() {
 		common: {
 			name: 'PV line 1 current',
 			type: 'number',
-			role: 'value.info',
+			role: 'value.current',
 			unit: 'A',
 			read: true,
 			write: false
@@ -893,7 +937,7 @@ function setPlenticoreObjects() {
 		common: {
 			name: 'PV line 1 voltage',
 			type: 'number',
-			role: 'value.info',
+			role: 'value.voltage',
 			unit: 'V',
 			read: true,
 			write: false
@@ -906,7 +950,7 @@ function setPlenticoreObjects() {
 		common: {
 			name: 'PV line 1 power',
 			type: 'number',
-			role: 'value.info',
+			role: 'value.power',
 			unit: 'W',
 			read: true,
 			write: false
@@ -919,7 +963,7 @@ function setPlenticoreObjects() {
 		common: {
 			name: 'PV line 2 current',
 			type: 'number',
-			role: 'value.info',
+			role: 'value.current',
 			unit: 'A',
 			read: true,
 			write: false
@@ -932,7 +976,7 @@ function setPlenticoreObjects() {
 		common: {
 			name: 'PV line 2 voltage',
 			type: 'number',
-			role: 'value.info',
+			role: 'value.voltage',
 			unit: 'V',
 			read: true,
 			write: false
@@ -945,7 +989,7 @@ function setPlenticoreObjects() {
 		common: {
 			name: 'PV line 2 power',
 			type: 'number',
-			role: 'value.info',
+			role: 'value.power',
 			unit: 'W',
 			read: true,
 			write: false
@@ -974,7 +1018,7 @@ function setPlenticoreObjects() {
 			name: 'State of Charge',
 			desc: 'Actual state of charge',
 			type: 'number',
-			role: 'value.info',
+			role: 'value.battery',
 			unit: '%',
 			read: true,
 			write: false
@@ -988,7 +1032,7 @@ function setPlenticoreObjects() {
 			name: 'Battery current',
 			desc: 'Battery current',
 			type: 'number',
-			role: 'value.info',
+			role: 'value.current',
 			unit: 'A',
 			read: true,
 			write: false
@@ -1002,7 +1046,7 @@ function setPlenticoreObjects() {
 			name: 'Battery voltage',
 			desc: 'Battery voltage',
 			type: 'number',
-			role: 'value.info',
+			role: 'value.voltage',
 			unit: 'V',
 			read: true,
 			write: false
@@ -1016,7 +1060,7 @@ function setPlenticoreObjects() {
 			name: 'Battery power',
 			desc: 'Battery power',
 			type: 'number',
-			role: 'value.info',
+			role: 'value.power',
 			unit: 'W',
 			read: true,
 			write: false
@@ -1030,7 +1074,7 @@ function setPlenticoreObjects() {
 			name: 'DC power',
 			desc: 'DC power',
 			type: 'number',
-			role: 'value.info',
+			role: 'value.power',
 			unit: 'W',
 			read: true,
 			write: false
@@ -1044,7 +1088,7 @@ function setPlenticoreObjects() {
 			name: '???',
 			desc: '???',
 			type: 'number',
-			role: 'value.info',
+			role: 'value',
 			unit: '',
 			read: true,
 			write: false
@@ -1058,7 +1102,7 @@ function setPlenticoreObjects() {
 			name: '???',
 			desc: '???',
 			type: 'number',
-			role: 'value.info',
+			role: 'value',
 			unit: '',
 			read: true,
 			write: false
@@ -1071,7 +1115,7 @@ function setPlenticoreObjects() {
 		common: {
 			name: 'Home Power from battery',
 			type: 'number',
-			role: 'value.info',
+			role: 'value.power',
 			unit: 'W',
 			read: true,
 			write: false
@@ -1084,7 +1128,7 @@ function setPlenticoreObjects() {
 		common: {
 			name: 'Home Power from grid',
 			type: 'number',
-			role: 'value.info',
+			role: 'value.power',
 			unit: 'W',
 			read: true,
 			write: false
@@ -1097,7 +1141,7 @@ function setPlenticoreObjects() {
 		common: {
 			name: 'Power used from PV',
 			type: 'number',
-			role: 'value.info',
+			role: 'value.power',
 			unit: 'W',
 			read: true,
 			write: false
@@ -1110,7 +1154,7 @@ function setPlenticoreObjects() {
 		common: {
 			name: 'Home Power from PV',
 			type: 'number',
-			role: 'value.info',
+			role: 'value.power',
 			unit: 'W',
 			read: true,
 			write: false
@@ -1123,7 +1167,7 @@ function setPlenticoreObjects() {
 		common: {
 			name: 'Home Power total',
 			type: 'number',
-			role: 'value.info',
+			role: 'value.power',
 			unit: 'W',
 			read: true,
 			write: false
@@ -1150,7 +1194,7 @@ function setPlenticoreObjects() {
 		common: {
 			name: 'Actual power limit (EVU)',
 			type: 'number',
-			role: 'value.info',
+			role: 'value.power',
 			unit: 'W',
 			read: true,
 			write: false
@@ -1159,25 +1203,97 @@ function setPlenticoreObjects() {
 	});
 	
 	/** Statistics */
-	/*adapter.setObjectNotExists('scb.statistic.EnergyFlow.', {
-		type: 'state',
-		common: {
-			name: '',
-			type: 'number',
-			role: 'value.info',
-			unit: '',
-			read: true,
-			write: false
-		},
-		native: {}
-	});*/
+
+	let periods = [
+		'day', 'month', 'year', 'total'
+	];
 	
+	let statsStates = [];
+	for(let p = 0; p < periods.length; p++) {
+		let period = periods[p];
+		let periodId = period.substr(0, 1).toUpperCase() + period.substr(1);
+		
+		statsStates.push({
+			id: 'scb.statistic.EnergyFlow.Autarky' + periodId,
+			name: 'Autarky at current ' + period,
+			role: 'value',
+			unit: '%'
+		});
+		
+		statsStates.push({
+			id: 'scb.statistic.EnergyFlow.OwnConsumptionRate' + periodId,
+			name: 'Rate of own consumption at current ' + period,
+			role: 'value',
+			unit: '%'
+		});
+		
+		statsStates.push({
+			id: 'scb.statistic.EnergyFlow.CO2Saving' + periodId,
+			name: 'Est. CO2 saving at current ' + period,
+			role: 'value',
+			unit: 'kg'
+		});		
+
+		statsStates.push({
+			id: 'scb.statistic.EnergyFlow.EnergyHome' + periodId,
+			name: 'Home power consumption at current ' + period,
+			role: 'value.power.consumption',
+			unit: 'Wh'
+		});		
+
+		statsStates.push({
+			id: 'scb.statistic.EnergyFlow.EnergyHomeBat' + periodId,
+			name: 'Power consumption from battery at current ' + period,
+			role: 'value.power.consumption',
+			unit: 'Wh'
+		});		
+
+		statsStates.push({
+			id: 'scb.statistic.EnergyFlow.EnergyHomeGrid' + periodId,
+			name: 'Power consumption from grid at current ' + period,
+			role: 'value.power.consumption',
+			unit: 'Wh'
+		});		
+
+		statsStates.push({
+			id: 'scb.statistic.EnergyFlow.EnergyHomePv' + periodId,
+			name: 'Power consumption from PV at current ' + period,
+			role: 'value.power.consumption',
+			unit: 'Wh'
+		});
+		
+		statsStates.push({
+			id: 'scb.statistic.EnergyFlow.Yield' + periodId,
+			name: 'Total yield at current ' + period,
+			role: 'value.power.consumption',
+			unit: 'Wh'
+		});		
+	}
+	
+	for(let s = 0; s < statsStates.length; s++) {
+		let newstate = statsStates[s];
+		adapter.setObjectNotExists(newstate.id, {
+			type: 'state',
+			common: {
+				name: newstate.name,
+				type: 'number',
+				role: newstate.role,
+				unit: newstate.unit,
+				read: true,
+				write: false
+			},
+			native: {}
+		});
+	}
+	
+	
+	/** settings */
 	adapter.setObjectNotExists('scb.export.PortalConActive', {
 		type: 'state',
 		common: {
 			name: 'Portal link active',
 			type: 'boolean',
-			role: 'value.info',
+			role: 'indicator',
 			unit: '',
 			read: true,
 			write: false
@@ -1191,7 +1307,7 @@ function setPlenticoreObjects() {
 		common: {
 			name: 'Use NTP servers',
 			type: 'boolean',
-			role: 'value.info',
+			role: 'switch.enable',
 			read: true,
 			write: true
 		},
@@ -1203,7 +1319,7 @@ function setPlenticoreObjects() {
 		common: {
 			name: 'NTP servers',
 			type: 'string',
-			role: 'value.info',
+			role: 'text',
 			read: true,
 			write: true
 		},
@@ -1215,7 +1331,7 @@ function setPlenticoreObjects() {
 		common: {
 			name: 'Time zone',
 			type: 'string',
-			role: 'value.info',
+			role: 'text',
 			read: true,
 			write: true
 		},
@@ -1228,7 +1344,7 @@ function setPlenticoreObjects() {
 		common: {
 			name: 'Hostname for Plenticore device',
 			type: 'string',
-			role: 'value.info',
+			role: 'info.name',
 			read: true,
 			write: true
 		},
@@ -1240,7 +1356,7 @@ function setPlenticoreObjects() {
 		common: {
 			name: 'IPv4 address',
 			type: 'string',
-			role: 'value.info',
+			role: 'info.address',
 			read: true,
 			write: true
 		},
@@ -1252,7 +1368,7 @@ function setPlenticoreObjects() {
 		common: {
 			name: 'IPv4 use DHCP',
 			type: 'boolean',
-			role: 'value.info',
+			role: 'switch.enable',
 			read: true,
 			write: true
 		},
@@ -1264,7 +1380,7 @@ function setPlenticoreObjects() {
 		common: {
 			name: 'IPv4 DNS server 1',
 			type: 'string',
-			role: 'value.info',
+			role: 'text',
 			read: true,
 			write: true
 		},
@@ -1276,7 +1392,7 @@ function setPlenticoreObjects() {
 		common: {
 			name: 'IPv4 DNS server 2',
 			type: 'string',
-			role: 'value.info',
+			role: 'text',
 			read: true,
 			write: true
 		},
@@ -1288,7 +1404,7 @@ function setPlenticoreObjects() {
 		common: {
 			name: 'IPv4 gateway server',
 			type: 'string',
-			role: 'value.info',
+			role: 'text',
 			read: true,
 			write: true
 		},
@@ -1300,7 +1416,7 @@ function setPlenticoreObjects() {
 		common: {
 			name: 'IPv4 subnet mask',
 			type: 'string',
-			role: 'value.info',
+			role: 'text',
 			read: true,
 			write: true
 		},
@@ -1313,7 +1429,7 @@ function setPlenticoreObjects() {
 		common: {
 			name: 'Enable Modbus',
 			type: 'boolean',
-			role: 'value.info',
+			role: 'switch.enable',
 			read: true,
 			write: true
 		},
@@ -1325,7 +1441,7 @@ function setPlenticoreObjects() {
 		common: {
 			name: 'Unitid for modbus',
 			type: 'number',
-			role: 'value.info',
+			role: 'level',
 			read: true,
 			write: true,
 			def: 71
@@ -1339,7 +1455,7 @@ function setPlenticoreObjects() {
 		common: {
 			name: 'Last data export',
 			type: 'number',
-			role: 'value.info',
+			role: 'value.time',
 			read: true,
 			write: false
 		},
@@ -1351,7 +1467,7 @@ function setPlenticoreObjects() {
 		common: {
 			name: 'Last data export ok',
 			type: 'boolean',
-			role: 'value.info',
+			role: 'indicator',
 			read: true,
 			write: false
 		},
@@ -1367,7 +1483,7 @@ function setPlenticoreObjects() {
 		common: {
 			name: 'Export to portal enabled',
 			type: 'boolean',
-			role: 'value.info',
+			role: 'switch.enable',
 			read: true,
 			write: true
 		},
@@ -1379,7 +1495,7 @@ function setPlenticoreObjects() {
 		common: {
 			name: 'Portal',
 			type: 'number',
-			role: 'value.info',
+			role: 'level',
 			read: true,
 			write: true,
 			states: {
@@ -1407,7 +1523,7 @@ function setPlenticoreObjects() {
 		common: {
 			name: 'Enable Dynamic SoC',
 			type: 'boolean',
-			role: 'value.info',
+			role: 'switch.enable',
 			read: true,
 			write: true
 		},
@@ -1419,7 +1535,7 @@ function setPlenticoreObjects() {
 		common: {
 			name: 'Min. home consumption',
 			type: 'number',
-			role: 'value.info',
+			role: 'level',
 			read: true,
 			write: true,
 			min: 0,
@@ -1434,7 +1550,7 @@ function setPlenticoreObjects() {
 		common: {
 			name: 'Minimum SoC',
 			type: 'number',
-			role: 'value.info',
+			role: 'level',
 			read: true,
 			write: true,
 			min: 0,
@@ -1449,7 +1565,7 @@ function setPlenticoreObjects() {
 		common: {
 			name: 'Smart battery control',
 			type: 'boolean',
-			role: 'value.info',
+			role: 'switch.enable',
 			read: true,
 			write: true
 		},
@@ -1461,7 +1577,7 @@ function setPlenticoreObjects() {
 		common: {
 			name: 'Battery usage strategy',
 			type: 'number',
-			role: 'value.info',
+			role: 'level',
 			read: true,
 			write: true,
 			states: {
@@ -1478,7 +1594,7 @@ function setPlenticoreObjects() {
 		common: {
 			name: 'Battery model',
 			type: 'number',
-			role: 'value.info',
+			role: 'level',
 			read: true,
 			write: true,
 			states: {
@@ -1496,7 +1612,7 @@ function setPlenticoreObjects() {
 		common: {
 			name: 'Energy Sensor',
 			type: 'number',
-			role: 'value.info',
+			role: 'level',
 			read: true,
 			write: true,
 			states: {

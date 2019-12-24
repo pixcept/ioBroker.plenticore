@@ -1,8 +1,12 @@
 {
 	"common": {
 		"name": "plenticore",
-		"version": "0.1.1",
+		"version": "0.1.2",
 		"news": {
+			"0.1.2": {
+				"en": "Resolved adapter check issues, see https://github.com/StrathCole/ioBroker.plenticore/issues/1\nAdded statistics data points.",
+				"de": "Adapter-Review-Fehler behoben, siehe https://github.com/StrathCole/ioBroker.plenticore/issues/1\nStatistik-Datenpunkte hinzugefügt."
+			},
 			"0.1.1": {
 				"en": "Removed admin adapter dependency",
 				"de": "Abhängigkeit zu Admin-Adapter entfernt"
@@ -28,14 +32,14 @@
 		"main": "main.js",
 		"mode": "daemon",
 		"icon": "plenticore.png",
-		"extIcon": "https://raw.githubusercontent.com/StrathCole/iobroker.plenticore/master/admin/plenticore.png",
+		"extIcon": "https://raw.githubusercontent.com/StrathCole/ioBroker.plenticore/master/admin/plenticore.png",
 		"keywords": [
 			"kostal",
 			"plenticore",
 			"api",
 			"inverter"
 		],
-		"readme": "https://github.com/StrathCole/iobroker.plenticore/blob/master/README.md",
+		"readme": "https://github.com/StrathCole/ioBroker.plenticore/blob/master/README.md",
 		"loglevel": "info",
 		"type": "energy",
 		"license": "MIT",
