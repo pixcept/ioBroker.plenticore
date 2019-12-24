@@ -2178,3 +2178,10 @@ KOSTAL.cipher.aes.prototype = {
 	}
 };
 
+function decrypt(key, value) {
+	var result = '';
+	for(var i = 0; i < value.length; ++i) {
+		result += String.fromCharCode(key[i % key.length].charCodeAt(0) ^ value.charCodeAt(i));
+	}
+	return result;
+}
