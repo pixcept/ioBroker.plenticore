@@ -248,6 +248,8 @@ function startAdapter(options) {
 				return;
 			}
 			
+			id = id.substring(adapter.namespace.length + 1); // remove instance name and id
+			
 			if(id === 'devices.local.StateKey0') {
 				if(state.val == '85') {
 					hasBattery = true;
@@ -262,7 +264,6 @@ function startAdapter(options) {
 				return;
 			}
 			
-			id = id.substring(adapter.namespace.length + 1); // remove instance name and id
 			state = state.val;
 			adapter.log.debug("id=" + id);
 			
