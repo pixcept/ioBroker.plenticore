@@ -9,7 +9,15 @@ const boolean_states = [
 	'scb.network.IPv4Auto',
 	'scb.modbus.ModbusEnable',
 	'scb.export.LastExportOk',
-	'scb.export.ExportEnable',
+	'scb.export.ExportEnable'
+];
+
+const battery_ids = [
+	'devices.local.battery.Cycles',
+	'devices.local.battery.SoC',
+	'devices.local.battery.I',
+	'devices.local.battery.U',
+	'devices.local.battery.P',
 	'devices.local.battery.DynamicSoc',
 	'devices.local.battery.SmartBatteryControl',
 	"devices.local.battery.DynamicSoc",
@@ -19,15 +27,6 @@ const boolean_states = [
 	"devices.local.battery.Strategy",
 	"devices.local.battery.SupportedTypes",
 	"devices.local.battery.Type"
-];
-
-const battery_ids = [
-	'devices.local.battery.Cycles',
-	'devices.local.battery.SoC',
-	'devices.local.battery.I',
-	'devices.local.battery.U',
-	'devices.local.battery.P'
-	
 ];
 
 const payload_data = [
