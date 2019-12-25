@@ -11,7 +11,23 @@ const boolean_states = [
 	'scb.export.LastExportOk',
 	'scb.export.ExportEnable',
 	'devices.local.battery.DynamicSoc',
-	'devices.local.battery.SmartBatteryControl'
+	'devices.local.battery.SmartBatteryControl',
+	"devices.local.battery.DynamicSoc",
+	"devices.local.battery.MinHomeConsumption",
+	"devices.local.battery.MinSoc",
+	"devices.local.battery.SmartBatteryControl",
+	"devices.local.battery.Strategy",
+	"devices.local.battery.SupportedTypes",
+	"devices.local.battery.Type"
+];
+
+const battery_ids = [
+	'devices.local.battery.Cycles',
+	'devices.local.battery.SoC',
+	'devices.local.battery.I',
+	'devices.local.battery.U',
+	'devices.local.battery.P'
+	
 ];
 
 const payload_data = [
@@ -116,7 +132,7 @@ const payload_data = [
 			"Statistic:CO2Saving:Day": "scb.statistic.EnergyFlow.CO2SavingDay",
 			"Statistic:CO2Saving:Month": "scb.statistic.EnergyFlow.CO2SavingMonth",
 			"Statistic:CO2Saving:Year": "scb.statistic.EnergyFlow.CO2SavingYear",
-			"Statistic:CO2Saving:Total": "scb.statistic.EnergyFlow.CO2Saving:Total"
+			"Statistic:CO2Saving:Total": "scb.statistic.EnergyFlow.CO2SavingTotal"
 		}
 	}
 ];
@@ -193,6 +209,7 @@ var devicePassword;
 var loginSessionId = null;
 var http = require('http');
 
+let hasBattery = false;
 let polling;
 let pollingTime;
 
@@ -228,7 +245,21 @@ function startAdapter(options) {
 		try {
 			adapter.log.debug('stateChange ' + id + ' ' + JSON.stringify(state));
 
-			if(!id || state.ack) {
+			if(!id) {
+				return;
+			}
+			
+			if(id === 'devices.local.StateKey0') {
+				if(state.val == '85') {
+					hasBattery = true;
+				} else if(state.val == '78') {
+					hasBattery = false;
+				} else {
+					adapter.log.warn('Unknown state value for devices.local.StateKey0:' + state.val);
+				}
+			}
+			
+			if(state.ack) {
 				return;
 			}
 			
@@ -409,11 +440,16 @@ function pollStates() {
 			"processdataids": []
 		};
 		for(let idx in pl.mappings) {
+			if(hasBattery !== true && battery_ids.includes(pl.mappings[idx])) {
+				continue;
+			}
 			params.processdataids.push(idx);
 		}
-		
-		adapter.log.debug('Requesting ' + params.processdataids.join(',') + ' from ' + pl.moduleid + ' (processdata)');
-		payload.push(params);
+
+		if(params.processdataids.length > 0) {
+			adapter.log.debug('Requesting ' + params.processdataids.join(',') + ' from ' + pl.moduleid + ' (processdata)');
+			payload.push(params);
+		}
 	}
 	apiCall('POST', 'processdata', payload, function(body, code, headers) {
 		if(code === 200) {
@@ -432,11 +468,16 @@ function pollStates() {
 			"settingids": []
 		};
 		for(let idx in pl.mappings) {
+			if(hasBattery !== true && battery_ids.includes(pl.mappings[idx])) {
+				continue;
+			}
 			params.settingids.push(idx);
 		}
 		
-		adapter.log.debug('Requesting ' + params.settingids.join(',') + ' from ' + pl.moduleid + ' (settings)');
-		payload.push(params);
+		if(params.settingids.length > 0) {
+			adapter.log.debug('Requesting ' + params.settingids.join(',') + ' from ' + pl.moduleid + ' (settings)');
+			payload.push(params);
+		}
 	}
 	apiCall('POST', 'settings', payload, function(body, code, headers) {
 		if(code === 200) {
@@ -1231,7 +1272,7 @@ function setPlenticoreObjects() {
 			id: 'scb.statistic.EnergyFlow.CO2Saving' + periodId,
 			name: 'Est. CO2 saving at current ' + period,
 			role: 'value',
-			unit: 'kg'
+			unit: 'g'
 		});		
 
 		statsStates.push({
