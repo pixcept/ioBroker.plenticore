@@ -9,7 +9,9 @@ const boolean_states = [
 	'scb.network.IPv4Auto',
 	'scb.modbus.ModbusEnable',
 	'scb.export.LastExportOk',
-	'scb.export.ExportEnable'
+	'scb.export.ExportEnable',
+	'devices.local.generator.ExtModuleControl',
+	'devices.local.generator.ShadowMgmt'
 ];
 
 const battery_ids = [
@@ -153,8 +155,10 @@ const payload_settings = [
 			"Inverter:MaxApparentPower": "devices.local.inverter.MaxApparentPower",
 			"EnergySensor:InstalledSensor": "devices.local.EnergySensor",
 			"OptionKeys:StateKey0": "devices.local.StateKey0",
-			"Properties:InverterType": "devices.local.inverter.Type"
-			// "Inverter:ActivePowerLimitation","Inverter:MinActivePowerLimitation","Inverter:MaxApparentPower","Inverter:MaxActivePowerLimitation","EnergySensor:InstalledSensor","EnergySensor:SupportedSensors","EnergySensor:SensorPosition","EnergySensor:SupportedPositions","DigitalOutputs:Customer:ConfigurationFlags","DigitalInputs:Mode","EnergyMgmt:AcStorage","Battery:Type","Battery:SmartBatteryControl:Enable","Battery:DynamicSoc:Enable"
+			"Properties:InverterType": "devices.local.inverter.Type",
+			"Generator:ExtModuleControl:Enable": "devices.local.generator.ExtModuleControl",
+			"Generator:ShadowMgmt:Enable": "devices.local.generator.ShadowMgmt"
+			// "Inverter:ActivePowerLimitation","Inverter:MinActivePowerLimitation","Inverter:MaxActivePowerLimitation","EnergySensor:InstalledSensor","EnergySensor:SupportedSensors","EnergySensor:SensorPosition","EnergySensor:SupportedPositions","DigitalOutputs:Customer:ConfigurationFlags","DigitalInputs:Mode","EnergyMgmt:AcStorage
 		}
 	},
 	{
@@ -671,7 +675,7 @@ function setPlenticoreObjects() {
 		'devices.local.powermeter': 'Powermeter',
 		'devices.local.pv1': 'PV line 1',
 		'devices.local.pv2': 'PV Line 2',
-		'devices.prober': 'Prober', // ???
+		'devices.local.generator': 'Generator',
 		'scb': 'SCB Channel',
 		'scb.event': 'SCB Event',
 		'scb.export': 'Export',
@@ -1552,11 +1556,32 @@ function setPlenticoreObjects() {
 	 ->
 	 [{"moduleid":"devices:local","settings":[{"value":"0","id":"Battery:DynamicSoc:Enable"},{"value":"1","id":"Battery:SmartBatteryControl:Enable"},{"value":"4","id":"Battery:Type"},{"value":"0","id":"DigitalInputs:Mode"},{"value":"0","id":"DigitalOutputs:Customer:ConfigurationFlags"},{"value":"0","id":"EnergyMgmt:AcStorage"},{"value":"3","id":"EnergySensor:InstalledSensor"},{"value":"1","id":"EnergySensor:SensorPosition"},{"value":"3","id":"EnergySensor:SupportedPositions"},{"value":"14","id":"EnergySensor:SupportedSensors"},{"value":"6930.0","id":"Inverter:ActivePowerLimitation"},{"value":"1.0","id":"Inverter:MaxActivePowerLimitation"},{"value":"10000.0","id":"Inverter:MaxApparentPower"},{"value":"0.0","id":"Inverter:MinActivePowerLimitation"}]},{"moduleid":"scb:rse","settings":[{"value":"0","id":"Inverter:PowerCtrlBroadcast:Mode"}]}]*/
 
-	 /* // Generatoreinstellungen
-	 [{"moduleid":"devices:local","settingids":["Generator:ExtModuleControl:Enable","Generator:ShadowMgmt:Enable"]}]
-	 ->
-	 [{"moduleid":"devices:local","settings":[{"value":"0","id":"Generator:ExtModuleControl:Enable"},{"value":"0","id":"Generator:ShadowMgmt:Enable"}]}]*/
+	 /** Shadow management */
 
+	adapter.setObjectNotExists('devices.local.generator.ExtModuleControl', {
+		type: 'state',
+		common: {
+			name: 'Enable ext. module control',
+			type: 'boolean',
+			role: 'switch.enable',
+			read: true,
+			write: true
+		},
+		native: {}
+	});
+
+	 adapter.setObjectNotExists('devices.local.generator.ShadowMgmt', {
+		type: 'state',
+		common: {
+			name: 'Enable shadow management',
+			type: 'boolean',
+			role: 'switch.enable',
+			read: true,
+			write: true
+		},
+		native: {}
+	});
+	 
 	 /** settings battery */
 	 
 	 adapter.setObjectNotExists('devices.local.battery.DynamicSoc', {

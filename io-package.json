@@ -1,8 +1,12 @@
 {
 	"common": {
 		"name": "plenticore",
-		"version": "0.1.3",
+		"version": "0.1.4",
 		"news": {
+			"0.1.4": {
+				"en": "Added shadow management datapoint.",
+				"de": "Datenpunkt für Schattenmanagement hinzugefügt."
+			},
 			"0.1.3": {
 				"en": "Do not query battery values if battery management is not unlocked.",
 				"de": "Keine Abfragen zu Batteriewerten, wenn Batteriemanagement im WR nicht freigeschaltet wurde."
