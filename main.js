@@ -209,6 +209,7 @@ const payload_settings = [
 let adapter;
 var deviceIpAdress;
 var devicePassword;
+var debugRequests;
 var loginSessionId = null;
 var http = require('http');
 
@@ -297,6 +298,7 @@ function startAdapter(options) {
 		} else if(!adapter.config.password) {
 			adapter.log.warn('[START] Password not set');
 		} else {
+			debugRequests = (adapter.config.debug ? true : false);
 			adapter.log.info('[START] Starting plenticore adapter');
 			adapter.setState('info.connection', true, true);
 			adapter.getForeignObject('system.config', (err, obj) => {
@@ -433,8 +435,60 @@ function processDataResponse(data, dataname) {
 	}
 }
 
+function pollStatesDebug() {
+	
+	for(let p = 0; p < payload_data.length; p++) {
+		let pl = payload_data[p];
+		
+		for(let idx in pl.mappings) {
+			if(hasBattery !== true && battery_ids.includes(pl.mappings[idx])) {
+				continue;
+			}
+			let params = {
+				"moduleid": pl.moduleid,
+				"processdataids": []
+			};
+			params.processdataids.push(idx);
+			apiCall('POST', 'processdata', [params], function(body, code, headers) {
+				if(code === 200) {
+					processDataResponse(body, 'processdata');
+				} else {
+					adapter.log.warn('Requesting processdata - ' + JSON.stringify(params) + ') failed with code ' + code + ': ' + body);
+				}
+			});	
+		}
+	}
+	
+	for(let p = 0; p < payload_settings.length; p++) {
+		let pl = payload_settings[p];
+		
+		for(let idx in pl.mappings) {
+			if(hasBattery !== true && battery_ids.includes(pl.mappings[idx])) {
+				continue;
+			}
+			let params = {
+				"moduleid": pl.moduleid,
+				"settingids": []
+			};
+			params.settingids.push(idx);
+			apiCall('POST', 'settings', [params], function(body, code, headers) {
+				if(code === 200) {
+					processDataResponse(body, 'settings');
+				} else {
+					adapter.log.warn('Requesting settings - ' + JSON.stringify(params) + ') failed with code ' + code + ': ' + body);
+				}
+			});	
+		}		
+	}
+	
+}
+
 function pollStates() {
 	let payload = [];
+	
+	if(debugRequests) {
+		return pollStatesDebug();
+	}
 	
 	for(let p = 0; p < payload_data.length; p++) {
 		let pl = payload_data[p];

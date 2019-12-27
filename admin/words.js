@@ -21,5 +21,9 @@ systemDictionary = {
 	'on save adapter restarts with new config immediately': {
 		'en': 'on save adapter restarts with new config immediately',
 		'de': 'on save adapter restarts with new config immediately'
+	},
+	'debug api requests': {
+		'en': 'Debug API requests',
+		'de': 'API-Anfragen debuggen'
 	}
 };
