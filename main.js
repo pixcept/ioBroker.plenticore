@@ -155,7 +155,7 @@ const payload_settings = [
 			"Inverter:MaxApparentPower": "devices.local.inverter.MaxApparentPower",
 			"EnergySensor:InstalledSensor": "devices.local.EnergySensor",
 			"OptionKeys:StateKey0": "devices.local.StateKey0",
-			"Properties:InverterType": "devices.local.inverter.Type",
+			//"Properties:InverterType": "devices.local.inverter.Type",
 			"Generator:ExtModuleControl:Enable": "devices.local.generator.ExtModuleControl",
 			"Generator:ShadowMgmt:Enable": "devices.local.generator.ShadowMgmt"
 			// "Inverter:ActivePowerLimitation","Inverter:MinActivePowerLimitation","Inverter:MaxActivePowerLimitation","EnergySensor:InstalledSensor","EnergySensor:SupportedSensors","EnergySensor:SensorPosition","EnergySensor:SupportedPositions","DigitalOutputs:Customer:ConfigurationFlags","DigitalInputs:Mode","EnergyMgmt:AcStorage
@@ -763,7 +763,7 @@ function setPlenticoreObjects() {
 	}
 
 	
-	adapter.setObjectNotExists('devices.local.inverter.Type', {
+	/*adapter.setObjectNotExists('devices.local.inverter.Type', {
 		type: 'state',
 		common: {
 			name: 'Inverter type',
@@ -778,7 +778,7 @@ function setPlenticoreObjects() {
 			def: 0
 		},
 		native: {}
-	});
+	});*/
 	
 	adapter.setObjectNotExists('devices.local.inverter.MaxApparentPower', {
 		type: 'state',
