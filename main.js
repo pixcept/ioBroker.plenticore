@@ -369,6 +369,14 @@ function processStateChange(id, value) {
 			]
 		}
 	];
+	
+	if(settingid === 'Generator:ShadowMgmt:Enable') {
+		payload[0].settings.unshift({
+			"id": "Generator:ExtModuleControl:Enable",
+			"value": "0"
+		});
+	}
+	
 	apiCall('PUT', 'settings', payload, function(body, code, headers) {
 		if(code === 200) {
 			// we need to request current value as the response to PUT is not always correct!
@@ -1624,21 +1632,28 @@ function setPlenticoreObjects() {
 		native: {}
 	});
 
-	 adapter.setObjectNotExists('devices.local.generator.ShadowMgmt', {
+	adapter.setObjectNotExists('devices.local.generator.ShadowMgmt', {
 		type: 'state',
 		common: {
 			name: 'Enable shadow management',
-			type: 'boolean',
-			role: 'switch.enable',
+			type: 'number',
+			role: 'level',
 			read: true,
-			write: true
+			write: true,
+			states: {
+				0: 'Disabled',
+				1: 'PV String 1',
+				2: 'PV String 2',
+				3: 'Both PV strings'
+			},
+			def: 0
 		},
 		native: {}
 	});
 	 
 	 /** settings battery */
 	 
-	 adapter.setObjectNotExists('devices.local.battery.DynamicSoc', {
+	adapter.setObjectNotExists('devices.local.battery.DynamicSoc', {
 		type: 'state',
 		common: {
 			name: 'Enable Dynamic SoC',
