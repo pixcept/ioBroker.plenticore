@@ -10,8 +10,7 @@ const boolean_states = [
 	'scb.modbus.ModbusEnable',
 	'scb.export.LastExportOk',
 	'scb.export.ExportEnable',
-	'devices.local.generator.ExtModuleControl',
-	'devices.local.generator.ShadowMgmt'
+	'devices.local.generator.ExtModuleControl'
 ];
 
 const battery_ids = [
