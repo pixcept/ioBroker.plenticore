@@ -92,6 +92,14 @@ const payload_data = [
 		}
 	},
 	{
+		"moduleid": "devices:local:pv3",
+		"mappings": {
+			"I": "devices.local.pv3.I",
+			"U": "devices.local.pv3.U",
+			"P": "devices.local.pv3.P"
+		}
+	},
+	{
 		"moduleid": "scb:export",
 		"mappings": {
 			"PortalConActive": "scb.export.PortalConActive"
@@ -213,6 +221,7 @@ var loginSessionId = null;
 var http = require('http');
 
 let hasBattery = false;
+let PVStringCount = 2;
 let polling;
 let pollingTime;
 
@@ -254,7 +263,7 @@ function startAdapter(options) {
 			
 			id = id.substring(adapter.namespace.length + 1); // remove instance name and id
 			
-			if(id === 'devices.local.StateKey0') {
+			/*if(id === 'devices.local.StateKey0') {
 				if(state.val == '85') {
 					hasBattery = true;
 				} else if(state.val == '78') {
@@ -262,7 +271,7 @@ function startAdapter(options) {
 				} else {
 					adapter.log.warn('Unknown state value for devices.local.StateKey0:' + state.val);
 				}
-			}
+			}*/
 			
 			if(state.ack) {
 				return;
@@ -321,7 +330,7 @@ function main() {
 	deviceIpAdress = adapter.config.ipaddress;
 	devicePassword = adapter.config.password;
 
-	setPlenticoreObjects();
+	// setPlenticoreObjects();
 
 	pollingTime = adapter.config.pollinterval || 300000;
 	if(pollingTime < 5000) {
@@ -500,6 +509,12 @@ function pollStates() {
 	for(let p = 0; p < payload_data.length; p++) {
 		let pl = payload_data[p];
 		
+		if(PVStringCount < 3 && pl.moduleid === 'devices:local:pv3') {
+			continue;
+		} else if(PVStringCount < 2 && pl.moduleid === 'devices:local:pv2') {
+			continue;
+		}
+		
 		let params = {
 			"moduleid": pl.moduleid,
 			"processdataids": []
@@ -558,8 +573,40 @@ function loginSuccess() {
 		adapter.log.debug('auth/me: ' + body);
 	});
 
-	polling = setInterval(function() { pollStates(); }, pollingTime);
-	pollStates();
+	apiCall('GET', 'modules', null, function(body, code, headers) {
+		if(code != 200) {
+			adapter.log.warn('Could not get supported modules information. Code: ' + code + ', contents: ' + body);
+			process.exit();
+			return;
+		}
+		
+		var json = JSON.parse(body);
+		if(!json.length) {
+			adapter.log.warn('No valid module info in json reply: ' + body);
+			process.exit();
+			return;
+		}
+		
+		let pvcount = 0;
+		for(let i = 0; i < json.length; i++) {
+			let obj = json[i];
+			if(obj.id.substr(0, 16) === 'devices:local:pv') {
+				pvcount++;
+			} else if(obj.id === 'devices:local:battery') {
+				hasBattery = true;
+			}
+		}
+		
+		PVStringCount = pvcount;
+		
+		setPlenticoreObjects();
+		
+		polling = setInterval(function() { pollStates(); }, pollingTime);
+		if(pollingTime > 5000) {
+			setTimeout(function() { pollStates(); }, 5000);
+		}
+	});
+
 }
 
 
@@ -734,8 +781,6 @@ function setPlenticoreObjects() {
 		'devices.local.inverter': 'Inverter',
 		'devices.local.battery': 'Battery',
 		'devices.local.powermeter': 'Powermeter',
-		'devices.local.pv1': 'PV line 1',
-		'devices.local.pv2': 'PV Line 2',
 		'devices.local.generator': 'Generator',
 		'scb': 'SCB Channel',
 		'scb.event': 'SCB Event',
@@ -750,6 +795,10 @@ function setPlenticoreObjects() {
 		'scb.statistic.EnergyFlow': 'Energy flow statistics',
 		'scb.time': 'Time settings'
 	};
+	for(let p = 1; p <= PVStringCount; p++) {
+		let pid = 'devices.local.pv' + p;
+		channels[pid] = 'PV String ' + p;
+	}
 	
 	for(let idx in channels) {
 		adapter.setObjectNotExists(idx, {
@@ -1025,84 +1074,47 @@ function setPlenticoreObjects() {
 		native: {}
 	});
 	
-	adapter.setObjectNotExists('devices.local.pv1.I', {
-		type: 'state',
-		common: {
-			name: 'PV line 1 current',
-			type: 'number',
-			role: 'value.current',
-			unit: 'A',
-			read: true,
-			write: false
-		},
-		native: {}
-	});
+	for(let p = 1; p <= PVStringCount; p++) {
+		let pid = 'devices.local.pv' + p;
+		adapter.setObjectNotExists(pid + '.I', {
+			type: 'state',
+			common: {
+				name: 'PV string ' + p + ' current',
+				type: 'number',
+				role: 'value.current',
+				unit: 'A',
+				read: true,
+				write: false
+			},
+			native: {}
+		});
 	
-	adapter.setObjectNotExists('devices.local.pv1.U', {
-		type: 'state',
-		common: {
-			name: 'PV line 1 voltage',
-			type: 'number',
-			role: 'value.voltage',
-			unit: 'V',
-			read: true,
-			write: false
-		},
-		native: {}
-	});
-	
-	adapter.setObjectNotExists('devices.local.pv1.P', {
-		type: 'state',
-		common: {
-			name: 'PV line 1 power',
-			type: 'number',
-			role: 'value.power',
-			unit: 'W',
-			read: true,
-			write: false
-		},
-		native: {}
-	});
+		adapter.setObjectNotExists(pid + '.U', {
+			type: 'state',
+			common: {
+				name: 'PV string ' + p + ' voltage',
+				type: 'number',
+				role: 'value.voltage',
+				unit: 'V',
+				read: true,
+				write: false
+			},
+			native: {}
+		});
 
-	adapter.setObjectNotExists('devices.local.pv2.I', {
-		type: 'state',
-		common: {
-			name: 'PV line 2 current',
-			type: 'number',
-			role: 'value.current',
-			unit: 'A',
-			read: true,
-			write: false
-		},
-		native: {}
-	});
-	
-	adapter.setObjectNotExists('devices.local.pv2.U', {
-		type: 'state',
-		common: {
-			name: 'PV line 2 voltage',
-			type: 'number',
-			role: 'value.voltage',
-			unit: 'V',
-			read: true,
-			write: false
-		},
-		native: {}
-	});
-	
-	adapter.setObjectNotExists('devices.local.pv2.P', {
-		type: 'state',
-		common: {
-			name: 'PV line 2 power',
-			type: 'number',
-			role: 'value.power',
-			unit: 'W',
-			read: true,
-			write: false
-		},
-		native: {}
-	});
-
+		adapter.setObjectNotExists(pid + '.P', {
+			type: 'state',
+			common: {
+				name: 'PV string ' + p + ' power',
+				type: 'number',
+				role: 'value.power',
+				unit: 'W',
+				read: true,
+				write: false
+			},
+			native: {}
+		});
+	}
 	
 	adapter.setObjectNotExists('devices.local.battery.Cycles', {
 		type: 'state',
@@ -1643,7 +1655,11 @@ function setPlenticoreObjects() {
 				0: 'Disabled',
 				1: 'PV String 1',
 				2: 'PV String 2',
-				3: 'Both PV strings'
+				3: 'PV Strings 1 and 2',
+				4: 'PV String 3',
+				5: 'PV Strings 1 and 3',
+				6: 'PV Strings 2 and 3',
+				7: 'PV Strings 1, 2 and 3'
 			},
 			def: 0
 		},
