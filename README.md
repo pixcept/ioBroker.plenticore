@@ -69,7 +69,7 @@ This channel contains information about the AC side of the inverter. Most import
 
 #### plenticore.X.devices.local.pv1 / pv2
 
-`plenticore.X.devices.local.pv1.P` and `plenticore.X.devices.local.pv2.P` - the current power that is provided by phase 1 or 2 of the plant
+`plenticore.X.devices.local.pvX.P` - the current power that is provided by phase X of the plant
 
 ### plenticore.X.scb
 
