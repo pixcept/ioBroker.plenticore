@@ -386,6 +386,7 @@ function processStateChange(id, value) {
 	}
 	
 	apiCall('PUT', 'settings', payload, function(body, code, headers) {
+		adapter.log.debug('PUT to settings with payload ' + JSON.stringify(payload));
 		if(code === 200) {
 			// we need to request current value as the response to PUT is not always correct!
 			payload = [{
