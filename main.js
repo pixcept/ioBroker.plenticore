@@ -280,7 +280,7 @@ function startAdapter(options) {
 			state = state.val;
 			adapter.log.debug("id=" + id);
 			
-			if(state) {
+			if('undefined' !== typeof state && null !== state) {
 				processStateChange(id, state);
 			}
 		} catch(e) {
