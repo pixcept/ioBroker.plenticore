@@ -95,8 +95,38 @@ This channel contains information and settings of the device itself
 `[**] plenticore.X.scb.time.NTPuse` - use NTP to set current device time settings  
 `[**] plenticore.X.scb.time.Timezone` - the time zone of the device
 
+### plenticore.X.scb.statistic.EnergyFlow
+
+The datapoints in this section contain the statistics that are visible in the Plenticore web UI. Following only the `Day` datapoints are mentioned, but each of them is also available for `Month`, `Year` and `Total`.
+
+`plenticore.0.scb.statistic.EnergyFlow.AutarkyDay` - the autarky in percent for the current day
+`plenticore.0.scb.statistic.EnergyFlow.CO2SavingDay` - the estimated saved CO2 in kg for the current day
+`plenticore.0.scb.statistic.EnergyFlow.EnergyHomeDay` - the total home consumption in Wh for the current day
+`plenticore.0.scb.statistic.EnergyFlow.EnergyHomePvDay` - the total home consumption provided by the PV plant for the current day
+`plenticore.0.scb.statistic.EnergyFlow.EnergyHomeBatDay` - the total home consumption provided by the battery for the current day
+`plenticore.0.scb.statistic.EnergyFlow.EnergyHomeGridDay` - the total home consumption provided by the power grid for the current day
+`plenticore.0.scb.statistic.EnergyFlow.OwnConsumptionRateDay` - the own consumption rate (generated plant power NOT sent to the grid) for the current day
+`plenticore.0.scb.statistic.EnergyFlow.YieldDay` - the total yield of the plant for the current day
 
 ## Changelog
+
+### 0.1.5
+
+-   Added translations
+-   Fixed shadow management handling.
+
+### 0.1.4
+
+-   Added shadow management datapoint.
+
+### 0.1.3
+
+-   Do not query battery values if battery management is not unlocked.
+
+### 0.1.2
+
+-   Resolved adapter check issues, see https://github.com/StrathCole/ioBroker.plenticore/issues/1
+-   Added statistics data points.
 
 ### 0.1.1
 
