@@ -140,7 +140,7 @@ The datapoints in this section contain the statistics that are visible in the Pl
 
 The MIT License (MIT)
 
-Copyright (c) 2019 Marius Burkard
+Copyright (c) 2020 Marius Burkard
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
