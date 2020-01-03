@@ -1,37 +1,105 @@
 {
 	"common": {
 		"name": "plenticore",
-		"version": "0.1.4",
+		"version": "0.1.5",
 		"news": {
+			"0.1.5": {
+				"en": "Added translations and fixed shadow management handling.",
+				"de": "Hinzugefügt Übersetzungen und feste Shadow-Management-Behandlung.",
+				"ru": "Добавлены переводы и исправлена обработка теней.",
+				"pt": "Traduções adicionadas e manipulação de gerenciamento de sombra fixa.",
+				"nl": "Vertalingen toegevoegd en verwerking van vast schaduwbeheer.",
+				"fr": "Ajout de traductions et correction de la gestion de l'ombre.",
+				"it": "Aggiunte traduzioni e gestione fissa della gestione delle ombre.",
+				"es": "Se agregaron traducciones y se corrigió el manejo de la sombra.",
+				"pl": "Dodano tłumaczenia i poprawiono obsługę zarządzania cieniem.",
+				"zh-cn": "添加了翻译和固定的阴影管理处理。"
+			},
 			"0.1.4": {
 				"en": "Added shadow management datapoint.",
-				"de": "Datenpunkt für Schattenmanagement hinzugefügt."
+				"de": "Datenpunkt für Schattenmanagement hinzugefügt.",
+				"ru": "Добавлено назначение данных для управления тенями",
+				"pt": "Ponto de dados adicionado para gerenciamento de sombra",
+				"nl": "Datapunt toegevoegd voor schaduwbeheer",
+				"fr": "Point de données ajouté pour la gestion des ombres",
+				"it": "Aggiunto datapoint per la gestione delle ombre",
+				"es": "Punto de datos agregado para la gestión de sombra",
+				"pl": "Dodano punkt danych do zarządzania cieniem",
+				"zh-cn": "添加了用于阴影管理的数据点"
 			},
 			"0.1.3": {
 				"en": "Do not query battery values if battery management is not unlocked.",
-				"de": "Keine Abfragen zu Batteriewerten, wenn Batteriemanagement im WR nicht freigeschaltet wurde."
+				"de": "Keine Abfragen zu Batteriewerten, wenn Batteriemanagement im WR nicht freigeschaltet wurde.",
+				"ru": "Не запрашивать значения батареи, если управление батареей не разблокировано",
+				"pt": "Não consulte os valores da bateria se o gerenciamento da bateria não estiver desbloqueado",
+				"nl": "Vraag geen batterijwaarden als batterijbeheer niet is ontgrendeld",
+				"fr": "Ne pas interroger les valeurs de la batterie si la gestion de la batterie n'est pas déverrouillée",
+				"it": "Non interrogare i valori della batteria se la gestione della batteria non è sbloccata",
+				"es": "No consulte los valores de la batería si la administración de la batería no está desbloqueada",
+				"pl": "Nie sprawdzaj wartości baterii, jeśli zarządzanie baterią nie jest odblokowane",
+				"zh-cn": "如果未解锁电池管理，请勿查询电池值"
 			},
 			"0.1.2": {
 				"en": "Resolved adapter check issues, see https://github.com/StrathCole/ioBroker.plenticore/issues/1\nAdded statistics data points.",
-				"de": "Adapter-Review-Fehler behoben, siehe https://github.com/StrathCole/ioBroker.plenticore/issues/1\nStatistik-Datenpunkte hinzugefügt."
+				"de": "Adapter-Review-Fehler behoben, siehe https://github.com/StrathCole/ioBroker.plenticore/issues/1\nStatistik-Datenpunkte hinzugefügt.",
+				"ru": "Устранены проблемы с проверкой адаптера, см. Https://github.com/StrathCole/ioBroker.plenticore/issues/1\nДобавлены точки статистики.",
+				"pt": "Problemas resolvidos de verificação do adaptador, consulte https://github.com/StrathCole/ioBroker.plenticore/issues/1\nPontos de dados estatísticos adicionados.",
+				"nl": "Problemen met adaptercontroles opgelost, zie https://github.com/StrathCole/ioBroker.plenticore/issues/1\nstatistische gegevenspunten toegevoegd.",
+				"fr": "Problèmes de vérification de l'adaptateur résolus, voir https://github.com/StrathCole/ioBroker.plenticore/issues/1\nAjout de points de données statistiques.",
+				"it": "Risolti i problemi di controllo dell'adattatore, consultare https://github.com/StrathCole/ioBroker.plenticore/issues/1\nAggiunti punti dati statistici.",
+				"es": "Problemas resueltos de verificación del adaptador, consulte https://github.com/StrathCole/ioBroker.plenticore/issues/1\npuntos de datos estadísticos agregados.",
+				"pl": "Rozwiązane problemy z sprawdzaniem adaptera, patrz https://github.com/StrathCole/ioBroker.plenticore/issues/1\nDodano punkty danych statystycznych.",
+				"zh-cn": "已解决的适配器检查问题，请参阅https://github.com/StrathCole/ioBroker.plenticore/issues/1\n加了统计数据点。"
 			},
 			"0.1.1": {
 				"en": "Removed admin adapter dependency",
-				"de": "Abhängigkeit zu Admin-Adapter entfernt"
+				"de": "Abhängigkeit zu Admin-Adapter entfernt",
+				"ru": "Удалена зависимость адаптера администратора",
+				"pt": "Removida a dependência do adaptador de administrador",
+				"nl": "Afhankelijkheid van admin-adapter verwijderd",
+				"fr": "Suppression de la dépendance de l'adaptateur administrateur",
+				"it": "Dipendenza dell'adattatore dell'amministratore rimossa",
+				"es": "Se eliminó la dependencia del adaptador de administrador",
+				"pl": "Usunięto zależność adaptera administratora",
+				"zh-cn": "删除了管理适配器依赖项"
 			},
 			"0.1.0": {
 				"en": "Initial version",
-				"de": "Initiale Version"
+				"de": "Initiale Version",
+				"ru": "Первоначальный вариант",
+				"pt": "Versão inicial",
+				"nl": "Eerste versie",
+				"fr": "Version initiale",
+				"it": "Versione iniziale",
+				"es": "Versión inicial",
+				"pl": "Początkowa wersja",
+				"zh-cn": "初始版本"
 			}
 		},
-		"title": "Kostal Plenticore API",
+		"title": "KOSTAL Plenticore API",
 		"titleLang": {
-			"en": "Kostal Plenticore API",
-			"de": "Kostal Plenticore API"
+			"en": "KOSTAL Plenticore API",
+			"de": "KOSTAL Plenticore API",
+			"ru": "KOSTAL Plenticore API",
+			"pt": "API do KOSTAL Plenticore",
+			"nl": "KOSTAL Plenticore API",
+			"fr": "API KOSTAL Plenticore",
+			"it": "API KOSTAL Plenticore",
+			"es": "API de Plenticore de KOSTAL",
+			"pl": "KOSTAL Plenticore API",
+			"zh-cn": "KOSTAL Plenticore API"
 		},
 		"desc": {
-			"en": "Adapter to communicate with a Kostal Plenticore Plus via local network (non-modbus)",
-			"de": "Adapter um mit einem Kostal Plenticore Plus im lokalen Netzwerk (nicht via modbus) zu kommunizieren"
+			"en": "Adapter to communicate with a KOSTAL Plenticore Plus via local network (non-modbus)",
+			"de": "Adapter um mit einem KOSTAL Plenticore Plus im lokalen Netzwerk (nicht via modbus) zu kommunizieren",
+			"ru": "Адаптер для связи с KOSTAL Plenticore Plus через локальную сеть (не по протоколу Modbus)",
+			"pt": "Adaptador para se comunicar com um KOSTAL Plenticore Plus via rede local (não modbus)",
+			"nl": "Adapter voor communicatie met een KOSTAL Plenticore Plus via lokaal netwerk (niet-modbus)",
+			"fr": "Adaptateur pour communiquer avec un KOSTAL Plenticore Plus via un réseau local (non modbus)",
+			"it": "Adattatore per comunicare con un KOSTAL Plenticore Plus tramite rete locale (non modbus)",
+			"es": "Adaptador para comunicarse con KOSTAL Plenticore Plus a través de la red local (no modbus)",
+			"pl": "Adapter do komunikacji z KOSTAL Plenticore Plus za pośrednictwem sieci lokalnej (non-modbus)",
+			"zh-cn": "通过本地网络（非Modbus）与KOSTAL Plenticore Plus进行通信的适配器"
 		},
 		"authors": [
 			"Marius Burkard <m.burkard@pixcept.de>"
