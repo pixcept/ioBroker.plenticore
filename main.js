@@ -2,6 +2,7 @@
 
 const utils = require('@iobroker/adapter-core'); // Get common adapter utils
 const apiurl = '/api/v1/';
+const suncalc = require('suncalc');
 
 const boolean_states = [
 	'scb.export.PortalConActive',
@@ -213,6 +214,208 @@ const payload_settings = [
 	}*/
 ];
 
+//* partly taken from https://forum.iobroker.net/topic/4953/script-sonnenstand-und-einstrahlung
+Math.degrees = function(radians) {return radians * 180 / Math.PI;};
+Math.radians = function(degrees) {return degrees * Math.PI / 180;};
+
+function getSunPosPower(atdate) {
+	if(!adapter.config.iob_lat || !adapter.config.iob_lon) {
+		return false;
+	} else if(!adapter.config.panel_tilt && adapter.config.panel_tilt !== '0') {
+		return false;
+	} else if(!adapter.config.panel_dir && adapter.config.panel_dir !== '0') {
+		return false;
+	} else if(!adapter.config.panel_surface) {
+		return false;
+	} else if(!adapter.config.panel_efficiency) {
+		return false;
+	}
+	
+    if(!atdate) {
+        atdate = new Date();
+    }
+    
+    let sunpos = suncalc.getPosition(atdate, adapter.config.iob_lat, adapter.config.iob_lon); 
+    let altitude = Math.degrees(sunpos.altitude);
+    let azimuth =  Math.degrees(sunpos.azimuth) + 180;
+ 
+    var airmass = 1 / Math.cos((90 - altitude) * 4 * Math.asin(1) / 360); 
+ 
+    var Sincident = (1.367 * Math.pow(0.78, Math.pow(airmass, 0.6)));
+    var fraction = Math.cos(altitude * 4 * Math.asin(1) / 360) * Math.sin(adapter.config.panel_tilt * 4 * Math.asin(1) / 360) * Math.cos(azimuth * 4 * Math.asin(1) / 360 - adapter.config.panel_dir * 4 * Math.asin(1) / 360) + Math.sin(altitude * 4 * Math.asin(1) / 360) * Math.cos(adapter.config.panel_tilt * 4 * Math.asin(1) / 360);
+ 
+    var SmoduleInt = Sincident * fraction * adapter.config.panel_surface * 1000;
+    if(SmoduleInt < 0) {
+        SmoduleInt = 0;
+    }
+
+	var SmoduleEff = SmoduleInt * adapter.config.panel_efficiency;
+ 
+    if(altitude < 0) {
+        SmoduleInt = 0;
+        SmoduleEff = 0;
+        altitude = 0;
+    } else if(altitude < 8.5 && azimuth > 200) {
+        SmoduleEff *= 0.18;
+        SmoduleInt *= 0.18;
+    } else if(altitude < 4.5 && azimuth < 200) {
+        SmoduleEff *= 0.25;
+        SmoduleInt *= 0.25;
+    }
+ 
+    return {
+        altitude: altitude.toFixed(1),
+        azimuth: azimuth.toFixed(),
+        panelpower: SmoduleEff.toFixed()
+    };
+}
+
+function getDasWetterForecast(hoursFromNow, callback) {
+	if(!hoursFromNow) {
+		hoursFromNow = 0;
+	}
+	
+	let curTime = new Date();
+    curTime.setHours(curTime.getHours() + 1);
+
+    let day = 1;
+    let hour = curTime.getHours();
+
+    hour++; // fc 0h
+	hour += hoursFromNow;
+    while(hour > 24) {
+        hour -= 24;
+        day++;
+    }
+    adapter.getForeignState(adapter.config.dw_instance + '.NextHours.Location_1.Day_' + day + '.Hour_' + hour + '.clouds_value', function(err, state) {
+		if(callback) {
+			callback(err, state);
+		}
+	});
+}
+
+function storeSunPanelData() {
+    let result = getSunPosPower();
+
+	createOrSetState('forecast.current.sun.elevation', {
+		type: 'state',
+		common: {
+			name: 'Current sun elevation',
+			type: 'number',
+			role: 'value.elevation',
+			read: true,
+			write: false,
+			unit: '°'
+		},
+		native: {}
+	}, result.altitude);
+
+	createOrSetState('forecast.current.sun.azimuth', {
+		type: 'state',
+		common: {
+			name: 'Current sun azimuth',
+			type: 'number',
+			role: 'value.azimuth',
+			read: true,
+			write: false,
+			unit: '°'
+		},
+		native: {}
+	}, result.azimuth);
+
+	if(adapter.config.wu_instance) {
+		adapter.getForeignState(adapter.config.wu_instance + '.forecastHourly.0h.sky', function(err, state) {
+			if(!err) {
+				createOrSetState('forecast.current.wu.sky', {
+					type: 'state',
+					common: {
+						name: 'Current cloud forecast from weatherunderground',
+						type: 'number',
+						role: 'value.clouds',
+						read: true,
+						write: false,
+						unit: '%'
+					},
+					native: {}
+				}, state.val);
+			}
+		});
+		
+		adapter.getForeignState(adapter.config.wu_instance + '.forecastHourly.0h.visibility', function(err, state) {
+			if(!err) {
+				if(state.val > 16) {
+					state.val = 16;
+				}
+				createOrSetState('forecast.current.wu.visibility', {
+					type: 'state',
+					common: {
+						name: 'Current visibility forecast from weatherunderground',
+						type: 'number',
+						role: 'value.visibility',
+						read: true,
+						write: false,
+						unit: 'km'
+					},
+					native: {}
+				}, state.val);
+			}
+		});
+	}
+	
+	if(adapter.config.dw_instance) {
+		getDasWetterForecast(0, function(err, state) {
+			if(!err) {
+				createOrSetState('forecast.current.dw.sky', {
+					type: 'state',
+					common: {
+						name: 'Current cloud forecast from daswetter.com',
+						type: 'number',
+						role: 'value.clouds',
+						read: true,
+						write: false,
+						unit: '%'
+					},
+					native: {}
+				}, state.val);
+			}
+		});
+	}
+
+    let multisky = (1 - (Math.pow(skydw, 1.8) / 4000));
+    let multisky_wu = (1 - (Math.pow(skywu, 1.8) / 4000));
+    if(multisky < 0.12) {
+        multisky = 0.12;
+    }
+    if(multisky_wu < 0.12) {
+        multisky_wu = 0.12;
+    }
+
+    let multisky_med = (multisky + multisky_wu) / 2;
+
+    // Change ID to the created States
+    setState("javascript.0.Solar.Sonnenstand.Elevation", result.altitude, true);
+    setState("javascript.0.Solar.Sonnenstand.Azimut", result.azimuth, true);
+    setState("javascript.0.Solar.Sonnenstand.PanelPossible", result.panelpower, true);
+    setState("javascript.0.Solar.Sonnenstand.Sky", skydw, true);
+    setState("javascript.0.Solar.Sonnenstand.SkyWU", skywu, true);
+    setState("javascript.0.Solar.Sonnenstand.PanelPossibleSky", result.panelpower * multisky_med, true);
+    setState("javascript.0.Solar.Sonnenstand.SkyVisibility", vis, true);
+    setState("javascript.0.Solar.Sonnenstand.PanelPossibleSkyVis", result.panelpower * multisky_med * (vis / 16), true);
+}
+
+function createOrSetState(id, setobj, setval) {
+	adapter.getObject(id, function(err, obj) {
+		if(err || !obj) {
+			adapter.setObject(id, setobj, function() {
+				adapter.setState(id, setval, true);
+			});
+		} else {
+			adapter.setState(id, setval, true);
+		}
+	});
+}
+
+
 let adapter;
 var deviceIpAdress;
 var devicePassword;
@@ -223,6 +426,7 @@ var http = require('http');
 let hasBattery = false;
 let PVStringCount = 2;
 let polling;
+let sunInterval;
 let pollingTime;
 
 function startAdapter(options) {
@@ -235,6 +439,7 @@ function startAdapter(options) {
 
 	adapter.on('unload', function(callback) {
 		clearInterval(polling);
+		clearInterval(sunInterval);
 		try {
 			apiCall('POST', 'auth/logout', null, function(body, code, headers) {
 				if(code !== 200) {
@@ -317,6 +522,50 @@ function startAdapter(options) {
 					//noinspection JSUnresolvedVariable
 					adapter.config.password = decrypt('DF5uuSc61xV21', adapter.config.password);
 				}
+				
+				if(obj && obj.native) {
+					adapter.config.iob_lon = obj.native.system_longitude;
+					adapter.config.iob_lat = obj.native.system_latitude;
+				}
+				
+				if(adapter.config.enable_forecast) {
+					if(!adapter.config.wu_instance) {
+						adapter.log.warn('Could not enable forecast because no weatherunderground instance was selected.');
+						adapter.config.enable_forecast = false;
+					} else {
+						getForeignObject(adapter.config.wu_instance, function(err, obj) {
+							if(err) {
+								adapter.log.warn('Could not enable forecast because the selected weatherunderground instance was not found.');
+								adapter.config.enable_forecast = false;
+							}
+						});
+					}
+					if(!adapter.config.iob_lon || !adapter.config.iob_lat) {
+						adapter.log.warn('Could not enable forecast because the system\'s longitude and latitude were not found. Please check system config.');
+						adapter.config.enable_forecast = false;
+					} else if(!adapter.config.panel_tilt && adapter.config.panel_tilt !== '0') {
+						adapter.log.warn('Could not enable forecast because the panel tilt was not set.');
+						adapter.config.enable_forecast = false;
+					} else if(!adapter.config.panel_dir && adapter.config.panel_dir !== '0') {
+						adapter.log.warn('Could not enable forecast because the panel orientation (azimuth) was not set.');
+						adapter.config.enable_forecast = false;
+					}
+				}
+				
+				if(adapter.config.dw_instance) {
+					getForeignObject(adapter.config.dw_instance, function(err, obj) {
+						if(err) {
+							adapter.log.warn('The selected daswetter.com instance could not be found. Disablind use of that instance.');
+							adapter.config.dw_instance = false;
+						}
+					});
+				}
+				
+				if(adapter.config.enable_minsoc && !adapter.config.battery_capacity) {
+					adapter.log.warn('Could not enable dynamic MinSoC setting because no battery capacity was entered.');
+					adapter.config.enable_minsoc = false;
+				}
+				
 				main();
 			});
 		}
@@ -342,11 +591,18 @@ function main() {
 	login();
 
 	adapter.subscribeStates('*');
+	
+	sunInterval = setInterval(function() { storeSunPanelData(); }, 60000);
+	storeSunPanelData();
 }
 
 function processStateChange(id, value) {
 	let moduleid;
 	let settingid;
+	
+	adapter.log.info('StateChange: ' + JSON.stringify([id, value]));
+	return;
+	
 	
 	for(let i = 0; i < payload_settings.length; i++) {
 		for(let idx in payload_settings[i].mappings) {
@@ -605,7 +861,7 @@ function loginSuccess() {
 		polling = setInterval(function() { pollStates(); }, pollingTime);
 		if(pollingTime > 5000) {
 			setTimeout(function() { pollStates(); }, 5000);
-		}
+		}		
 	});
 
 }

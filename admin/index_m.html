@@ -65,14 +65,50 @@
             if (M) M.updateTextFields();
 		}
 		
+		function fillInstances(id, arr, val, preset) {
+            var $sel = $('#' + id);
+            $sel.html('<option value="">' + _('none') + '</option>');
+            for (var i = 0; i < arr.length; i++) {
+                var _id = arr[i]._id.replace('system.adapter.', '');
+                // Take first value
+                if (!val && preset) val = _id;
+                $sel.append('<option value="' + _id + '"' + ((_id === val) ? ' selected' : '') + '>' + _id + '</option>');
+            }
+            $sel.select();
+        }
+		
         // This will be called by the admin adapter when the settings page loads
         function load(settings, onChange) {
             // example: select elements with id=key and class=value and insert value
 			socket.emit('getObject', 'system.config', function (err, obj) {
 				secret = (obj.native ? obj.native.secret : '') || 'Zgfr56gFe87jJOM';
+				settings.iob_lon = (obj.native ? obj.native.system_longitude : '');
+				settings.iob_lat = (obj.native ? obj.native.system_latitude : '');
+				settings.panel_efficiency = settings.panel_efficiency || '19.2';
 				loadHelper(settings, onChange);
 			});
 			onChange(false);
+			
+			getAdapterInstances('weatherunderground', function(arr) {
+				let instances = arr;
+				
+				if(instances && instances.length > 0) {
+					$('#warn-forecast-prereq').hide();
+				}
+				
+				fillInstances('wu_instance', arr, settings['wu_instance'], true);
+				
+			});
+			
+			getAdapterInstances('daswetter', function(arr) {
+				let instances = arr;
+				
+				if(instances && instances.length > 0) {
+					$('#warn-forecast-dw').hide();
+				}
+				
+				fillInstances('dw_instance', arr, settings['dw_instance'], true);
+			});
         }
 
         // This will be called by the admin adapter when the user presses the save button
@@ -92,6 +128,28 @@
 					obj[id] = value;
                 }
             });
+			
+			if(obj['enable_forecast']) {
+				if(!obj['wu_instance']) {
+					showError(_('Please select weatherunderground adapter instance or install one first.'));
+                    return;
+				} else if(!obj['iob_lon'] || !obj['iob_lat']) {
+					showError(_('Please set the location of your ioBroker instance (longitude and latitude) in the global system config.'));
+					return;
+				} else if((!obj['panel_tilt'] && obj['panel_tilt'] !== '0') || (!obj['panel_dir'] && obj['panel_dir'] !== '0')) {
+					showError(_('Please enter your panel\'s tilt and orientation (azimuth)'));
+					return;
+				} else if(!obj['panel_efficiency'] || !obj['panel_surface']) {
+					showError(_('Please set the panel efficiency and surface. You should get this from the official datasheet of your panels.'));
+					return;
+				}
+			}
+			
+			if(obj['enable_minsoc'] && !obj['battery_capacity']) {
+				showError(_('Please enter the battery capacity first. We need this to calculate the MinSoC.'));
+				return;
+			}
+			
             callback(obj);
         }
     </script>
@@ -102,38 +160,108 @@
 
     <div class="m adapter-container">
 
-        <div class="row">
-            <div class="col s12 m4 l2">
-                <img src="plenticore.png" class="logo">
-            </div>
-        </div>
-
-        <!-- Put your content here -->
-
-        <!-- For example columns with settings: -->
-        <div class="row">
-            <div class="col s6 input-field">
-                <input type="text" class="value" id="ipaddress" />
-                <label for="ipaddress" class="translate">ipaddress</label>
-            </div>
-
-            <div class="col s6 input-field">
-                <input type="password" class="value" id="password" />
-                <label for="password" class="translate">password</label>
-            </div>
-        </div>
-		
-		<div class="row">
-			<div class="col s6 input-field">
-				<input type="number" class="value" id="pollinterval" />
-				<label for="pollinterval" class="translate">pollinterval</label>
-			</div>
+		 <div class="col s12">
+			<ul class="tabs">
+				<li class="tab col s3"><a href="#tab-main" class="translate active">Main settings</a></li>
+				<li class="tab col s3"><a href="#tab-extended" class="translate">Extended settings</a></li>
+			</ul>
 		</div>
 		
-		<div class="row">
-			<div class="col s6 input-field">
-				<input type="checkbox" class="value" id="debug" />
-				<label for="debug" class="translate">debug api requests</label>
+		<div id="tab-main" class="col s12 page">
+			<div class="row">
+				<div class="col s12 m4 l2">
+					<img src="plenticore.png" class="logo">
+				</div>
+			</div>
+
+			<!-- Put your content here -->
+
+			<!-- For example columns with settings: -->
+			<div class="row">
+				<div class="col s6 input-field">
+					<input type="text" class="value" id="ipaddress" />
+					<label for="ipaddress" class="translate">ipaddress</label>
+				</div>
+
+				<div class="col s6 input-field">
+					<input type="password" class="value" id="password" />
+					<label for="password" class="translate">password</label>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col s6 input-field">
+					<input type="number" class="value" id="pollinterval" />
+					<label for="pollinterval" class="translate">pollinterval</label>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col s6 input-field">
+					<input type="checkbox" class="value" id="debug" />
+					<label for="debug" class="translate">debug api requests</label>
+				</div>
+			</div>
+
+		</div>
+
+		
+		<div id="tab-extended" class="col s12 page">
+			<div class="row"><input type="hidden" id="iob_lat" class="value" value="" /><input type="hidden" id="iob_lon" class="value" value="" />
+				<div class="col s6 input-field">
+					<input type="checkbox" class="value" id="enable_forecast" />
+					<label for="enable_forecast" class="translate">enable power forecast</label>
+					<p id="warn-forecast-prereq"><small class="translate">only available with wu</small></p>
+					<p id="warn-forecast-dw"><small class="translate">increased precision by dw</small></p>
+					<p class="translate">The power forecast makes partly use of the script from the <a href="https://forum.iobroker.net/topic/4953/script-sonnenstand-und-einstrahlung" target="_blank">ioBroker forum</a> and uses the suncalc npm module.</p>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="col s6 input-field">
+					<label for="wu_instance" class="translate">select wu instance</label>
+					<select id="wu_instance" class="value"></select>
+					<p><small class="translate">An instance of this adapter is mandatory for enabling forecasts.</small></p>
+				</div>
+				<div class="col s6 input-field">
+					<label for="dw_instance" class="translate">select dw instance</label>
+					<select id="dw_instance" class="value"></select>
+					<p><small class="translate">An instance of this adapter is not neccessary for enabling forecasts but it might increase precision depending on the location.</small></p>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="col s6 input-field">
+					<input type="number" class="value" id="panel_tilt" />°
+					<label for="panel_tilt" class="translate">panel tilt</label>
+				</div>
+				<div class="col s6 input-field">
+					<input type="number" class="value" id="panel_dir" />°
+					<label for="panel_dir" class="translate">panel dir</label>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="col s6 input-field">
+					<input type="number" class="value" id="panel_surface" />m²
+					<label for="panel_surface" class="translate">panel surface</label>
+				</div>
+				<div class="col s6 input-field">
+					<input type="number" class="value" id="panel_efficiency" />%
+					<label for="panel_efficiency" class="translate">panel efficiency</label>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="col s6 input-field">
+					<input type="number" class="value" id="battery_capacity" />Wh
+					<label for="battery_capacity" class="translate">battery capacity</label>
+				</div>
+				<div class="col s6 input-field">
+					<input type="checkbox" class="value" id="enable_minsoc" />
+					<label for="enable_minsoc" class="translate">enable dynamic minsoc</label>
+					<p><small class="translate">dynamic minsoc description</small></p>
+				</div>
 			</div>
 		</div>
 
