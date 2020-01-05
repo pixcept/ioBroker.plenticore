@@ -1,8 +1,10 @@
 'use strict';
 
 const utils = require('@iobroker/adapter-core'); // Get common adapter utils
+const schedule = require('node-schedule');
 const apiurl = '/api/v1/';
 const suncalc = require('suncalc');
+const daynight = ['day', 'night'];
 
 const boolean_states = [
 	'scb.export.PortalConActive',
@@ -214,6 +216,8 @@ const payload_settings = [
 	}*/
 ];
 
+var wu_metric = 'km';
+
 //* partly taken from https://forum.iobroker.net/topic/4953/script-sonnenstand-und-einstrahlung
 Math.degrees = function(radians) {return radians * 180 / Math.PI;};
 Math.radians = function(degrees) {return degrees * Math.PI / 180;};
@@ -294,6 +298,49 @@ function getDasWetterForecast(hoursFromNow, callback) {
 	});
 }
 
+function storeSunPanelSkyData(panel_power, wu_sky, wu_vis, dw_sky) {
+    let multisky_wu = (1 - (Math.pow(wu_sky, 1.8) / 4000));
+    if(multisky_wu < 0.12) {
+        multisky_wu = 0.12;
+    }
+	
+	let multisky_med = multisky_wu;
+
+	if(dw_sky !== null) {
+		let multisky_dw = (1 - (Math.pow(dw_sky, 1.8) / 4000));
+		if(multisky_dw < 0.12) {
+			multisky_dw = 0.12;
+		}
+		 multisky_med = (multisky_med + multisky_dw) / 2;
+	}
+	 
+	createOrSetState('forecast.current.power.sky', {
+		type: 'state',
+		common: {
+			name: 'Current estimated max power with clouds',
+			type: 'number',
+			role: 'value.power',
+			read: true,
+			write: false,
+			unit: 'W'
+		},
+		native: {}
+	}, panel_power * multisky_med);
+	 
+	createOrSetState('forecast.current.power.skyvis', {
+		type: 'state',
+		common: {
+			name: 'Current estimated max power with clouds and visibility',
+			type: 'number',
+			role: 'value.power',
+			read: true,
+			write: false,
+			unit: 'W'
+		},
+		native: {}
+	}, panel_power * multisky_med * (wu_vis / 16));
+}
+
 function storeSunPanelData() {
     let result = getSunPosPower();
 
@@ -323,9 +370,33 @@ function storeSunPanelData() {
 		native: {}
 	}, result.azimuth);
 
+	createOrSetState('forecast.current.power.max', {
+		type: 'state',
+		common: {
+			name: 'Current maximum power possible',
+			type: 'number',
+			role: 'value.power',
+			read: true,
+			write: false,
+			unit: 'W'
+		},
+		native: {}
+	}, result.panelpower);
+
+	let wu_done = false;
+	let wu_vis_done = false;
+	let dw_done = false;
+	
+	let wu_sky = null;
+	let dw_sky = null;
+	let wu_vis = null;
+	
 	if(adapter.config.wu_instance) {
 		adapter.getForeignState(adapter.config.wu_instance + '.forecastHourly.0h.sky', function(err, state) {
 			if(!err) {
+				wu_sky = state.val;
+				wu_done = true;
+				
 				createOrSetState('forecast.current.wu.sky', {
 					type: 'state',
 					common: {
@@ -338,7 +409,15 @@ function storeSunPanelData() {
 					},
 					native: {}
 				}, state.val);
+				
+				if(wu_done && wu_vis_done && dw_done) {
+					storeSunPanelSkyData(result.panelpower, wu_sky, wu_vis, dw_sky);
+				}
 			}
+		});
+		
+		adapter.getForeignObject(adapter.config.wu_instance, function(err, obj) {
+			adapter.log('Obj WU: ' + JSON.stringify(obj));
 		});
 		
 		adapter.getForeignState(adapter.config.wu_instance + '.forecastHourly.0h.visibility', function(err, state) {
@@ -346,6 +425,9 @@ function storeSunPanelData() {
 				if(state.val > 16) {
 					state.val = 16;
 				}
+				wu_vis = state.val;
+				wu_vis_done = true;
+				
 				createOrSetState('forecast.current.wu.visibility', {
 					type: 'state',
 					common: {
@@ -358,6 +440,10 @@ function storeSunPanelData() {
 					},
 					native: {}
 				}, state.val);
+				
+				if(wu_done && wu_vis_done && dw_done) {
+					storeSunPanelSkyData(result.panelpower, wu_sky, wu_vis, dw_sky);
+				}
 			}
 		});
 	}
@@ -365,6 +451,8 @@ function storeSunPanelData() {
 	if(adapter.config.dw_instance) {
 		getDasWetterForecast(0, function(err, state) {
 			if(!err) {
+				dw_sky = state.val;
+				dw_done = true;
 				createOrSetState('forecast.current.dw.sky', {
 					type: 'state',
 					common: {
@@ -377,30 +465,19 @@ function storeSunPanelData() {
 					},
 					native: {}
 				}, state.val);
+				
+				if(wu_done && wu_vis_done && dw_done) {
+					storeSunPanelSkyData(result.panelpower, wu_sky, wu_vis, dw_sky);
+				}
 			}
 		});
+	} else {
+		dw_done = true;
+				
+		if(wu_done && wu_vis_done && dw_done) {
+			storeSunPanelSkyData(result.panelpower, wu_sky, wu_vis, dw_sky);
+		}
 	}
-
-    let multisky = (1 - (Math.pow(skydw, 1.8) / 4000));
-    let multisky_wu = (1 - (Math.pow(skywu, 1.8) / 4000));
-    if(multisky < 0.12) {
-        multisky = 0.12;
-    }
-    if(multisky_wu < 0.12) {
-        multisky_wu = 0.12;
-    }
-
-    let multisky_med = (multisky + multisky_wu) / 2;
-
-    // Change ID to the created States
-    setState("javascript.0.Solar.Sonnenstand.Elevation", result.altitude, true);
-    setState("javascript.0.Solar.Sonnenstand.Azimut", result.azimuth, true);
-    setState("javascript.0.Solar.Sonnenstand.PanelPossible", result.panelpower, true);
-    setState("javascript.0.Solar.Sonnenstand.Sky", skydw, true);
-    setState("javascript.0.Solar.Sonnenstand.SkyWU", skywu, true);
-    setState("javascript.0.Solar.Sonnenstand.PanelPossibleSky", result.panelpower * multisky_med, true);
-    setState("javascript.0.Solar.Sonnenstand.SkyVisibility", vis, true);
-    setState("javascript.0.Solar.Sonnenstand.PanelPossibleSkyVis", result.panelpower * multisky_med * (vis / 16), true);
 }
 
 function createOrSetState(id, setobj, setval) {
@@ -426,7 +503,8 @@ var http = require('http');
 let hasBattery = false;
 let PVStringCount = 2;
 let polling;
-let sunInterval;
+let sunSchedule;
+let dailySchedule;
 let pollingTime;
 
 function startAdapter(options) {
@@ -439,7 +517,7 @@ function startAdapter(options) {
 
 	adapter.on('unload', function(callback) {
 		clearInterval(polling);
-		clearInterval(sunInterval);
+		sunSchedule.cancel();
 		try {
 			apiCall('POST', 'auth/logout', null, function(body, code, headers) {
 				if(code !== 200) {
@@ -592,8 +670,14 @@ function main() {
 
 	adapter.subscribeStates('*');
 	
-	sunInterval = setInterval(function() { storeSunPanelData(); }, 60000);
+	sunSchedule = schedule.scheduleJob('* * * * *', function(){
+		storeSunPanelData();
+	});
 	storeSunPanelData();
+	
+	dailySchedule = schedule.scheduleJob('0 0 * * *', function() {
+		calcPowerAverages(true);
+	});
 }
 
 function processStateChange(id, value) {
