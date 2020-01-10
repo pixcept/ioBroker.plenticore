@@ -602,6 +602,32 @@ function calcMinSoC(forecastRead) {
         sunrise = getAstroDate('sunrise', prevDay.getTime());
     }
 
+	createOrSetState('forecast.current.sun.sunrise', {
+		type: 'state',
+		common: {
+			name: 'Time of sunrise for forecast day',
+			type: 'number',
+			role: 'date',
+			read: true,
+			write: false,
+			unit: ''
+		},
+		native: {}
+	}, sunrise.getTime());
+	
+	createOrSetState('forecast.current.sun.sunset', {
+		type: 'state',
+		common: {
+			name: 'Time of sunset for forecast day',
+			type: 'number',
+			role: 'date',
+			read: true,
+			write: false,
+			unit: ''
+		},
+		native: {}
+	}, sunset.getTime());
+
     //* calc hours of daylight
     let sun_hours = (sunset - sunrise) / 1000 / 60 / 60; // TODO: unsused?
 
