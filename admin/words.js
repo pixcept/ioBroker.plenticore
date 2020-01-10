@@ -86,29 +86,17 @@ systemDictionary = {
 		"pl": "Włącz prognozę mocy",
 		"zh-cn": "启用功率预测"
 	},
-	"only available with wu": {
-		"en": "This feature is only available with an active weatherunderground instance",
-		"de": "Diese Funktion ist nur bei einer aktiven Weatherunderground-Instanz verfügbar",
-		"ru": "Эта функция доступна только с активным экземпляром weatherunderground",
-		"pt": "Esse recurso está disponível apenas com uma instância ativa do weatherunderground",
-		"nl": "Deze functie is alleen beschikbaar met een actieve weersondergrondinstantie",
-		"fr": "Cette fonctionnalité est uniquement disponible avec une instance active Weatherunderground",
-		"it": "Questa funzione è disponibile solo con un'istanza weatherunderground attiva",
-		"es": "Esta función solo está disponible con una instancia de weatherunderground activa",
-		"pl": "Ta funkcja jest dostępna tylko z aktywną instancją Weatherunderground",
+	"only available with weather": {
+		"en": "This feature is only available with an active darksky instance",
+		"de": "Diese Funktion ist nur bei einer aktiven darksky-Instanz verfügbar",
+		"ru": "Эта функция доступна только с активным экземпляром darksky",
+		"pt": "Esse recurso está disponível apenas com uma instância ativa do darksky",
+		"nl": "Deze functie is alleen beschikbaar met een actieve darksky",
+		"fr": "Cette fonctionnalité est uniquement disponible avec une instance active darksky",
+		"it": "Questa funzione è disponibile solo con un'istanza darksky attiva",
+		"es": "Esta función solo está disponible con una instancia de darksky activa",
+		"pl": "Ta funkcja jest dostępna tylko z aktywną instancją darksky",
 		"zh-cn": "此功能仅在活动的天气地下实例中可用"
-	},
-	"increased precision by dw": {
-		"en": "Precision of the forecast might be increased with an active daswetter.com instance ",
-		"de": "Die Genauigkeit der Prognose kann mit einer aktiven Instanz von daswetter.com ggf. erhöht werden",
-		"ru": "Точность прогноза может быть увеличена с активным экземпляром daswetter.com",
-		"pt": "A precisão da previsão pode ser aumentada com uma instância ativa do daswetter.com",
-		"nl": "De precisie van de voorspelling kan worden verhoogd met een actieve instantie van daswetter.com",
-		"fr": "La précision des prévisions peut être augmentée avec une instance active de daswetter.com",
-		"it": "La precisione della previsione potrebbe essere aumentata con un'istanza attiva di daswetter.com",
-		"es": "La precisión del pronóstico podría incrementarse con una instancia activa de daswetter.com",
-		"pl": "Precyzja prognozy może zostać zwiększona dzięki aktywnej instancji daswetter.com",
-		"zh-cn": "活跃的daswetter.com实例可能会提高预测的精度"
 	},
 	"none": {
 		"en": "none",
@@ -122,28 +110,28 @@ systemDictionary = {
 		"pl": "Żaden",
 		"zh-cn": "没有"
 	},
-	"Please select weatherunderground adapter instance or install one first.": {
-		"en": "Please select weatherunderground adapter instance or install one first.",
-		"de": "Bitte wählen Sie die Weatherunderground-Adapterinstanz aus oder installieren Sie zuerst eine.",
-		"ru": "Пожалуйста, выберите экземпляр адаптера weatherunderground или сначала установите его.",
-		"pt": "Selecione a instância do adaptador weatherunderground ou instale uma primeira.",
-		"nl": "Selecteer de instantie van de weatherunderground-adapter of installeer er eerst een.",
-		"fr": "Veuillez sélectionner une instance d'adaptateur Weatherunderground ou en installer une en premier.",
-		"it": "Seleziona l'istanza dell'adattatore weatherunderground o installane una prima.",
-		"es": "Seleccione la instancia del adaptador weatherunderground o instale uno primero.",
-		"pl": "Wybierz instancję adaptera Weatherunderground lub zainstaluj ją najpierw.",
-		"zh-cn": "请选择weatherunderground适配器实例或先安装一个。"
+	"Please select weather adapter instance or install one first.": {
+		"en": "Please select darksky adapter instance or install one first.",
+		"de": "Bitte wählen Sie die darksky-Adapterinstanz aus oder installieren Sie zuerst eine.",
+		"ru": "Пожалуйста, выберите экземпляр адаптера darksky или сначала установите его.",
+		"pt": "Selecione a instância do adaptador darksky ou instale uma primeira.",
+		"nl": "Selecteer de instantie van de darksky-adapter of installeer er eerst een.",
+		"fr": "Veuillez sélectionner une instance d'adaptateur darksky ou en installer une en premier.",
+		"it": "Seleziona l'istanza dell'adattatore darksky o installane una prima.",
+		"es": "Seleccione la instancia del adaptador darksky o instale uno primero.",
+		"pl": "Wybierz instancję adaptera darksky lub zainstaluj ją najpierw.",
+		"zh-cn": "请选择darksky适配器实例或先安装一个。"
 	},
-	"select wu instance": {
-		"en": "Weatherunderground instance",
-		"de": "Weatherunderground Instanz",
+	"select weather instance": {
+		"en": "DarkSky instance",
+		"de": "DarkSky Instanz",
 		"ru": "Погода под землей",
-		"pt": "Instância Weatherunderground",
-		"nl": "Weatherunderground-instantie",
-		"fr": "Instance Weatherunderground",
-		"it": "Istanza Weatherunderground",
-		"es": "Instancia de Weatherunderground",
-		"pl": "Instancja Weatherunderground",
+		"pt": "Instância DarkSky",
+		"nl": "DarkSky-instantie",
+		"fr": "Instance DarkSky",
+		"it": "Istanza DarkSky",
+		"es": "Instancia de DarkSky",
+		"pl": "Instancja DarkSky",
 		"zh-cn": "天气地下实例"
 	},
 	"An instance of this adapter is mandatory for enabling forecasts.": {
@@ -157,30 +145,6 @@ systemDictionary = {
 		"es": "Una instancia de este adaptador es obligatoria para habilitar pronósticos.",
 		"pl": "Wystąpienie tego adaptera jest obowiązkowe do włączania prognoz.",
 		"zh-cn": "为了启用预测，必须使用此适配器的实例。"
-	},
-	"select dw instance": {
-		"en": "Daswetter.com instance",
-		"de": "Daswetter.com Instanz",
-		"ru": "Экземпляр Daswetter.com",
-		"pt": "Instância Daswetter.com",
-		"nl": "Daswetter.com instantie",
-		"fr": "Instance Daswetter.com",
-		"it": "Istanza di Daswetter.com",
-		"es": "Instancia de Daswetter.com",
-		"pl": "Instancja Daswetter.com",
-		"zh-cn": "Daswetter.com实例"
-	},
-	"An instance of this adapter is not neccessary for enabling forecasts but it might increase precision depending on the location.": {
-		"en": "An instance of this adapter is not neccessary for enabling forecasts but it might increase precision depending on the location.",
-		"de": "Eine Instanz dieses Adapters ist zum Aktivieren von Vorhersagen nicht erforderlich, kann jedoch die Genauigkeit je nach Standort erhöhen.",
-		"ru": "Экземпляр этого адаптера необязателен для включения прогнозов, но он может повысить точность в зависимости от местоположения.",
-		"pt": "Uma instância deste adaptador não é necessária para ativar previsões, mas pode aumentar a precisão, dependendo do local.",
-		"nl": "Een exemplaar van deze adapter is niet nodig om voorspellingen in te schakelen, maar het kan de nauwkeurigheid verhogen afhankelijk van de locatie.",
-		"fr": "Une instance de cet adaptateur n'est pas nécessaire pour activer les prévisions, mais elle peut augmenter la précision en fonction de l'emplacement.",
-		"it": "Un'istanza di questo adattatore non è necessaria per abilitare le previsioni, ma potrebbe aumentare la precisione a seconda della posizione.",
-		"es": "Una instancia de este adaptador no es necesaria para habilitar pronósticos, pero puede aumentar la precisión según la ubicación.",
-		"pl": "Wystąpienie tego adaptera nie jest konieczne do włączenia prognoz, ale może zwiększyć precyzję w zależności od lokalizacji.",
-		"zh-cn": "此适配器的实例对于启用预测不是必需的，但是根据位置的不同，它可能会提高精度。"
 	},
 	"enable dynamic minsoc": {
 		"en": "Enable dynamic minimum SoC",
