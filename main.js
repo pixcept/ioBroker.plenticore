@@ -643,7 +643,7 @@ function calcMinSoC(forecastRead) {
 
     let sun_hour = 0;
     let powerTime = new Date(sunrise.getTime());
-    while(powerTime.getTime() <= sunset.getTime() + (30 * 60 * 1000)) {
+    while(powerTime.getTime() <= sunset.getTime()) {
         sun_hour++;
         let pwr = getSunPosPower(new Date(powerTime.getTime() - (30*60*1000)));
 		let pwr2 = getSunPosPower(new Date(powerTime.getTime() + (30*60*1000)));
@@ -731,6 +731,8 @@ function calcMinSoC(forecastRead) {
     let skyvispower = [];
     let sun_power = 0;
     let sun_power_clear = 0;
+	let max_hour = 0;
+	let sunhour_power = {};
     for(let p = 0; p < power.length; p++) {
         let multiplier;
         let vis_multiplier;
@@ -759,6 +761,12 @@ function calcMinSoC(forecastRead) {
         sun_power = sun_power + skyvispower[p];
         sun_power_clear = sun_power_clear + skypower[p];
 
+		if(sunhours[p] > max_hour) {
+			max_hour = sunhours[p];
+		}
+
+		let shindex = sunhours[p] + 'h';
+		sunhour_power[shindex] = skyvispower[p];
         let fc_state_id = 'forecast.power.' + sunhours[p] + 'h.power';
         createOrSetState(fc_state_id, {
 			type: 'state',
@@ -787,6 +795,22 @@ function calcMinSoC(forecastRead) {
 			native: {}
 		}, powerdate[p]);
     }
+	
+	let to_delete = [];
+	for(let p = max_hour + 1; p <= 24; p++) {
+		to_delete.push('forecast.power.' + p + 'h.time');
+		to_delete.push('forecast.power.' + p + 'h.power');
+	}
+	to_delete.forEach(function(id) {
+		adapter.getObject(id, function(err, obj) {
+			if(!err && obj) {
+				adapter.delObject(id);
+				adapter.log.info(id + ' deleted.');
+			}
+		});
+	});
+	
+	
     // , dt: ' + JSON.stringify({sky: skydate, pwr: powerdate}) + '
     adapter.log.debug('Sky: ' + JSON.stringify(sky) + ', Vis: ' + JSON.stringify(skyvis) + ', Pwr: ' + JSON.stringify(power) + ', skypower: ' + JSON.stringify(skypower) + ', skyvispower: ' + JSON.stringify(skyvispower) + ', sum: ' + sun_power);
 
@@ -833,6 +857,59 @@ function calcMinSoC(forecastRead) {
 		},
 		native: {}
 	}, fcDay.getTime());
+
+	let powerUntilSunset = 0;
+    let powerStartTime = new Date(curTime.getTime());
+    if(powerStartTime.getTime() < sunrise.getTime()) {
+        powerStartTime.setTime(sunrise.getTime());
+    }
+    let powerHours = (sunset.getTime() - powerStartTime.getTime()) / 1000 / 60 / 60;
+    if(powerHours > 0) {
+        adapter.log.debug('There are ' + powerHours + ' of ' + sun_hours + ' hours of sun time left to take into account.');
+        let fcH = 0;
+        for(let p = powerHours; p > 0; p--) {
+            fcH++;
+			let shindex = Math.ceil(sun_hours + 1 - p) + 'h';
+            let fcPower = sunhour_power[shindex];
+            //log('Power for fc hour ' + (powerTime.getHours() + fcH) + ' is ' + fcPower);
+            if(fcPower) {
+                if(p < 1) {
+                    fcPower = fcPower * p;
+                    //log('Power for fc hour ' + (powerTime.getHours() + fcH) + ' is ' + fcPower + ' because of factor ' + p);
+                }
+                powerUntilSunset += fcPower;
+            }
+        }
+	}
+	createOrSetState('forecast.power.remaining', {
+		type: 'state',
+		common: {
+			name: 'Power forecast for remaining sun hours',
+			type: 'number',
+			role: 'value.power',
+			read: true,
+			write: false,
+			unit: 'Wh'
+		},
+		native: {}
+	}, powerUntilSunset);
+
+	adapter.getState('forecast.consumption.day', function(err, state) {
+		if(!err && state) {
+			createOrSetState('forecast.consumption.remaining', {
+				type: 'state',
+				common: {
+					name: 'Power consumption forecast for remaining sun hours',
+					type: 'number',
+					role: 'value.power',
+					read: true,
+					write: false,
+					unit: 'Wh'
+				},
+				native: {}
+			}, state.val * powerHours / sun_hours);
+		}
+	});
 
 	if(!adapter.config.enable_minsoc) {
 		return;
@@ -972,7 +1049,7 @@ function startAdapter(options) {
 				return;
 			}
 			
-			if(id.substr(0, adapter.namespace.length + 1) !== adapter.namespace + '.') {
+			if(state && id.substr(0, adapter.namespace.length + 1) !== adapter.namespace + '.') {
 				processStateChangeForeign(id, state);
 				return;
 			}
@@ -988,7 +1065,7 @@ function startAdapter(options) {
 				}
 			}*/
 			
-			if(state.ack) {
+			if(state && state.ack) {
 				processStateChangeAck(id, state);
 				return;
 			}
@@ -1211,7 +1288,85 @@ function processStateChangeAck(id, state) {
 		consumptionData[dn]['d0'].consumption = power_sum;
 		
 		calcPowerAverages(false); // no rotating please!
+	} else if(id === 'devices.local.pv1.P' || id === 'devices.local.pv2.P' || id === 'devices.local.pv3.P') {
+		let sum = 0;
+		getStateIfExists('devices.local.pv1.P', function(err, state) {
+			if(!err) {
+				sum += state.val;
+			}
+			getStateIfExists('devices.local.pv2.P', function(err, state) {
+				if(!err) {
+					sum += state.val;
+				}
+				getStateIfExists('devices.local.pv3.P', function(err, state) {
+					if(!err) {
+						sum += state.val;
+					}
+					createOrSetState('devices.local.Pv_P', {
+						type: 'state',
+						common: {
+							name: 'Current plant power',
+							type: 'number',
+							role: 'value.power',
+							read: true,
+							write: false,
+							unit: 'W'
+						},
+						native: {}
+					}, sum);
+				});
+			});
+		});
+	} else if(id === 'devices.local.battery.P') {
+		let charge = 0;
+		let discharge = 0;
+		
+		if(state.val < 0) {
+			charge = state.val * -1;
+			discharge = 0;
+		} else {
+			charge = 0;
+			discharge = state.val;
+		}
+		
+		createOrSetState('devices.local.battery.Charge_P', {
+			type: 'state',
+			common: {
+				name: 'Current charging power',
+				type: 'number',
+				role: 'value.power',
+				read: true,
+				write: false,
+				unit: 'W'
+			},
+			native: {}
+		}, charge);
+		
+		createOrSetState('devices.local.battery.Discharge_P', {
+			type: 'state',
+			common: {
+				name: 'Current discharging power',
+				type: 'number',
+				role: 'value.power',
+				read: true,
+				write: false,
+				unit: 'W'
+			},
+			native: {}
+		}, discharge);
 	}
+}
+
+function getStateIfExists(id, callback) {
+	adapter.getObject(id, function(err, obj) {
+		if(!err && obj) {
+			adapter.getState(id, function(err, state) {
+				callback(err, state);
+			});
+		} else {
+			callback(true, null);
+		}
+	});
 }
 
 function processStateChangeForeign(id, state) {
@@ -1225,8 +1380,6 @@ function processStateChange(id, value) {
 	let settingid;
 	
 	adapter.log.info('StateChange: ' + JSON.stringify([id, value]));
-	return;
-	
 	
 	for(let i = 0; i < payload_settings.length; i++) {
 		for(let idx in payload_settings[i].mappings) {
