@@ -1,8 +1,11 @@
 {
 	"common": {
 		"name": "plenticore",
-		"version": "0.1.5",
+		"version": "1.0.0",
 		"news": {
+			"1.0.0": {
+				"en": "Added power forecast feature using DarkSky weather forecast adapter\nThis version has new and changed dependencies and requires further instance configuration.\nIt might be neccessary to delete the plenticore.X object tree before restarting the instance."
+			},
 			"0.1.5": {
 				"en": "Added translations and fixed shadow management handling.",
 				"de": "Hinzugefügt Übersetzungen und feste Shadow-Management-Behandlung.",

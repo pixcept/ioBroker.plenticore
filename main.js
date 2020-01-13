@@ -1,7 +1,14 @@
 'use strict';
 
 const utils = require('@iobroker/adapter-core'); // Get common adapter utils
+const schedule = require('node-schedule');
 const apiurl = '/api/v1/';
+const suncalc = require('suncalc2');
+const daynight = ['day', 'night'];
+const adapterName = require('./package.json').name.split('.').pop();
+const fs = require('fs');
+const power_jsonfile = __dirname + '/pwrcons.json';
+const fc_jsonfile = __dirname + '/fcast.json';
 
 const boolean_states = [
 	'scb.export.PortalConActive',
@@ -213,6 +220,775 @@ const payload_settings = [
 	}*/
 ];
 
+let consumptionData = {};
+let forecastData = {};
+let forecastHours = {};
+
+
+//* partly taken from https://forum.iobroker.net/topic/4953/script-sonnenstand-und-einstrahlung
+Math.degrees = function(radians) {return radians * 180 / Math.PI;};
+Math.radians = function(degrees) {return degrees * Math.PI / 180;};
+
+function getSunPosPower(atdate) {
+	adapter.log.debug('Started getSunPosPower ' + JSON.stringify(atdate));
+	if(!adapter.config.iob_lat || !adapter.config.iob_lon) {
+		return false;
+	} else if(!adapter.config.panel_tilt && adapter.config.panel_tilt !== '0') {
+		return false;
+	} else if(!adapter.config.panel_dir && adapter.config.panel_dir !== '0') {
+		return false;
+	} else if(!adapter.config.panel_surface) {
+		return false;
+	} else if(!adapter.config.panel_efficiency) {
+		return false;
+	}
+	
+    if(!atdate) {
+        atdate = new Date();
+    }
+    
+    let sunpos = suncalc.getPosition(atdate, adapter.config.iob_lat, adapter.config.iob_lon); 
+    let altitude = Math.degrees(sunpos.altitude);
+    let azimuth =  Math.degrees(sunpos.azimuth) + 180;
+ 
+    var airmass = 1 / Math.cos((90 - altitude) * 4 * Math.asin(1) / 360); 
+ 
+    var Sincident = (1.367 * Math.pow(0.78, Math.pow(airmass, 0.6)));
+    var fraction = Math.cos(altitude * 4 * Math.asin(1) / 360) * Math.sin(adapter.config.panel_tilt * 4 * Math.asin(1) / 360) * Math.cos(azimuth * 4 * Math.asin(1) / 360 - adapter.config.panel_dir * 4 * Math.asin(1) / 360) + Math.sin(altitude * 4 * Math.asin(1) / 360) * Math.cos(adapter.config.panel_tilt * 4 * Math.asin(1) / 360);
+ 
+    var SmoduleInt = Sincident * fraction * adapter.config.panel_surface * 1000;
+    if(SmoduleInt < 0) {
+        SmoduleInt = 0;
+    }
+
+	var SmoduleEff = SmoduleInt * adapter.config.panel_efficiency / 100;
+ 
+    if(altitude < 0) {
+        SmoduleInt = 0;
+        SmoduleEff = 0;
+        altitude = 0;
+    } else if(altitude < 8.5 && azimuth > 200) {
+        SmoduleEff *= 0.18;
+        SmoduleInt *= 0.18;
+    } else if(altitude < 4.5 && azimuth < 200) {
+        SmoduleEff *= 0.25;
+        SmoduleInt *= 0.25;
+    }
+ 
+	let res = {
+        altitude: altitude.toFixed(1),
+        azimuth: azimuth.toFixed(),
+        panelpower: SmoduleEff.toFixed()
+    };
+	adapter.log.debug('getSunPosPower result: ' + JSON.stringify(res));
+ 
+    return res;
+}
+
+function storeSunPanelSkyData(panel_power, sky, vis) {
+    let multisky = (1 - (Math.pow(sky, 1.8) / 4000));
+    if(multisky < 0.12) {
+        multisky = 0.12;
+    }
+	
+	createOrSetState('forecast.current.power.sky', {
+		type: 'state',
+		common: {
+			name: 'Current estimated max power with clouds',
+			type: 'number',
+			role: 'value.power',
+			read: true,
+			write: false,
+			unit: 'W'
+		},
+		native: {}
+	}, panel_power * multisky);
+	 
+	createOrSetState('forecast.current.power.skyvis', {
+		type: 'state',
+		common: {
+			name: 'Current estimated max power with clouds and visibility',
+			type: 'number',
+			role: 'value.power',
+			read: true,
+			write: false,
+			unit: 'W'
+		},
+		native: {}
+	}, panel_power * multisky * (vis / 16));
+}
+
+function storeSunPanelData() {
+    let result = getSunPosPower();
+
+	createOrSetState('forecast.current.sun.elevation', {
+		type: 'state',
+		common: {
+			name: 'Current sun elevation',
+			type: 'number',
+			role: 'value.elevation',
+			read: true,
+			write: false,
+			unit: '°'
+		},
+		native: {}
+	}, result.altitude);
+
+	createOrSetState('forecast.current.sun.azimuth', {
+		type: 'state',
+		common: {
+			name: 'Current sun azimuth',
+			type: 'number',
+			role: 'value.azimuth',
+			read: true,
+			write: false,
+			unit: '°'
+		},
+		native: {}
+	}, result.azimuth);
+
+	createOrSetState('forecast.current.power.max', {
+		type: 'state',
+		common: {
+			name: 'Current maximum power possible',
+			type: 'number',
+			role: 'value.power',
+			read: true,
+			write: false,
+			unit: 'W'
+		},
+		native: {}
+	}, result.panelpower);
+
+	let sky_done = false;
+	let vis_done = false;
+	
+	let sky = null;
+	let vis = null;
+	
+	if(adapter.config.wfc_instance) {
+		adapter.getForeignState(adapter.config.wfc_instance + '.current.cloudCover', function(err, state) {
+			if(!err) {
+				sky = state.val;
+				sky_done = true;
+				
+				createOrSetState('forecast.current.sky', {
+					type: 'state',
+					common: {
+						name: 'Current cloud forecast from weather adapter',
+						type: 'number',
+						role: 'value.clouds',
+						read: true,
+						write: false,
+						unit: '%'
+					},
+					native: {}
+				}, state.val);
+				
+				if(sky_done && vis_done) {
+					storeSunPanelSkyData(result.panelpower, sky, vis);
+				}
+			}
+		});
+		
+		adapter.getForeignObject(adapter.config.wfc_instance, function(err, obj) {
+			adapter.log.debug('Obj WFC: ' + JSON.stringify(obj));
+		});
+		
+		adapter.getForeignState(adapter.config.wfc_instance + '.current.visibility', function(err, state) {
+			if(!err) {
+				if(state.val > 16) {
+					state.val = 16;
+				}
+				vis = state.val;
+				vis_done = true;
+				
+				createOrSetState('forecast.current.visibility', {
+					type: 'state',
+					common: {
+						name: 'Current visibility forecast from weather adapter',
+						type: 'number',
+						role: 'value.visibility',
+						read: true,
+						write: false,
+						unit: 'km'
+					},
+					native: {}
+				}, state.val);
+				
+				if(sky_done && vis_done) {
+					storeSunPanelSkyData(result.panelpower, sky, vis);
+				}
+			}
+		});
+	}
+}
+
+function calcPowerAverages(rotate) {
+	let avg = {
+        day: 0,
+        night: 0
+    };
+
+    for(let idx in daynight) {
+        let dn = daynight[idx];
+		
+		if(!consumptionData[dn]) {
+			consumptionData[dn] = {};
+		}
+        let cnt = 0;
+        let sum = 0;
+        for(let d = 0; d < 4; d++) {
+			let dx = 'd' + d;
+			if(!consumptionData[dn][dx]) {
+				consumptionData[dn][dx] = {
+					samples: 0,
+					consumption: 0,
+					average: 0
+				};
+			}
+			
+            let val = consumptionData[dn][dx].consumption;
+            if(val) {
+                cnt++;
+                sum += val;
+            }
+        }
+        avg[dn] = (cnt > 0 ? sum / cnt : 0);
+    }
+	
+	createOrSetState('forecast.consumption.day', {
+		type: 'state',
+		common: {
+			name: 'Current average power consumption daytime',
+			type: 'number',
+			role: 'value.power.consumption',
+			read: true,
+			write: false,
+			unit: 'Wh'
+		},
+		native: {}
+	}, avg.day);
+	
+	createOrSetState('forecast.consumption.night', {
+		type: 'state',
+		common: {
+			name: 'Current average power consumption nighttime',
+			type: 'number',
+			role: 'value.power.consumption',
+			read: true,
+			write: false,
+			unit: 'Wh'
+		},
+		native: {}
+	}, avg.night);
+
+    if(rotate) {
+        for(let idx in daynight) {
+			let dn = daynight[idx];
+			
+			consumptionData[dn][3] = consumptionData[dn][2];
+			consumptionData[dn][2] = consumptionData[dn][1];
+			consumptionData[dn][1] = consumptionData[dn][0];
+			consumptionData[dn][0] = {
+				samples: 0,
+				consumption: 0,
+				average: 0
+			};
+        }
+		fs.writeFile(power_jsonfile, JSON.stringify(consumptionData), function(err) {
+			if(!err) {
+				adapter.log.info('Power consumption statistics written to disk.');
+			} else {
+				adapter.log.warn('Power consumption statistics not written to disk.');
+			}
+		});
+    }
+}
+
+function readForecastData(callback) {
+	readCloudForecast(function(err) {
+		if(err) {
+			callback(err);
+		} else {
+			readVisibilityForecast(function(err) {
+				if(err) {
+					callback(err);
+				} else {
+					readForecastTimes(function(err) {
+						callback(err);
+					});
+				}
+			});
+		}
+	});
+}
+
+function readCloudForecast(callback) {
+	readFieldLoop('cloudCover', 0, 35, callback);
+}
+
+function readVisibilityForecast(callback) {
+	readFieldLoop('visibility', 0, 35, callback);
+}
+
+function readForecastTimes(callback) {
+	readFieldLoop('time', 0, 35, callback);
+}
+
+function readFieldLoop(field, current, max, callback) {
+	if(!adapter.config.wfc_instance) {
+		adapter.log.warn('No DarkSky instance selected. Not reading forecasts.');
+		callback(true);
+	} else {
+		adapter.getForeignState(adapter.config.wfc_instance + '.hourly.' + current + '.' + field, function(err, state) {
+			if(err) {
+				if(callback) {
+					callback(err);
+				}
+			} else if(!state) {
+				adapter.log.warn('Could not read ' + adapter.config.wfc_instance + '.hourly.' + current + '.' + field + '. It returned null state.');
+				return;
+			} else {
+				let hindex = current + 'h';
+				if(!forecastHours[hindex]) {
+					forecastHours[hindex] = {
+						cloudCover: null,
+						visibility: null,
+						time: null
+					};
+				}
+
+				forecastHours[hindex][field] = state.val;
+
+				if(current >= max) {
+					callback(false);
+				} else {
+					readFieldLoop(field, current + 1, max, callback);
+				}
+			}
+		});
+	}
+}
+
+function calcMinSoC(forecastRead) {
+	if(!forecastRead) {
+		readForecastData(function(err) {
+			if(!err) {
+				calcMinSoC(true);
+			} else {
+				adapter.log.warn('Failed reading forecast data. Cannot calc MinSoC.');
+			}
+		});
+		return;
+	}
+	
+	
+	let fcDate = new Date();
+
+    fcDate.setMinutes(fcDate.getMinutes() + 45);
+
+    let sunset = getAstroDate('sunset', fcDate.getTime());
+    if(fcDate > sunset) {
+        fcDate.setDate(fcDate.getDate() + 1);
+        sunset = getAstroDate('sunset', fcDate.getTime());
+    }
+
+    let sunrise = getAstroDate('sunrise', fcDate.getTime());
+    if(sunrise > sunset) {
+        //* We need to get the sunrise from 24h before
+        let prevDay = new Date(fcDate.getTime());
+        prevDay.setDate(prevDay.getDate() - 1);
+        sunrise = getAstroDate('sunrise', prevDay.getTime());
+    }
+
+	createOrSetState('forecast.current.sun.sunrise', {
+		type: 'state',
+		common: {
+			name: 'Time of sunrise for forecast day',
+			type: 'number',
+			role: 'date',
+			read: true,
+			write: false,
+			unit: ''
+		},
+		native: {}
+	}, sunrise.getTime());
+	
+	createOrSetState('forecast.current.sun.sunset', {
+		type: 'state',
+		common: {
+			name: 'Time of sunset for forecast day',
+			type: 'number',
+			role: 'date',
+			read: true,
+			write: false,
+			unit: ''
+		},
+		native: {}
+	}, sunset.getTime());
+
+    //* calc hours of daylight
+    let sun_hours = (sunset - sunrise) / 1000 / 60 / 60; // TODO: unsused?
+
+    let curTime = new Date();
+    let sky = [];
+    let power = [];
+    let skydate = [];
+    let skyvis = [];
+    let powerdate = [];
+	let sunhours = [];
+
+    let wfc_curh = 0;
+
+    let sun_hour = 0;
+    let powerTime = new Date(sunrise.getTime());
+    while(powerTime.getTime() <= sunset.getTime()) {
+        sun_hour++;
+        let pwr = getSunPosPower(new Date(powerTime.getTime() - (30*60*1000)));
+		let pwr2 = getSunPosPower(new Date(powerTime.getTime() + (30*60*1000)));
+		pwr.panelpower = (parseInt(pwr.panelpower) + parseInt(pwr2.panelpower)) / 2;
+        powerdate.push(powerTime.getTime());
+
+        //let state_id = 'javascript.0.power.optimize.wufc.' + sun_hour + 'h';
+        //let fcTime = new Date(powerTime.getTime());
+		sunhours.push(sun_hour);
+
+		let hindex = sun_hour + 'h';
+
+        let wfc_sky;
+        let wfc_vis;
+        let wfc_fctime = (forecastHours[hindex] && forecastHours[hindex].time ? forecastHours[hindex].time : null);
+		if(!wfc_fctime) {
+			adapter.log.warn('Time of forecast for sunhour ' + sun_hour + ' is null. That should never happen. Cannot calc MinSoC.');
+			return;
+		}
+        let wfc_fcdate = new Date(wfc_fctime);
+        if(wfc_fcdate - powerTime > 1800000) {
+            let old_fc = (forecastData[hindex] && forecastData[hindex].sky ? forecastData[hindex].sky : null);
+			let old_fcvis = (forecastData[hindex] && forecastData[hindex].vis ? forecastData[hindex].vis : null);
+            sky.push(old_fc);
+            skyvis.push(old_fcvis);
+            skydate.push(wfc_fcdate);
+        } else {
+            while(wfc_curh < 36) {
+				let curhindex = wfc_curh + 'h';
+                wfc_fctime = (forecastHours[curhindex] && forecastHours[curhindex].time ? forecastHours[curhindex].time : null);
+                wfc_fcdate = new Date(wfc_fctime);
+                if(Math.abs(wfc_fcdate - powerTime) <= 1800000) {
+                    break;
+                }
+                wfc_curh++;
+            }
+
+            if(wfc_curh < 36) {
+				let curhindex = wfc_curh + 'h';
+                wfc_sky = (forecastHours[curhindex] ? forecastHours[curhindex].cloudCover : null);
+                sky.push(wfc_sky);
+                wfc_vis = (forecastHours[curhindex] ? forecastHours[curhindex].visibility : null);
+                skyvis.push(wfc_vis);
+
+                skydate.push(wfc_fcdate);
+                
+				if(!forecastData[hindex]) {
+					forecastData[hindex] = {};
+				}
+				forecastData[hindex].sky = wfc_sky;
+				forecastData[hindex].vis = wfc_vis;
+            }
+        }
+        
+        adapter.log.debug('Possible power at ' + powerTime + ' is: ' + pwr.panelpower + '(alt: ' + pwr.altitude + ', azi: ' + pwr.azimuth + ', sky: ' + (null !== wfc_sky ? wfc_sky : 'n/a') + ', vis: ' + (null !== wfc_vis ? wfc_vis : 'n/a') + ')');
+        power.push(pwr.panelpower);
+        powerTime.setHours(powerTime.getHours() + 1);
+    }
+
+    let skyavg = 0;
+    let skycnt = 0;
+    for(let s = 0; s < sky.length; s++) {
+        if(sky[s] !== null) {
+            skyavg += sky[s];
+            skycnt++;
+        }
+    }
+    if(skycnt > 0) {
+        skyavg = skyavg / skycnt;
+    }
+
+    let visavg = 0;
+    let viscnt = 0;
+    for(let s = 0; s < skyvis.length; s++) {
+        if(skyvis[s] !== null) {
+            visavg += skyvis[s];
+            viscnt++;
+        }
+    }
+    if(viscnt > 0) {
+        visavg = visavg / viscnt;
+    }
+
+    let skypower = [];
+    let skyvispower = [];
+    let sun_power = 0;
+    let sun_power_clear = 0;
+	let max_hour = 0;
+	let sunhour_power = {};
+    for(let p = 0; p < power.length; p++) {
+        let multiplier;
+        let vis_multiplier;
+        if(sky[p] !== null) {
+            multiplier = (1 - (Math.pow(sky[p], 1.8) / 4000));
+        } else {
+            multiplier = (1 - (Math.pow(skyavg, 1.8) / 4000));
+        }
+
+        if(multiplier < 0.12) {
+            multiplier = 0.12;
+        }
+
+        if(skyvis[p] !== null) {
+            vis_multiplier = skyvis[p] / 16;
+        } else {
+            vis_multiplier = visavg / 16;
+        }
+		if(vis_multiplier > 1) {
+			vis_multiplier = 1;
+		}
+        
+        skypower[p] = power[p] * multiplier;
+        skyvispower[p] = skypower[p] * vis_multiplier;
+
+        sun_power = sun_power + skyvispower[p];
+        sun_power_clear = sun_power_clear + skypower[p];
+
+		if(sunhours[p] > max_hour) {
+			max_hour = sunhours[p];
+		}
+
+		let shindex = sunhours[p] + 'h';
+		sunhour_power[shindex] = skyvispower[p];
+        let fc_state_id = 'forecast.power.' + sunhours[p] + 'h.power';
+        createOrSetState(fc_state_id, {
+			type: 'state',
+			common: {
+				name: 'Power forecast for sun hour ' + sunhours[p] + ' of day',
+				type: 'number',
+				role: 'value.power',
+				read: true,
+				write: false,
+				unit: 'Wh'
+			},
+			native: {}
+		}, skyvispower[p]);
+		
+        fc_state_id = 'forecast.power.' + sunhours[p] + 'h.time';
+        createOrSetState(fc_state_id, {
+			type: 'state',
+			common: {
+				name: 'Sun hour ' + sunhours[p] + ' starts at',
+				type: 'number',
+				role: 'date',
+				read: true,
+				write: false,
+				unit: ''
+			},
+			native: {}
+		}, powerdate[p]);
+    }
+	
+	let to_delete = [];
+	for(let p = max_hour + 1; p <= 24; p++) {
+		to_delete.push('forecast.power.' + p + 'h.time');
+		to_delete.push('forecast.power.' + p + 'h.power');
+	}
+	to_delete.forEach(function(id) {
+		adapter.getObject(id, function(err, obj) {
+			if(!err && obj) {
+				adapter.delObject(id);
+				adapter.log.info(id + ' deleted.');
+			}
+		});
+	});
+	
+	
+    // , dt: ' + JSON.stringify({sky: skydate, pwr: powerdate}) + '
+    adapter.log.debug('Sky: ' + JSON.stringify(sky) + ', Vis: ' + JSON.stringify(skyvis) + ', Pwr: ' + JSON.stringify(power) + ', skypower: ' + JSON.stringify(skypower) + ', skyvispower: ' + JSON.stringify(skyvispower) + ', sum: ' + sun_power);
+
+    let state_id = 'forecast.power.day';
+	createOrSetState(state_id, {
+		type: 'state',
+		common: {
+			name: 'Power forecast for day',
+			type: 'number',
+			role: 'value.power',
+			read: true,
+			write: false,
+			unit: 'Wh'
+		},
+		native: {}
+	}, sun_power);
+	
+    state_id = 'forecast.power.day_high';
+	createOrSetState(state_id, {
+		type: 'state',
+		common: {
+			name: 'Power forecast for day (visibility 100%)',
+			type: 'number',
+			role: 'value.power',
+			read: true,
+			write: false,
+			unit: 'Wh'
+		},
+		native: {}
+	}, sun_power_clear);
+
+	let fcDay = new Date(powerdate[0]);
+	fcDay.setHours(12, 0, 0, 0);
+    state_id = 'forecast.power.date';
+	createOrSetState(state_id, {
+		type: 'state',
+		common: {
+			name: 'Date the power forecast is for',
+			type: 'number',
+			role: 'date',
+			read: true,
+			write: false,
+			unit: ''
+		},
+		native: {}
+	}, fcDay.getTime());
+
+	let powerUntilSunset = 0;
+    let powerStartTime = new Date(curTime.getTime());
+    if(powerStartTime.getTime() < sunrise.getTime()) {
+        powerStartTime.setTime(sunrise.getTime());
+    }
+    let powerHours = (sunset.getTime() - powerStartTime.getTime()) / 1000 / 60 / 60;
+    if(powerHours > 0) {
+        adapter.log.debug('There are ' + powerHours + ' of ' + sun_hours + ' hours of sun time left to take into account.');
+        let fcH = 0;
+        for(let p = powerHours; p > 0; p--) {
+            fcH++;
+			let shindex = Math.ceil(sun_hours + 1 - p) + 'h';
+            let fcPower = sunhour_power[shindex];
+            //log('Power for fc hour ' + (powerTime.getHours() + fcH) + ' is ' + fcPower);
+            if(fcPower) {
+                if(p < 1) {
+                    fcPower = fcPower * p;
+                    //log('Power for fc hour ' + (powerTime.getHours() + fcH) + ' is ' + fcPower + ' because of factor ' + p);
+                }
+                powerUntilSunset += fcPower;
+            }
+        }
+	}
+	createOrSetState('forecast.power.remaining', {
+		type: 'state',
+		common: {
+			name: 'Power forecast for remaining sun hours',
+			type: 'number',
+			role: 'value.power',
+			read: true,
+			write: false,
+			unit: 'Wh'
+		},
+		native: {}
+	}, powerUntilSunset);
+
+	adapter.getState('forecast.consumption.day', function(err, state) {
+		if(!err && state) {
+			createOrSetState('forecast.consumption.remaining', {
+				type: 'state',
+				common: {
+					name: 'Power consumption forecast for remaining sun hours',
+					type: 'number',
+					role: 'value.power',
+					read: true,
+					write: false,
+					unit: 'Wh'
+				},
+				native: {}
+			}, state.val * powerHours / sun_hours);
+		}
+	});
+
+	if(!adapter.config.enable_minsoc) {
+		return;
+	}
+
+    //* reduce estimated sun power by cloud coverage
+    let max_minSoC = 40;
+    let min_minSoC = 5;
+    let minSoC = 40;
+
+	adapter.getState('forecast.consumption.day', function(err, state) {
+		if(!err) {
+			let daily_cons = state.val;
+			
+			//* we need at least one daily consumption value otherwise we cannot calc the needed power
+			if(daily_cons) {
+				//* how many power is left after our estimated home consumption is substracted
+				let sun_power_left = sun_power - daily_cons;
+				let possibleCharge;
+				if(sun_power_left < 0) {
+					sun_power_left = 0;
+				}
+
+				//* percentage of battery that will possibly be charged tomorrow (or today if we are in astroday time)
+				possibleCharge = sun_power_left / adapter.config.battery_capacity;
+				minSoC = Math.round(max_minSoC - (100 * possibleCharge));
+				//* minSoC must not be below 0
+				if(minSoC < min_minSoC) {
+					minSoC = min_minSoC;
+				}
+
+				adapter.log.debug('Avg cloud coverage from ' + (curTime > sunrise ? curTime : sunrise) + ' to ' + sunset + ' is expected to be ' + Math.round(skyavg) + '%', 'debug');
+				adapter.log.debug('As possible charge for generated power (' + sun_power + ') reduced by daily consumption (' + daily_cons + ') leads to a max. charge of ' + sun_power_left + 'Wh (' + Math.round(possibleCharge * 100) + '% of ' + adapter.config.battery_capacity + 'Wh) I will set minSoC to ' + minSoC + ' (min ' + min_minSoC + ', max ' + max_minSoC + ').');
+
+				let msgadd = '';
+				let curSoC;
+				
+				adapter.getState('devices.local.battery.SoC', function(err, state) {
+					if(!err) {
+						curSoC = state.val;
+						//* minSoC to set should not (highly) exceed the current SoC as this would possibly lead to the battery being charged from grid
+						if(minSoC > curSoC) {
+							msgadd = ' (von ' + minSoC + ' auf ' + curSoC + ' reduziert)';
+							minSoC = curSoC;
+							adapter.log.info('Current SoC of battery is at ' + curSoC + ' so reducing minSoC to this value.');
+						}
+
+						adapter.getState('devices.local.battery.MinSoc', function(err, state) {
+							if(!err) {
+								let curMinSoC = state.val;
+
+								//* Set new minSoC value if it differs from current
+								if(curMinSoC != minSoC) {
+									adapter.setState('devices.local.battery.MinSoc', minSoC);
+								}
+							}
+						});
+					}
+				});
+				
+			}
+			
+		}
+	});
+
+}
+
+function createOrSetState(id, setobj, setval) {
+	adapter.getObject(id, function(err, obj) {
+		if(err || !obj) {
+			adapter.setObject(id, setobj, function() {
+				adapter.setState(id, setval, true);
+			});
+		} else {
+			adapter.setState(id, setval, true);
+		}
+	});
+}
+
 let adapter;
 var deviceIpAdress;
 var devicePassword;
@@ -223,6 +999,9 @@ var http = require('http');
 let hasBattery = false;
 let PVStringCount = 2;
 let polling;
+let sunSchedule;
+let dailySchedule;
+
 let pollingTime;
 
 function startAdapter(options) {
@@ -234,7 +1013,16 @@ function startAdapter(options) {
 	adapter = new utils.Adapter(options);
 
 	adapter.on('unload', function(callback) {
+		fs.writeFileSync(power_jsonfile, JSON.stringify(consumptionData));
+		fs.writeFileSync(fc_jsonfile, JSON.stringify(forecastData));
+		
 		clearInterval(polling);
+		if(sunSchedule) {
+			sunSchedule.cancel();
+		}
+		if(dailySchedule) {
+			dailySchedule.cancel();
+		}
 		try {
 			apiCall('POST', 'auth/logout', null, function(body, code, headers) {
 				if(code !== 200) {
@@ -261,6 +1049,10 @@ function startAdapter(options) {
 				return;
 			}
 			
+			if(state && id.substr(0, adapter.namespace.length + 1) !== adapter.namespace + '.') {
+				processStateChangeForeign(id, state);
+				return;
+			}
 			id = id.substring(adapter.namespace.length + 1); // remove instance name and id
 			
 			/*if(id === 'devices.local.StateKey0') {
@@ -273,7 +1065,8 @@ function startAdapter(options) {
 				}
 			}*/
 			
-			if(state.ack) {
+			if(state && state.ack) {
+				processStateChangeAck(id, state);
 				return;
 			}
 			
@@ -315,8 +1108,67 @@ function startAdapter(options) {
 					adapter.config.password = decrypt(obj.native.secret, adapter.config.password);
 				} else {
 					//noinspection JSUnresolvedVariable
-					adapter.config.password = decrypt('DF5uuSc61xV21', adapter.config.password);
+					adapter.config.password = decrypt('Zgfr56gFe87jJOM', adapter.config.password);
 				}
+				
+				if(obj && obj.common) {
+					adapter.config.iob_lon = obj.common.longitude;
+					adapter.config.iob_lat = obj.common.latitude;
+				}
+				
+				if(adapter.config.enable_forecast) {
+					if(!adapter.config.wfc_instance) {
+						adapter.log.warn('Could not enable forecast because no weather forecast instance was selected.');
+						adapter.config.enable_forecast = false;
+					} else {
+						adapter.getForeignObject(adapter.config.wfc_instance, function(err, obj) {
+							if(err) {
+								adapter.log.warn('Could not enable forecast because the selected weather forecast instance was not found.');
+								adapter.config.enable_forecast = false;
+							}
+						});
+					}
+					if(!adapter.config.iob_lon || !adapter.config.iob_lat) {
+						adapter.log.warn('Could not enable forecast because the system\'s longitude and latitude were not found. Please check system config.');
+						adapter.config.enable_forecast = false;
+					} else if(!adapter.config.panel_tilt && adapter.config.panel_tilt !== '0') {
+						adapter.log.warn('Could not enable forecast because the panel tilt was not set.');
+						adapter.config.enable_forecast = false;
+					} else if(!adapter.config.panel_dir && adapter.config.panel_dir !== '0') {
+						adapter.log.warn('Could not enable forecast because the panel orientation (azimuth) was not set.');
+						adapter.config.enable_forecast = false;
+					}
+				}
+				
+				if(adapter.config.panel_tilt) {
+					adapter.config.panel_tilt = parseInt(adapter.config.panel_tilt);
+					adapter.log.debug('Panel tilt: ' + adapter.config.panel_tilt + '°');
+				}
+				if(adapter.config.panel_dir) {
+					adapter.config.panel_dir = parseInt(adapter.config.panel_dir);
+					adapter.log.debug('Panel direction: ' + adapter.config.panel_dir + '°');
+				}
+				if(adapter.config.panel_efficiency) {
+					if(adapter.config.panel_efficiency.indexOf(',') > -1) {
+						adapter.config.panel_efficiency = adapter.config.panel_efficiency.replace(',', '.');
+					}
+					adapter.config.panel_efficiency = parseFloat(adapter.config.panel_efficiency);
+					adapter.log.debug('Panel efficiency: ' + adapter.config.panel_efficiency + '%');
+				}
+				if(adapter.config.panel_surface) {
+					if(adapter.config.panel_surface.indexOf(',') > -1) {
+						adapter.config.panel_surface = adapter.config.panel_surface.replace(',', '.');
+					}
+					adapter.config.panel_surface = parseFloat(adapter.config.panel_surface);
+					adapter.log.debug('Panel surface: ' + adapter.config.panel_surface + 'm²');
+				}
+				
+				
+				if(adapter.config.enable_minsoc && !adapter.config.battery_capacity) {
+					adapter.log.warn('Could not enable dynamic MinSoC setting because no battery capacity was entered.');
+					adapter.config.enable_minsoc = false;
+				}
+				
 				main();
 			});
 		}
@@ -327,6 +1179,21 @@ function startAdapter(options) {
 
 
 function main() {
+	
+	try {
+		let tmpJson = fs.readFileSync(power_jsonfile).toString();
+		consumptionData = JSON.parse(tmpJson);
+	} catch(e) {
+		consumptionData = {};
+	}
+	
+	try {
+		let tmpJson = fs.readFileSync(fc_jsonfile).toString();
+		forecastData = JSON.parse(tmpJson);
+	} catch(e) {
+		forecastData = {};
+	}
+	
 	deviceIpAdress = adapter.config.ipaddress;
 	devicePassword = adapter.config.password;
 
@@ -342,11 +1209,177 @@ function main() {
 	login();
 
 	adapter.subscribeStates('*');
+	
+	if(adapter.config.enable_forecast) {
+		adapter.log.info('Enabling forecast data.');
+		sunSchedule = schedule.scheduleJob('* * * * *', function(){
+			storeSunPanelData();
+		});
+		storeSunPanelData();
+	} else {
+		adapter.log.info('Not enabling forecast data.');
+	}
+	
+	dailySchedule = schedule.scheduleJob('0 0 * * *', function() {
+		calcPowerAverages(true);
+	});
+	
+	calcPowerAverages(false);
+	
+	if(adapter.config.wfc_instance && adapter.config.enable_forecast) {
+		adapter.log.info('Enabling MinSoC forecast data.');
+		adapter.subscribeForeignStates(adapter.config.wfc_instance + '.*');
+		calcMinSoC();
+	} else {
+		adapter.log.info('Not enabling MinSoC forecast data.');
+	}
+}
+
+function processStateChangeAck(id, state) {
+	if(id === 'devices.local.Home_P') {
+		adapter.log.debug('Current home consumption changed to ' + state.val + 'W');
+		let dn;
+		if(isAstroDay()) {
+			dn = 'day';
+		} else {
+			dn = 'night';
+		}
+
+		if(!consumptionData[dn]) {
+			consumptionData[dn] = {
+				d0: {}
+			};
+		} else if(!consumptionData[dn]['d0']) {
+			consumptionData[dn]['d0'] = {
+				average: 0,
+				samples: 0,
+				consumption: 0
+			};
+		}
+		let curavg = (consumptionData[dn]['d0'] ? consumptionData[dn]['d0'].average : 0);
+		let curcnt = (consumptionData[dn]['d0'] ? consumptionData[dn]['d0'].samples : 0);
+
+		let newavg = ((curavg * curcnt) + state.val) / (curcnt + 1);
+		curcnt++;
+
+		consumptionData[dn]['d0'].average = newavg;
+		consumptionData[dn]['d0'].samples = curcnt;
+
+		//* calc consumption
+		let now = new Date();
+		let sunrise = getAstroDate('sunrise', now.getTime());
+		let sunset = getAstroDate('sunset', now.getTime());
+		if(sunrise > sunset) {
+			let prevDay = new Date(now.getTime());
+			prevDay.setDate(prevDay.getDate() - 1);
+			sunrise = getAstroDate('sunrise', prevDay.getTime());
+		}
+
+		//* calc hours of (possible) sunshine - daylight
+		let sun_hours = (sunset - sunrise) / 1000 / 60 / 60;
+
+		//* power sum during sun_hours
+		let power_sum;
+		if(dn === 'day') {
+			power_sum = newavg * sun_hours;
+		} else {
+			power_sum = newavg * (24 - sun_hours);
+		}
+		consumptionData[dn]['d0'].consumption = power_sum;
+		
+		calcPowerAverages(false); // no rotating please!
+	} else if(id === 'devices.local.pv1.P' || id === 'devices.local.pv2.P' || id === 'devices.local.pv3.P') {
+		let sum = 0;
+		getStateIfExists('devices.local.pv1.P', function(err, state) {
+			if(!err) {
+				sum += state.val;
+			}
+			getStateIfExists('devices.local.pv2.P', function(err, state) {
+				if(!err) {
+					sum += state.val;
+				}
+				getStateIfExists('devices.local.pv3.P', function(err, state) {
+					if(!err) {
+						sum += state.val;
+					}
+					createOrSetState('devices.local.Pv_P', {
+						type: 'state',
+						common: {
+							name: 'Current plant power',
+							type: 'number',
+							role: 'value.power',
+							read: true,
+							write: false,
+							unit: 'W'
+						},
+						native: {}
+					}, sum);
+				});
+			});
+		});
+	} else if(id === 'devices.local.battery.P') {
+		let charge = 0;
+		let discharge = 0;
+		
+		if(state.val < 0) {
+			charge = state.val * -1;
+			discharge = 0;
+		} else {
+			charge = 0;
+			discharge = state.val;
+		}
+		
+		createOrSetState('devices.local.battery.Charge_P', {
+			type: 'state',
+			common: {
+				name: 'Current charging power',
+				type: 'number',
+				role: 'value.power',
+				read: true,
+				write: false,
+				unit: 'W'
+			},
+			native: {}
+		}, charge);
+		
+		createOrSetState('devices.local.battery.Discharge_P', {
+			type: 'state',
+			common: {
+				name: 'Current discharging power',
+				type: 'number',
+				role: 'value.power',
+				read: true,
+				write: false,
+				unit: 'W'
+			},
+			native: {}
+		}, discharge);
+	}
+}
+
+function getStateIfExists(id, callback) {
+	adapter.getObject(id, function(err, obj) {
+		if(!err && obj) {
+			adapter.getState(id, function(err, state) {
+				callback(err, state);
+			});
+		} else {
+			callback(true, null);
+		}
+	});
+}
+
+function processStateChangeForeign(id, state) {
+	if(adapter.config.wfc_instance && (id === adapter.config.wfc_instance + '.hourly.0.cloudCover' || id === adapter.config.wfc_instance + '.hourly.0.visibility')) {
+		calcMinSoC();
+	}
 }
 
 function processStateChange(id, value) {
 	let moduleid;
 	let settingid;
+	
+	adapter.log.info('StateChange: ' + JSON.stringify([id, value]));
 	
 	for(let i = 0; i < payload_settings.length; i++) {
 		for(let idx in payload_settings[i].mappings) {
@@ -605,7 +1638,7 @@ function loginSuccess() {
 		polling = setInterval(function() { pollStates(); }, pollingTime);
 		if(pollingTime > 5000) {
 			setTimeout(function() { pollStates(); }, 5000);
-		}
+		}		
 	});
 
 }
@@ -2335,4 +3368,56 @@ function decrypt(key, value) {
 		result += String.fromCharCode(key[i % key.length].charCodeAt(0) ^ value.charCodeAt(i));
 	}
 	return result;
+}
+
+
+
+
+//* mostly taken from js adapter and adjusted https://github.com/ioBroker/ioBroker.javascript
+
+const astroList = ['sunrise', 'sunset', 'sunriseEnd', 'sunsetStart', 'dawn', 'dusk', 'nauticalDawn', 'nauticalDusk', 'nadir', 'nightEnd', 'night', 'goldenHourEnd', 'goldenHour'];
+const astroListLc = astroList.map(str => str.toLowerCase());
+
+function getAstroDate(pattern, date, offsetMinutes) {
+	if(date === undefined) date = new Date();
+	if(typeof date === 'number') date = new Date(date);
+
+	if(astroList.indexOf(pattern) === -1) {
+		const pos = astroListLc.indexOf(pattern.toLowerCase());
+		if(pos !== -1) pattern = astroList[pos];
+	}
+
+	if ((!adapter.config.iob_lat && adapter.config.iob_lat !== 0) ||
+		(!adapter.config.iob_lon && adapter.config.iob_lon !== 0)) {
+		adapter.log.error('Longitude or latitude does not set. Cannot use astro.');
+		return;
+	}
+
+	let ts = suncalc.getTimes(date, adapter.config.iob_lat, adapter.config.iob_lon)[pattern];
+	const nadir = suncalc.getTimes(date, adapter.config.iob_lat, adapter.config.iob_lon)['nadir'];
+	if(nadir.getDate() === date.getDate() && nadir.getHours() < 12) {
+		ts = suncalc.getTimes(date.setDate(date.getDate() + 1), adapter.config.iob_lat, adapter.config.iob_lon)[pattern];
+	}
+	if(nadir.getDate() !== date.getDate() && nadir.getHours() > 12) {
+		ts = suncalc.getTimes(date.setDate(date.getDate() - 1), adapter.config.iob_lat, adapter.config.iob_lon)[pattern];
+	}
+
+	if(ts === undefined || ts.getTime().toString() === 'NaN') {
+		adapter.log.error('Cannot get astro date for "' + pattern + '"');
+	}
+
+	if(offsetMinutes !== undefined) {
+		ts = new Date(ts.getTime() + (offsetMinutes * 60000));
+	}
+	return ts;
+}
+  
+function isAstroDay() {
+	const nowDate = new Date();
+	const dayBegin = getAstroDate('sunrise');
+	const dayEnd = getAstroDate('sunset');
+
+	if(dayBegin === undefined || dayEnd === undefined) return;
+	
+	return (nowDate >= dayBegin && nowDate <= dayEnd);
 }
