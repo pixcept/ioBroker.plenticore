@@ -951,10 +951,10 @@ function calcMinSoC(forecastRead) {
 					if(!err) {
 						curSoC = state.val;
 						//* minSoC to set should not (highly) exceed the current SoC as this would possibly lead to the battery being charged from grid
-						if(minSoC > curSoC) {
+						if(minSoC > curSoC + 5) {
 							msgadd = ' (von ' + minSoC + ' auf ' + curSoC + ' reduziert)';
-							minSoC = curSoC;
-							adapter.log.info('Current SoC of battery is at ' + curSoC + ' so reducing minSoC to this value.');
+							minSoC = curSoC + 5;
+							adapter.log.info('Current SoC of battery is at ' + curSoC + ' so reducing minSoC to ' + minSoC + '.');
 						}
 
 						adapter.getState('devices.local.battery.MinSoc', function(err, state) {
