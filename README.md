@@ -1,5 +1,9 @@
 ![Logo](admin/plenticore.png)
 
+[![NPM version](https://img.shields.io/npm/v/iobroker.plenticore.svg)](https://www.npmjs.com/package/iobroker.plenticore)
+[![Build Status](https://travis-ci.org/StrathCole/ioBroker.plenticore.svg?branch=master)](https://travis-ci.org/StrathCole/ioBroker.plenticore)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://github.com/StrathCole/iobroker.plenticore/blob/master/LICENSE)
+
 # ioBroker.plenticore
 
 
