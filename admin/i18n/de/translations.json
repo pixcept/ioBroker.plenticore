@@ -1,7 +1,0 @@
-{
-	"plenticore adapter settings": "Adaptereinstellungen für Plenticore",
-    "ipaddress": "IP-Adresse",
-    "password": "Passwort für Anlagenbesitzer",
-    "pollinterval": "Polling-Intervall",
-    "on save adapter restarts with new config immediately": "on save adapter restarts with new config immediately"
-}
