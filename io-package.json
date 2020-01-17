@@ -1,10 +1,31 @@
 {
 	"common": {
 		"name": "plenticore",
-		"version": "1.0.0",
+		"version": "1.0.1",
 		"news": {
+			"1.0.1": {
+				"en": "Added forecast information to README",
+				"de": "Informationen zum Vorhersage-Feature zur README hinzugefügt",
+				"ru": "Добавлена информация о прогнозе в README",
+				"pt": "Adicionadas informações de previsão ao README",
+				"nl": "Voorspellingsinformatie toegevoegd aan README",
+				"fr": "Ajout d'informations sur les prévisions à README",
+				"it": "Aggiunte informazioni sulla previsione a README",
+				"es": "Se agregó información de pronóstico a README",
+				"pl": "Dodano informacje o prognozie do README",
+				"zh-cn": "向README添加了预测信息"
+			},
 			"1.0.0": {
-				"en": "Added power forecast feature using DarkSky weather forecast adapter\nThis version has new and changed dependencies and requires further instance configuration.\nIt might be neccessary to delete the plenticore.X object tree before restarting the instance."
+				"en": "Added power forecast feature using DarkSky weather forecast adapter\nThis version has new and changed dependencies and requires further instance configuration.\nIt might be neccessary to delete the plenticore.X object tree before restarting the instance.",
+				"de": "Power Forecast-Funktion mit DarkSky Weather Forecast-Adapter hinzugefügt\nDiese Version weist neue und geänderte Abhängigkeiten auf und erfordert eine weitere Instanzkonfiguration.\nMöglicherweise muss der plenticore.X-Objektbaum vor dem Neustart der Instanz gelöscht werden.",
+				"ru": "Добавлена функция прогноза мощности с помощью адаптера прогноза погоды DarkSky\nЭта версия имеет новые и измененные зависимости и требует дальнейшей настройки экземпляра.\nМожет быть необходимо удалить дерево объектов plenticore.X перед перезапуском экземпляра.",
+  				"pt": "Adicionado recurso de previsão de energia usando o adaptador de previsão meteorológica DarkSky\nEsta versão possui dependências novas e alteradas e requer configuração adicional da instância.\nPode ser necessário excluir a árvore de objetos plenticore.X antes de reiniciar a instância.",
+				"nl": "Powerforecast-functie toegevoegd met de DarkSky-weersvoorspellingsadapter\nDeze versie heeft nieuwe en gewijzigde afhankelijkheden en vereist verdere instantieconfiguratie.\nHet kan nodig zijn om de plenticore.X-objectboom te verwijderen voordat u het exemplaar opnieuw start.",
+  				"fr": "Ajout de la fonction de prévision de puissance à l'aide de l'adaptateur de prévision météo DarkSky\nCette version a des dépendances nouvelles et modifiées et nécessite une configuration d'instance supplémentaire.\nIl peut être nécessaire de supprimer l'arborescence d'objets plenticore.X avant de redémarrer l'instance.",
+  				"it": "Aggiunta funzione di previsione della potenza utilizzando l'adattatore di previsioni del tempo DarkSky\nQuesta versione ha dipendenze nuove e modificate e richiede un'ulteriore configurazione dell'istanza.\nPotrebbe essere necessario eliminare l'albero degli oggetti plenticore.X prima di riavviare l'istanza.",
+  				"es": "Se agregó la función de pronóstico de energía con el adaptador de pronóstico del tiempo DarkSky\nEsta versión tiene dependencias nuevas y modificadas y requiere una configuración de instancia adicional.\nPuede ser necesario eliminar el árbol de objetos plenticore.X antes de reiniciar la instancia.",
+  				"pl": "Dodano funkcję prognozy mocy za pomocą adaptera prognozy pogody DarkSky\nTa wersja ma nowe i zmienione zależności i wymaga dalszej konfiguracji instancji.\nKonieczne może być usunięcie drzewa obiektów plenticore.X przed ponownym uruchomieniem instancji.",
+  				"zh-cn": "使用DarkSky天气预报适配器添加了功率预报功能\n此版本具有新的和更改的依赖关系，并且需要进一步的实例配置。\n在重新启动实例之前，可能有必要删除plenticore.X对象树。"
 			},
 			"0.1.5": {
 				"en": "Added translations and fixed shadow management handling.",

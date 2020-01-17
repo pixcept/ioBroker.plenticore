@@ -112,7 +112,46 @@ The datapoints in this section contain the statistics that are visible in the Pl
 `plenticore.0.scb.statistic.EnergyFlow.OwnConsumptionRateDay` - the own consumption rate (generated plant power NOT sent to the grid) for the current day  
 `plenticore.0.scb.statistic.EnergyFlow.YieldDay` - the total yield of the plant for the current day
 
+## Forecast data
+
+To be able to use the forecast feature you need to have the ioBroker.darksky adapter installed. In addition you need to have the system's global geo position (longitude and latitude) configured and set the extended config of the plenticore adapter (panel and battery data if applicable).
+
+### plenticore.0.forecast.consumption
+
+`plenticore.0.forecast.consumption.day` - current power consumption average for daytime during last 3 days  
+`plenticore.0.forecast.consumption.night` - current power consumption average for nighttime during last 3 days  
+`plenticore.0.forecast.consumption.remaining` - estimated remaining power consumption for current forecast day until sunset
+
+### plenticore.0.forecast.current
+
+`plenticore.0.forecast.current.sky` - current cloud coverage from weather adapter  
+`plenticore.0.forecast.current.visibility` - current visibility from weather adapter  
+`plenticore.0.forecast.current.power.max` - calculated maximum plant power on clear sky (0% cloud coverage)  
+`plenticore.0.forecast.current.power.sky` - calculated plant power taking into account current cloud coverage from weather adapter  
+`plenticore.0.forecast.current.power.skyvis` - calculated plant power taking into account current cloud coverage and visibility from weather adapter  
+`plenticore.0.forecast.current.sun.azimuth` - current sun position (azimuth)  
+`plenticore.0.forecast.current.sun.elevation` - current sun position (eleevation)  
+`plenticore.0.forecast.current.sun.sunrise` - sunrise time of forecast date (either today or tomorrow)  
+`plenticore.0.forecast.current.sun.sunset` - sunset time of forecast date (either today or tomorrow)  
+
+### plenticore.0.forecast.power
+
+`plenticore.0.forecast.power.date` - date the current power forecast info is for  
+`plenticore.0.forecast.power.day` - total power forecast for the day  
+`plenticore.0.forecast.power.day_high` - total power forecast for the day ignoring the weather adapter's visibility data  
+`plenticore.0.forecast.power.remaining` - remaining power of forecast total for the day, based on `plenticore.0.forecast.power.day`  
+`plenticore.0.forecast.power.Xh.power` - estimated total power from plant on sun hour X of the forecast day, where 1h is the hour of sunrise  
+`plenticore.0.forecast.power.1h.time` - the time the sun hour for `plenticore.0.forecast.power.Xh.power` starts
+
 ## Changelog
+
+### 1.0.1
+
+-   Added forecast features to readme
+
+### 1.0.0
+
+-	Added power forecast feature
 
 ### 0.1.5
 
