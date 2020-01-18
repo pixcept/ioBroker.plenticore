@@ -1,8 +1,20 @@
 {
 	"common": {
 		"name": "plenticore",
-		"version": "1.0.1",
+		"version": "1.0.2",
 		"news": {
+			"1.0.2": {
+				"en": "Fixed a warning message occuring far too often",
+				"de": "Es wurde eine Warnmeldung behoben, die viel zu oft im Log auftrat",
+				"ru": "Исправлено предупреждение, возникающее слишком часто",
+				"pt": "Corrigida uma mensagem de aviso ocorrendo com muita frequência",
+				"nl": "Een veel te vaak opgeloste waarschuwing opgelost",
+				"fr": "Correction d'un message d'avertissement apparaissant trop souvent",
+				"it": "Risolto un problema che si verificava troppo spesso",
+				"es": "Se corrigió un mensaje de advertencia que ocurría con demasiada frecuencia",
+				"pl": "Naprawiono zbyt częste wyświetlanie ostrzeżenia",
+				"zh-cn": "修复了警告消息频繁出现的问题"
+			},
 			"1.0.1": {
 				"en": "Added forecast information to README",
 				"de": "Informationen zum Vorhersage-Feature zur README hinzugefügt",

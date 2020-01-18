@@ -145,6 +145,10 @@ To be able to use the forecast feature you need to have the ioBroker.darksky ada
 
 ## Changelog
 
+### 1.0.2
+
+-   Fixed a warning message occuring far too often
+
 ### 1.0.1
 
 -   Added forecast features to readme

@@ -1140,6 +1140,10 @@ function startAdapter(options) {
 					}
 				}
 				
+				if(!adapter.config.iob_lon || !adapter.config.iob_lat) {
+					adapter.log.warn('Astro functions not available as system\'s longitude and latitude were not found. Please check ioBroker global system config.');
+				}
+				
 				if(adapter.config.panel_tilt) {
 					adapter.config.panel_tilt = parseInt(adapter.config.panel_tilt);
 					adapter.log.debug('Panel tilt: ' + adapter.config.panel_tilt + '°');
@@ -3389,7 +3393,7 @@ function getAstroDate(pattern, date, offsetMinutes) {
 
 	if ((!adapter.config.iob_lat && adapter.config.iob_lat !== 0) ||
 		(!adapter.config.iob_lon && adapter.config.iob_lon !== 0)) {
-		adapter.log.error('Longitude or latitude does not set. Cannot use astro.');
+		//adapter.log.error('Longitude or latitude does not set. Cannot use astro.');
 		return;
 	}
 
