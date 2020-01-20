@@ -145,6 +145,10 @@ To be able to use the forecast feature you need to have the ioBroker.darksky or 
 
 ## Changelog
 
+### 1.1.1
+
+-   No changes
+
 ### 1.1.0
 
 -   Added support for weatherunderground weather adapter. The adapter can be choosen as alternative forecast source over the DarkSky adapter.

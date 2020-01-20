@@ -1,8 +1,20 @@
 {
 	"common": {
 		"name": "plenticore",
-		"version": "1.1.0",
+		"version": "1.1.1",
 		"news": {
+			"1.1.1": {
+				"en": "No changes",
+				"de": "Keine Änderungen",
+				"ru": "Без изменений",
+				"pt": "Sem alterações",
+				"nl": "Geen veranderingen",
+				"fr": "Aucun changement",
+				"it": "Nessun cambiamento",
+				"es": "Sin cambios",
+				"pl": "Bez zmian",
+				"zh-cn": "没有变化"
+			},
 			"1.1.0": {
 				"en": "Added support for weatherunderground weather adapter",
 				"de": "Unterstützung für Weatherunderground-Wetteradapter hinzugefügt",
