@@ -1,0 +1,10 @@
+/nbproject
+/commands.txt
+/kostal
+/node_modules
+/.gitignore
+/.npmignore
+/main.test.js
+/test
+/gulpfile.js
+/.travis.yml
