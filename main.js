@@ -367,7 +367,13 @@ function storeSunPanelData() {
 	let vis = null;
 	
 	if(adapter.config.wfc_instance) {
-		adapter.getForeignState(adapter.config.wfc_instance + '.current.cloudCover', function(err, state) {
+		let wfc_skyid = 'cloudCover';
+		let wfc_id = 'current';
+		if(adapter.config.wfc_instance.indexOf('weatherunderground.') === 0) {
+			wfc_id = 'forecastHourly.0h';
+			wfc_skyid = 'sky';
+		}
+		adapter.getForeignState(adapter.config.wfc_instance + '.' + wfc_id + '.' + wfc_skyid, function(err, state) {
 			if(!err) {
 				sky = state.val;
 				sky_done = true;
@@ -395,7 +401,7 @@ function storeSunPanelData() {
 			adapter.log.debug('Obj WFC: ' + JSON.stringify(obj));
 		});
 		
-		adapter.getForeignState(adapter.config.wfc_instance + '.current.visibility', function(err, state) {
+		adapter.getForeignState(adapter.config.wfc_instance + '.' + wfc_id + '.visibility', function(err, state) {
 			if(!err) {
 				if(state.val > 16) {
 					state.val = 16;
@@ -525,7 +531,13 @@ function readForecastData(callback) {
 }
 
 function readCloudForecast(callback) {
-	readFieldLoop('cloudCover', 0, 35, callback);
+	if(!adapter.config.wfc_instance) {
+		callback(true, {});
+	} else if(adapter.config.wfc_instance.indexOf('weatherunderground.') === 0) {
+		readFieldLoop('sky', 0, 35, callback);
+	} else {
+		readFieldLoop('cloudCover', 0, 35, callback);
+	}
 }
 
 function readVisibilityForecast(callback) {
@@ -538,16 +550,22 @@ function readForecastTimes(callback) {
 
 function readFieldLoop(field, current, max, callback) {
 	if(!adapter.config.wfc_instance) {
-		adapter.log.warn('No DarkSky instance selected. Not reading forecasts.');
+		adapter.log.warn('No weather forecast adapter instance selected. Not reading forecasts.');
 		callback(true);
 	} else {
-		adapter.getForeignState(adapter.config.wfc_instance + '.hourly.' + current + '.' + field, function(err, state) {
+		let wfc_id = 'hourly';
+		let wfc_addcurrent = '';
+		if(adapter.config.wfc_instance.indexOf('weatherunderground.') === 0) {
+			wfc_id = 'forecastHourly';
+			wfc_addcurrent = 'h';
+		}
+		adapter.getForeignState(adapter.config.wfc_instance + '.' + wfc_id + '.' + current + wfc_addcurrent + '.' + field, function(err, state) {
 			if(err) {
 				if(callback) {
 					callback(err);
 				}
 			} else if(!state) {
-				adapter.log.warn('Could not read ' + adapter.config.wfc_instance + '.hourly.' + current + '.' + field + '. It returned null state.');
+				adapter.log.warn('Could not read ' + adapter.config.wfc_instance + '.' + wfc_id + '.' + current + wfc_addcurrent + '.' + field + '. It returned null state.');
 				return;
 			} else {
 				let hindex = current + 'h';
@@ -558,8 +576,12 @@ function readFieldLoop(field, current, max, callback) {
 						time: null
 					};
 				}
-
-				forecastHours[hindex][field] = state.val;
+				
+				let usefield = field;
+				if(field === 'sky') {
+					usefield = 'cloudCover';
+				}
+				forecastHours[hindex][usefield] = state.val;
 
 				if(current >= max) {
 					callback(false);
@@ -1374,7 +1396,7 @@ function getStateIfExists(id, callback) {
 }
 
 function processStateChangeForeign(id, state) {
-	if(adapter.config.wfc_instance && (id === adapter.config.wfc_instance + '.hourly.0.cloudCover' || id === adapter.config.wfc_instance + '.hourly.0.visibility')) {
+	if(adapter.config.wfc_instance && (id === adapter.config.wfc_instance + '.hourly.0.cloudCover' || id === adapter.config.wfc_instance + '.hourly.0.visibility' || id === adapter.config.wfc_instance + '.forecastHourly.0h.sky' || id === adapter.config.wfc_instance + '.forecastHourly.0h.visibility')) {
 		calcMinSoC();
 	}
 }

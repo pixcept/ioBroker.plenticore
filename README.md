@@ -114,7 +114,7 @@ The datapoints in this section contain the statistics that are visible in the Pl
 
 ## Forecast data
 
-To be able to use the forecast feature you need to have the ioBroker.darksky adapter installed. In addition you need to have the system's global geo position (longitude and latitude) configured and set the extended config of the plenticore adapter (panel and battery data if applicable).
+To be able to use the forecast feature you need to have the ioBroker.darksky or the ioBroker.weatherunderground adapter installed. In addition you need to have the system's global geo position (longitude and latitude) configured and set the extended config of the plenticore adapter (panel and battery data if applicable).
 
 ### plenticore.0.forecast.consumption
 
@@ -144,6 +144,10 @@ To be able to use the forecast feature you need to have the ioBroker.darksky ada
 `plenticore.0.forecast.power.1h.time` - the time the sun hour for `plenticore.0.forecast.power.Xh.power` starts
 
 ## Changelog
+
+### 1.1.0
+
+-   Added support for weatherunderground weather adapter. The adapter can be choosen as alternative forecast source over the DarkSky adapter.
 
 ### 1.0.2
 

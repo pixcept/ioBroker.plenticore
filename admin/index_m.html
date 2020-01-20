@@ -65,13 +65,14 @@
             if (M) M.updateTextFields();
 		}
 		
-		function fillInstances(id, arr, val, preset) {
+		function fillInstances(id, arr, val, append) {
             var $sel = $('#' + id);
-            $sel.html('<option value="">' + _('none') + '</option>');
+			if(!append) {
+	            $sel.html('<option value="">' + _('none') + '</option>');
+			}
             for (var i = 0; i < arr.length; i++) {
                 var _id = arr[i]._id.replace('system.adapter.', '');
                 // Take first value
-                if (!val && preset) val = _id;
                 $sel.append('<option value="' + _id + '"' + ((_id === val) ? ' selected' : '') + '>' + _id + '</option>');
             }
             $sel.select();
@@ -96,8 +97,17 @@
 					$('#warn-forecast-prereq').hide();
 				}
 				
-				fillInstances('wfc_instance', arr, settings['wfc_instance'], true);
+				fillInstances('wfc_instance', arr, settings['wfc_instance']);
 				
+				getAdapterInstances('weatherunderground', function(arr) {
+					let instances = arr;
+
+					if(instances && instances.length > 0) {
+						$('#warn-forecast-prereq').hide();
+					}
+
+					fillInstances('wfc_instance', arr, settings['wfc_instance'], true);
+				});
 			});
         }
 
@@ -121,7 +131,7 @@
 			
 			if(obj['enable_forecast']) {
 				if(!obj['wfc_instance']) {
-					showError(_('Please select darksky adapter instance or install one first.'));
+					showError(_('Please select weather adapter instance or install one first.'));
                     return;
 				} else if(!obj['iob_lon'] || !obj['iob_lat']) {
 					showError(_('Please set the location of your ioBroker instance (longitude and latitude) in the global system config.'));
@@ -201,7 +211,7 @@
 				<div class="col s6 input-field">
 					<input type="checkbox" class="value" id="enable_forecast" />
 					<label for="enable_forecast" class="translate">enable power forecast</label>
-					<p id="warn-forecast-prereq"><small class="translate">only available with weather</small> <a href="https://github.com/StrathCole/ioBroker.darksky" target="_blank">https://github.com/StrathCole/ioBroker.darksky</a></p>
+					<p id="warn-forecast-prereq"><small class="translate">only available with weather</small> <a href="https://github.com/StrathCole/ioBroker.darksky" target="_blank">DarkSky</a> / Weatherunderground</p>
 					<p class="translate">The power forecast makes partly use of the script from the <a href="https://forum.iobroker.net/topic/4953/script-sonnenstand-und-einstrahlung" target="_blank">ioBroker forum</a> and uses the suncalc npm module.</p>
 				</div>
 			</div>

@@ -1,8 +1,20 @@
 {
 	"common": {
 		"name": "plenticore",
-		"version": "1.0.2",
+		"version": "1.1.0",
 		"news": {
+			"1.1.0": {
+				"en": "Added support for weatherunderground weather adapter",
+				"de": "Unterstützung für Weatherunderground-Wetteradapter hinzugefügt",
+				"ru": "Добавлена поддержка погодного адаптера погоды под землей",
+				"pt": "Adicionado suporte para o adaptador climático weatherunderground",
+				"nl": "Ondersteuning toegevoegd voor de weeradapter voor weerweer",
+				"fr": "Prise en charge supplémentaire de l'adaptateur météo Weatherunderground",
+				"it": "Aggiunto supporto per adattatore meteorologico weatherunderground",
+				"es": "Soporte agregado para el adaptador de clima subterráneo",
+				"pl": "Dodano obsługę adaptera pogodowego Weatherunderground",
+				"zh-cn": "添加了对Weatherunderground天气适配器的支持"
+			},
 			"1.0.2": {
 				"en": "Fixed a warning message occuring far too often",
 				"de": "Es wurde eine Warnmeldung behoben, die viel zu oft im Log auftrat",
