@@ -183,12 +183,21 @@
 		"materialize": true,
 		"enabled": false,
 		"compact": true,
+		"stopTimeout": 2000,
 		"dependencies": [
 		]
 	},
 	"native": {
+		"ipaddress": "",
 		"password": "",
-		"pollInterval": 60
+		"pollinterval": 20000,
+		"wfc_instance": "",
+		"enable_minsoc": false,
+		"battery_capacity": 0,
+		"panel_tilt": 30,
+		"panel_dir": 180,
+		"panel_surface": 0,
+		"panel_efficiency": 19.2
 	},
 	"objects": [],
 	"instanceObjects": [

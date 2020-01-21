@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "@iobroker/adapter-core": "^1.0.3",
+	"@strathcole/iob-lib": "^0.1.0",
 	"suncalc2": "^1.8.0",
 	"node-schedule": "^1.3.2"
   },
@@ -57,7 +58,7 @@
     "test:package": "mocha test/package --exit",
     "test:unit": "mocha test/unit --exit",
     "test:integration": "mocha test/integration --exit",
-    "test": "npm run test:js && npm run test:package",
+    "test": "npm run test:js && npm run test:package && npm run test:integration",
     "lint": "eslint"
   },
   "bugs": {
