@@ -68,97 +68,99 @@ function startAdapter(options) {
 	});
 
 	adapter.on('ready', function() {
-		if(!adapter.config.ipaddress) {
-			adapter.log.warn('[START] IP address not set');
-		} else if(!adapter.config.password) {
-			adapter.log.warn('[START] Password not set');
-		} else {
-			debugRequests = (adapter.config.debug ? true : false);
-			adapter.log.info('[START] Starting plenticore adapter');
-			adapter.setState('info.connection', true, true);
-			adapter.getForeignObject('system.config', (err, obj) => {
-				if (obj && obj.native && obj.native.secret) {
-					//noinspection JSUnresolvedVariable
-					adapter.config.password = ioBLib.decrypt(obj.native.secret, adapter.config.password);
-				} else {
-					//noinspection JSUnresolvedVariable
-					adapter.config.password = ioBLib.decrypt('Zgfr56gFe87jJOM', adapter.config.password);
-				}
-				
-				if(obj && obj.common) {
-					adapter.config.iob_lon = obj.common.longitude;
-					adapter.config.iob_lat = obj.common.latitude;
-				}
-				
-				if(!adapter.config.iob_lon || !adapter.config.iob_lat) {
-					adapter.log.warn('Astro functions not available as system\'s longitude and latitude were not found. Please check ioBroker global system config.');
-				}
-				
-				if(adapter.config.panel_tilt) {
-					adapter.config.panel_tilt = parseInt(adapter.config.panel_tilt);
-					adapter.log.debug('Panel tilt: ' + adapter.config.panel_tilt + '°');
-				}
-				if(adapter.config.panel_dir) {
-					adapter.config.panel_dir = parseInt(adapter.config.panel_dir);
-					adapter.log.debug('Panel direction: ' + adapter.config.panel_dir + '°');
-				}
-				if(adapter.config.panel_efficiency) {
-					if(adapter.config.panel_efficiency.indexOf(',') > -1) {
-						adapter.config.panel_efficiency = adapter.config.panel_efficiency.replace(',', '.');
-					}
-					adapter.config.panel_efficiency = parseFloat(adapter.config.panel_efficiency);
-					adapter.log.debug('Panel efficiency: ' + adapter.config.panel_efficiency + '%');
-				}
-				if(adapter.config.panel_surface) {
-					if(adapter.config.panel_surface.indexOf(',') > -1) {
-						adapter.config.panel_surface = adapter.config.panel_surface.replace(',', '.');
-					}
-					adapter.config.panel_surface = parseFloat(adapter.config.panel_surface);
-					adapter.log.debug('Panel surface: ' + adapter.config.panel_surface + 'm²');
-				}
-				
-				
-				if(adapter.config.enable_minsoc && !adapter.config.battery_capacity) {
-					adapter.log.warn('Could not enable dynamic MinSoC setting because no battery capacity was entered.');
-					adapter.config.enable_minsoc = false;
-				}
-				
-				if(adapter.config.enable_forecast) {
-					if(!adapter.config.iob_lon || !adapter.config.iob_lat) {
-						adapter.log.warn('Could not enable forecast because the system\'s longitude and latitude were not found. Please check system config.');
-						adapter.config.enable_forecast = false;
-						
-						main();
-					} else if(!adapter.config.panel_tilt && adapter.config.panel_tilt !== '0') {
-						adapter.log.warn('Could not enable forecast because the panel tilt was not set.');
-						adapter.config.enable_forecast = false;
-						
-						main();
-					} else if(!adapter.config.panel_dir && adapter.config.panel_dir !== '0') {
-						adapter.log.warn('Could not enable forecast because the panel orientation (azimuth) was not set.');
-						adapter.config.enable_forecast = false;
-						
-						main();
-					} else if(!adapter.config.wfc_instance) {
-						adapter.log.warn('Could not enable forecast because no weather forecast instance was selected.');
-						adapter.config.enable_forecast = false;
-						
-						main();
+		plenticore.setup(function() {
+			if(!adapter.config.ipaddress) {
+				adapter.log.warn('[START] IP address not set');
+			} else if(!adapter.config.password) {
+				adapter.log.warn('[START] Password not set');
+			} else {
+				debugRequests = (adapter.config.debug ? true : false);
+				adapter.log.info('[START] Starting plenticore adapter');
+				adapter.setState('info.connection', true, true);
+				adapter.getForeignObject('system.config', (err, obj) => {
+					if (obj && obj.native && obj.native.secret) {
+						//noinspection JSUnresolvedVariable
+						adapter.config.password = ioBLib.decrypt(obj.native.secret, adapter.config.password);
 					} else {
-						adapter.getForeignObject(adapter.config.wfc_instance, function(err, obj) {
-							if(err) {
-								adapter.log.warn('Could not enable forecast because the selected weather forecast instance was not found.');
-								adapter.config.enable_forecast = false;
-							}
-							
-							main();
-						});
+						//noinspection JSUnresolvedVariable
+						adapter.config.password = ioBLib.decrypt('Zgfr56gFe87jJOM', adapter.config.password);
 					}
-				} else {
-					main();
-				}
-			});
-		}
+
+					if(obj && obj.common) {
+						adapter.config.iob_lon = obj.common.longitude;
+						adapter.config.iob_lat = obj.common.latitude;
+					}
+
+					if(!adapter.config.iob_lon || !adapter.config.iob_lat) {
+						adapter.log.warn('Astro functions not available as system\'s longitude and latitude were not found. Please check ioBroker global system config.');
+					}
+
+					if(adapter.config.panel_tilt) {
+						adapter.config.panel_tilt = parseInt(adapter.config.panel_tilt);
+						adapter.log.debug('Panel tilt: ' + adapter.config.panel_tilt + '°');
+					}
+					if(adapter.config.panel_dir) {
+						adapter.config.panel_dir = parseInt(adapter.config.panel_dir);
+						adapter.log.debug('Panel direction: ' + adapter.config.panel_dir + '°');
+					}
+					if(adapter.config.panel_efficiency) {
+						if(adapter.config.panel_efficiency.indexOf(',') > -1) {
+							adapter.config.panel_efficiency = adapter.config.panel_efficiency.replace(',', '.');
+						}
+						adapter.config.panel_efficiency = parseFloat(adapter.config.panel_efficiency);
+						adapter.log.debug('Panel efficiency: ' + adapter.config.panel_efficiency + '%');
+					}
+					if(adapter.config.panel_surface) {
+						if(adapter.config.panel_surface.indexOf(',') > -1) {
+							adapter.config.panel_surface = adapter.config.panel_surface.replace(',', '.');
+						}
+						adapter.config.panel_surface = parseFloat(adapter.config.panel_surface);
+						adapter.log.debug('Panel surface: ' + adapter.config.panel_surface + 'm²');
+					}
+
+
+					if(adapter.config.enable_minsoc && !adapter.config.battery_capacity) {
+						adapter.log.warn('Could not enable dynamic MinSoC setting because no battery capacity was entered.');
+						adapter.config.enable_minsoc = false;
+					}
+
+					if(adapter.config.enable_forecast) {
+						if(!adapter.config.iob_lon || !adapter.config.iob_lat) {
+							adapter.log.warn('Could not enable forecast because the system\'s longitude and latitude were not found. Please check system config.');
+							adapter.config.enable_forecast = false;
+
+							main();
+						} else if(!adapter.config.panel_tilt && adapter.config.panel_tilt !== '0') {
+							adapter.log.warn('Could not enable forecast because the panel tilt was not set.');
+							adapter.config.enable_forecast = false;
+
+							main();
+						} else if(!adapter.config.panel_dir && adapter.config.panel_dir !== '0') {
+							adapter.log.warn('Could not enable forecast because the panel orientation (azimuth) was not set.');
+							adapter.config.enable_forecast = false;
+
+							main();
+						} else if(!adapter.config.wfc_instance) {
+							adapter.log.warn('Could not enable forecast because no weather forecast instance was selected.');
+							adapter.config.enable_forecast = false;
+
+							main();
+						} else {
+							adapter.getForeignObject(adapter.config.wfc_instance, function(err, obj) {
+								if(err) {
+									adapter.log.warn('Could not enable forecast because the selected weather forecast instance was not found.');
+									adapter.config.enable_forecast = false;
+								}
+
+								main();
+							});
+						}
+					} else {
+						main();
+					}
+				});
+			}
+		});
 	});
 
 	return adapter;
@@ -167,7 +169,6 @@ function startAdapter(options) {
 
 function main() {
 	
-	adapter.log.info('[INFO] Configured polling interval: ' + pollingTime);
 	adapter.log.debug('[START] Started Adapter with: ' + adapter.config.ipaddress);
 
 	plenticore.login();
