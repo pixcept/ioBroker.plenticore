@@ -145,6 +145,13 @@ To be able to use the forecast feature you need to have the ioBroker.darksky or 
 
 ## Changelog
 
+### 2.0.0
+
+-   Code rework
+-   Outsourced many functions to libraries
+-   This version has new dependencies and requires a newer adapter-core version!
+-   Several fixes
+
 ### 1.1.1
 
 -   No changes

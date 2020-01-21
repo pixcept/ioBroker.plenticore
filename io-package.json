@@ -1,8 +1,20 @@
 {
 	"common": {
 		"name": "plenticore",
-		"version": "1.1.1",
+		"version": "2.0.0",
 		"news": {
+			"2.0.0": {
+				"en": "Code rework\nOursourcing of functions",
+				"de": "Codeüberarbeitung\nOursourcing von Funktionen",
+				"ru": "Переделка кода\nНаш поиск функций",
+				"pt": "Retrabalho de código\nTerceirização de funções",
+				"nl": "Code herwerken\nOursourcing van functies",
+				"fr": "Refonte du code\nExternalisation des fonctions",
+				"it": "Rielaborazione del codice\nSourcing di funzioni",
+				"es": "Retrabajo de código\nNuestro abastecimiento de funciones",
+				"pl": "Przeróbka kodu\nNasz outsourcing funkcji",
+				"zh-cn": "代码返工\n我们的职能外包"
+			},
 			"1.1.1": {
 				"en": "No changes",
 				"de": "Keine Änderungen",
