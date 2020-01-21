@@ -190,6 +190,7 @@
 		"readme": "https://github.com/StrathCole/ioBroker.plenticore/blob/master/README.md",
 		"loglevel": "info",
 		"type": "energy",
+		"connection-type": "local polling",
 		"license": "MIT",
 		"messagebox": true,
 		"materialize": true,
