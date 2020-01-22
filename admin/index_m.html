@@ -72,8 +72,12 @@
 			}
             for (var i = 0; i < arr.length; i++) {
                 var _id = arr[i]._id.replace('system.adapter.', '');
+				var _name = _id;
+				if(arr[i]._name) {
+					_name = arr[i]._name;
+				}
                 // Take first value
-                $sel.append('<option value="' + _id + '"' + ((_id === val) ? ' selected' : '') + '>' + _id + '</option>');
+                $sel.append('<option value="' + _id + '"' + ((_id === val) ? ' selected' : '') + '>' + _name + '</option>');
             }
             $sel.select();
         }
@@ -106,6 +110,17 @@
 						$('#warn-forecast-prereq').hide();
 					}
 
+					fillInstances('wfc_instance', arr, settings['wfc_instance'], true);
+					
+					// add kachelmann
+					arr = [{
+							_id: 'kachelmann_sun',
+							_name: 'Kachelmannwetter Sonnenstunden (experimentell)'
+						},
+						{
+							_id: 'kachelmann_clouds',
+							_name: 'Kachelmannwetter Bewölkung (experimentell)'
+						}];
 					fillInstances('wfc_instance', arr, settings['wfc_instance'], true);
 				});
 			});

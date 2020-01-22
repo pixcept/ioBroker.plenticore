@@ -1,7 +1,7 @@
 {
 	"common": {
 		"name": "plenticore",
-		"version": "2.0.0",
+		"version": "2.1.0",
 		"news": {
 			"2.0.0": {
 				"en": "Code rework\nOursourcing of functions",

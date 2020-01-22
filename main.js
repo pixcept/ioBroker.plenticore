@@ -3,15 +3,18 @@
 const utils = require('@iobroker/adapter-core'); // Get common adapter utils
 const ioBLib = require('@strathcole/iob-lib').ioBLib;
 const plenticore = require('./lib/plenticore');
+const weather = require('./lib/weather');
 
 const schedule = require('node-schedule');
 const adapterName = require('./package.json').name.split('.').pop();
 
 let adapter;
 var debugRequests;
+let useInternalForecast = false;
 
 let sunSchedule;
 let dailySchedule;
+let weatherTimer = null;
 
 function startAdapter(options) {
 	options = options || {};
@@ -22,7 +25,7 @@ function startAdapter(options) {
 	adapter = new utils.Adapter(options);
 
 	ioBLib.init(adapter);
-	plenticore.init(adapter, utils);
+	plenticore.init(adapter, utils, weather);
 
 	adapter.on('unload', function(callback) {
 		if(sunSchedule) {
@@ -31,6 +34,10 @@ function startAdapter(options) {
 		if(dailySchedule) {
 			dailySchedule.cancel();
 		}
+		if(weatherTimer) {
+			clearInterval(weatherTimer);
+		}
+		weather.unload();
 		plenticore.unload(function() {
 			callback();
 		});
@@ -140,16 +147,32 @@ function startAdapter(options) {
 						adapter.config.enable_forecast = false;
 					} else {
 						runSetup = false;
-						adapter.getForeignObject(adapter.config.wfc_instance, function(err, obj) {
-							if(err) {
-								adapter.log.warn('Could not enable forecast because the selected weather forecast instance was not found.');
-								adapter.config.enable_forecast = false;
-							}
-
-							plenticore.setup(function() {
-								main();
+						if(adapter.config.wfc_instance.indexOf('kachelmann_') === 0) {
+							adapter.log.warn('Enabling experimental support for Kachelmannwetter.');
+							weather.init(adapter, function(err, res) {
+								if(err) {
+									adapter.log.warn('Kachelmannwetter lib failed to init. Disabling forecast feature.');
+									adapter.config.enable_forecast = false;
+								} else {
+									useInternalForecast = true;
+								}
+								
+								plenticore.setup(function() {
+									main();
+								});
 							});
-						});
+						} else {
+							adapter.getForeignObject(adapter.config.wfc_instance, function(err, obj) {
+								if(err) {
+									adapter.log.warn('Could not enable forecast because the selected weather forecast instance was not found.');
+									adapter.config.enable_forecast = false;
+								}
+
+								plenticore.setup(function() {
+									main();
+								});
+							});
+						}
 					}
 				}
 				
@@ -192,7 +215,13 @@ function main() {
 	
 	if(adapter.config.wfc_instance && adapter.config.enable_forecast) {
 		adapter.log.info('Enabling MinSoC forecast data.');
-		adapter.subscribeForeignStates(adapter.config.wfc_instance + '.*');
+		if(useInternalForecast === true) {
+			weatherTimer = setInterval(function() {
+				plenticore.calcMinSoC();
+			}, 15 * 60 * 1000); // each 15 min
+		} else {
+			adapter.subscribeForeignStates(adapter.config.wfc_instance + '.*');
+		}
 		plenticore.calcMinSoC();
 	} else {
 		adapter.log.info('Not enabling MinSoC forecast data.');
