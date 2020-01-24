@@ -3,6 +3,9 @@
 		"name": "plenticore",
 		"version": "2.1.0",
 		"news": {
+			"2.1.0": {
+				"en": "Added further forecast sources to provide better power forecasts"
+			},
 			"2.0.0": {
 				"en": "Code rework\nOursourcing of functions",
 				"de": "Codeüberarbeitung\nOursourcing von Funktionen",
