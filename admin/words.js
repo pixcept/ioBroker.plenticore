@@ -277,5 +277,41 @@ systemDictionary = {
 		"es": "El pronóstico de potencia utiliza en parte el script del <a href=\"https://forum.iobroker.net/topic/4953/script-sonnenstand-und-einstrahlung\" target=\"_blank\">foro ioBroker</a> y utiliza el módulo suncalc npm.",
 		"pl": "Prognoza mocy częściowo wykorzystuje skrypt ze <a href=\"https://forum.iobroker.net/topic/4953/script-sonnenstand-und-einstrahlung\" target=\"_blank\">forum ioBroker</a> i wykorzystuje moduł Suncalc npm.",
 		"zh-cn": "功耗预测将部分使用<a href=\"https://forum.iobroker.net/topic/4953/script-sonnenstand-und-einstrahlung\" target=\"_blank\">ioBroker论坛</a>中的脚本，并使用suncalc npm模块。"
+	},
+	"Please enter a maximum MinSoC between 5 and 100. Default is 40.": {
+		"en": "Please enter a maximum MinSoC between 5 and 100. Default is 40.",
+		"de": "Bitte geben Sie einen maximalen MinSoC zwischen 5 und 100 ein. Der Standardwert ist 40.",
+		"ru": "Пожалуйста, введите максимальный MinSoC от 5 до 100. По умолчанию 40.",
+		"pt": "Digite um MinSoC máximo entre 5 e 100. O padrão é 40.",
+		"nl": "Voer een maximale MinSoC in tussen 5 en 100. Standaard is 40.",
+		"fr": "Veuillez entrer un MinSoC maximum entre 5 et 100. La valeur par défaut est 40.",
+		"it": "Inserisci un MinSoC massimo compreso tra 5 e 100. L'impostazione predefinita è 40.",
+		"es": "Ingrese un MinSoC máximo entre 5 y 100. El valor predeterminado es 40.",
+		"pl": "Wprowadź maksymalną wartość MinSoC między 5 a 100. Domyślna wartość to 40.",
+		"zh-cn": "请输入一个介于5到100之间的最大MinSoC。默认值为40。"
+	},
+	"maximum minsoc": {
+		"en": "Maximum MinSoC",
+		"de": "Maximaler MinSoC",
+		"ru": "Максимальный MinSoC",
+		"pt": "MinSoC máximo",
+		"nl": "Maximale MinSoC",
+		"fr": "MinSoC maximum",
+		"it": "MinSoC massimo",
+		"es": "Máximo MinSoC",
+		"pl": "Maksymalna MinSoC",
+		"zh-cn": "最大MinSoC"
+	},
+	"max minsoc description": {
+		"en": "Defines the maximum MinSoC value that is set by the forecast feature. Default value is 40, possible values are 5 to 100, where 100 means the battery will not be discharged at all.",
+		"de": "Definiert den maximalen MinSoC-Wert, der von der Prognosefunktion festgelegt wird. Der Standardwert ist 40, mögliche Werte sind 5 bis 100, wobei 100 bedeutet, dass der Akku überhaupt nicht entladen wird.",
+		"ru": "Определяет максимальное значение MinSoC, которое устанавливается функцией прогноза. Значение по умолчанию - 40, возможные значения - от 5 до 100, где 100 означает, что батарея вообще не будет разряжаться.",
+		"pt": "Define o valor máximo de MinSoC definido pelo recurso de previsão. O valor padrão é 40, os valores possíveis são de 5 a 100, onde 100 significa que a bateria não será descarregada.",
+		"nl": "Definieert de maximale MinSoC-waarde die wordt ingesteld door de voorspellingsfunctie. Standaardwaarde is 40, mogelijke waarden zijn 5 tot 100, waarbij 100 betekent dat de batterij helemaal niet wordt ontladen.",
+		"fr": "Définit la valeur MinSoC maximale définie par la fonction de prévision. La valeur par défaut est 40, les valeurs possibles vont de 5 à 100, où 100 signifie que la batterie ne sera pas déchargée du tout.",
+		"it": "Definisce il valore MinSoC massimo impostato dalla funzione di previsione. Il valore predefinito è 40, i valori possibili sono da 5 a 100, dove 100 indica che la batteria non si scaricherà affatto.",
+		"es": "Define el valor máximo de MinSoC que establece la función de pronóstico. El valor predeterminado es 40, los valores posibles son de 5 a 100, donde 100 significa que la batería no se descargará en absoluto.",
+		"pl": "Definiuje maksymalną wartość MinSoC ustawioną przez funkcję prognozy. Wartość domyślna to 40, możliwe wartości to od 5 do 100, gdzie 100 oznacza, że akumulator w ogóle nie zostanie rozładowany.",
+		"zh-cn": "定义由预测功能设置的最大MinSoC值。默认值为40，可能的值为5到100，其中100表示电池将完全不放电。"
 	}
 };

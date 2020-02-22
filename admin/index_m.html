@@ -165,6 +165,11 @@
 				return;
 			}
 			
+			if(obj['max_minsoc'] < 5 || obj['max_minsoc'] > 100) {
+				showError(_('Please enter a maximum MinSoC between 5 and 100. Default is 40.'));
+				return;
+			}
+			
             callback(obj);
         }
     </script>
@@ -270,6 +275,10 @@
 					<input type="checkbox" class="value" id="enable_minsoc" />
 					<label for="enable_minsoc" class="translate">enable dynamic minsoc</label>
 					<p><small class="translate">dynamic minsoc description</small></p>
+					<p>&nbsp;</p>
+					<input type="number" class="value" id="max_minsoc" />%
+					<label for="max_minsoc" class="translate">maximum minsoc</label>
+					<p><small class="translate">max minsoc description</small></p>
 				</div>
 			</div>
 		</div>
