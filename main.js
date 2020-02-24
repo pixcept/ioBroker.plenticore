@@ -142,37 +142,17 @@ function startAdapter(options) {
 					} else if(!adapter.config.panel_dir && adapter.config.panel_dir !== '0') {
 						adapter.log.warn('Could not enable forecast because the panel orientation (azimuth) was not set.');
 						adapter.config.enable_forecast = false;
-					} else if(!adapter.config.wfc_instance) {
-						adapter.log.warn('Could not enable forecast because no weather forecast instance was selected.');
-						adapter.config.enable_forecast = false;
 					} else {
 						runSetup = false;
-						if(adapter.config.wfc_instance.indexOf('kachelmann_') === 0) {
-							adapter.log.warn('Enabling experimental support for Kachelmannwetter.');
-							weather.init(adapter, function(err, res) {
-								if(err) {
-									adapter.log.warn('Kachelmannwetter lib failed to init. Disabling forecast feature.');
-									adapter.config.enable_forecast = false;
-								} else {
-									useInternalForecast = true;
-								}
-								
-								plenticore.setup(function() {
-									main();
-								});
+						adapter.log.warn('Enabling experimental support for Kachelmannwetter.');
+						weather.init(adapter, function(err, res) {
+							if(err) {
+								adapter.log.warn('Kachelmannwetter lib failed to init.');
+							}
+							plenticore.setup(function() {
+								main();
 							});
-						} else {
-							adapter.getForeignObject(adapter.config.wfc_instance, function(err, obj) {
-								if(err) {
-									adapter.log.warn('Could not enable forecast because the selected weather forecast instance was not found.');
-									adapter.config.enable_forecast = false;
-								}
-
-								plenticore.setup(function() {
-									main();
-								});
-							});
-						}
+						});
 					}
 				}
 				
@@ -213,16 +193,41 @@ function main() {
 	
 	plenticore.calcPowerAverages(false);
 	
-	if(adapter.config.wfc_instance && adapter.config.enable_forecast) {
+	if(adapter.config.enable_forecast) {
 		adapter.log.info('Enabling MinSoC forecast data.');
-		if(useInternalForecast === true) {
-			weatherTimer = setInterval(function() {
-				plenticore.calcMinSoC();
-			}, 15 * 60 * 1000); // each 15 min
-		} else {
-			adapter.subscribeForeignStates(adapter.config.wfc_instance + '.*');
+		weatherTimer = setInterval(function() {
+			plenticore.calcMinSoC();
+		}, 15 * 60 * 1000); // each 15 min
+		
+		let needed = 0;
+		for(let weatherAdapter in plenticore.weatherAdapters) {
+			needed++;
 		}
-		plenticore.calcMinSoC();
+		for(let weatherAdapter in plenticore.weatherAdapters) {
+			adapter.objects.getObjectView('system', 'instance', {
+				startkey: 'system.adapter.' + weatherAdapter,
+				endkey: 'system.adapter.' + weatherAdapter + '.\u9999'
+			}, function(err, doc) {
+			    if(doc && doc.rows && doc.rows.length) {
+					let adapter_id = doc.rows[0].id;
+					adapter_id = adapter_id.replace(/^system\.adapter\./, '');
+					adapter.log.info('Using ' + adapter_id + ' in weather forcast.');
+					plenticore.weatherAdapters[weatherAdapter]['instance'] = adapter_id;
+					adapter.subscribeForeignStates(adapter_id + '.*');
+			    }
+				needed--;
+				if(needed < 1) {
+					plenticore.calcMinSoC();
+				} else {
+					adapter.log.info('Still ' + needed + ' adapters to check.');
+				}
+		   });
+		}
+		if(needed < 1) {
+			plenticore.calcMinSoC();
+		} else {
+			adapter.log.info('Still ' + needed + ' adapters to check.');
+		}
 	} else {
 		adapter.log.info('Not enabling MinSoC forecast data.');
 	}
@@ -239,12 +244,16 @@ function processStateChangeAck(id, state) {
 }
 
 function processStateChangeForeign(id, state) {
-	if(adapter.config.wfc_instance && (
-			id === adapter.config.wfc_instance + '.hourly.0.cloudCover'
-			|| id === adapter.config.wfc_instance + '.hourly.0.visibility'
-			|| id === adapter.config.wfc_instance + '.forecastHourly.0h.sky'
-			|| id === adapter.config.wfc_instance + '.forecastHourly.0h.visibility')) {
-		plenticore.calcMinSoC();
+	let chkId;
+	for(let weatherAdapter in plenticore.weatherAdapters) {
+		chkId = plenticore.weatherAdapters[weatherAdapter]['fc_id'];
+		chkId = chkId.replace('%%D%%', '1');
+		chkId = chkId.replace('%%H%%', plenticore.weatherAdapters[weatherAdapter]['fc_min']);
+		
+		if(id === chkId + '.' + plenticore.weatherAdapters[weatherAdapter]['sky']
+			|| (plenticore.weatherAdapters[weatherAdapter]['visibility'] !== null && id === chkId + '.' + plenticore.weatherAdapters[weatherAdapter]['visibility'])) {
+			plenticore.calcMinSoC();
+		}
 	}
 }
 

@@ -86,18 +86,6 @@ systemDictionary = {
 		"pl": "Włącz prognozę mocy",
 		"zh-cn": "启用功率预测"
 	},
-	"only available with weather": {
-//		"en": "This feature is only available with an active weather instance",
-		"de": "Diese Funktion ist nur bei einer aktiven Wetteradapter-Instanz verfügbar",
-		"ru": "Эта функция доступна только с активным экземпляром Weather",
-		"pt": "Esse recurso está disponível apenas com uma instância ativa do Weather",
-		"nl": "Deze functie is alleen beschikbaar met een actieve Weather",
-		"fr": "Cette fonctionnalité est uniquement disponible avec une instance active Weather",
-		"it": "Questa funzione è disponibile solo con un'istanza Weather attiva",
-		"es": "Esta función solo está disponible con una instancia de Weather activa",
-		"pl": "Ta funkcja jest dostępna tylko z aktywną instancją Weather",
-		"zh-cn": "此功能仅在活动的天气地下实例中可用"
-	},
 	"none": {
 		"en": "none",
 		"de": "keine",
@@ -121,30 +109,6 @@ systemDictionary = {
 		"es": "Seleccione la instancia del adaptador weather o instale uno primero.",
 		"pl": "Wybierz instancję adaptera weather lub zainstaluj ją najpierw.",
 		"zh-cn": "请选择weather适配器实例或先安装一个。"
-	},
-	"select weather instance": {
-		"en": "Weather adapter instance",
-		"de": "Wetter-Adapter Instanz",
-		"ru": "Погода под землей",
-		"pt": "Instância Weather",
-		"nl": "Weather-instantie",
-		"fr": "Instance Weather",
-		"it": "Istanza Weather",
-		"es": "Instancia de Weather",
-		"pl": "Instancja Weather",
-		"zh-cn": "天气地下实例"
-	},
-	"An instance of this adapter is mandatory for enabling forecasts.": {
-		"en": "An instance of this adapter is mandatory for enabling forecasts.",
-		"de": "Eine Instanz dieses Adapters ist für die Aktivierung von Vorhersagen notwendig.",
-		"ru": "Экземпляр этого адаптера является обязательным для включения прогнозов.",
-		"pt": "Uma instância deste adaptador é obrigatória para ativar previsões.",
-		"nl": "Een exemplaar van deze adapter is verplicht voor het inschakelen van voorspellingen.",
-		"fr": "Une instance de cet adaptateur est obligatoire pour activer les prévisions.",
-		"it": "Un'istanza di questo adattatore è obbligatoria per abilitare le previsioni.",
-		"es": "Una instancia de este adaptador es obligatoria para habilitar pronósticos.",
-		"pl": "Wystąpienie tego adaptera jest obowiązkowe do włączania prognoz.",
-		"zh-cn": "为了启用预测，必须使用此适配器的实例。"
 	},
 	"enable dynamic minsoc": {
 		"en": "Enable dynamic minimum SoC",
@@ -313,5 +277,17 @@ systemDictionary = {
 		"es": "Define el valor máximo de MinSoC que establece la función de pronóstico. El valor predeterminado es 40, los valores posibles son de 5 a 100, donde 100 significa que la batería no se descargará en absoluto.",
 		"pl": "Definiuje maksymalną wartość MinSoC ustawioną przez funkcję prognozy. Wartość domyślna to 40, możliwe wartości to od 5 do 100, gdzie 100 oznacza, że akumulator w ogóle nie zostanie rozładowany.",
 		"zh-cn": "定义由预测功能设置的最大MinSoC值。默认值为40，可能的值为5到100，其中100表示电池将完全不放电。"
+	},
+	"The forecast uses weather data from kachelmannwetter and (if adapters installed) from weatherunderground and darksky.": {
+		"en": "The forecast uses weather data from kachelmannwetter and (if adapters installed) from weatherunderground and darksky.",
+		"de": "Die Vorhersage verwendet Wetterdaten von kachelmannwetter und (falls Adapter installiert) von weatherunderground und darksky.",
+		"ru": "Прогноз использует данные о погоде от kachelmannwetter и (если установлены адаптеры) от weatherunderground и darksky.",
+		"pt": "A previsão usa dados climáticos de kachelmannwetter e (se adaptadores instalados) de weatherunderground e darksky.",
+		"nl": "De voorspelling maakt gebruik van weergegevens van kachelmannwetter en (indien adapters geïnstalleerd) van weatherunderground en darksky.",
+		"fr": "Les prévisions utilisent les données météorologiques de kachelmannwetter et (si des adaptateurs sont installés) de weatherunderground et darksky.",
+		"it": "La previsione utilizza i dati meteorologici di Kachelmannwetter e (se gli adattatori sono installati) di Weatherunderground e Darksky.",
+		"es": "El pronóstico utiliza datos meteorológicos de kachelmannwetter y (si hay adaptadores instalados) de weatherunderground y dark dark.",
+		"pl": "Prognoza wykorzystuje dane pogodowe z kachelmannwetter i (jeśli zainstalowane są adaptery) z Weatherunderground i Darksky.",
+		"zh-cn": "天气预报使用来自kachelmannwetter的天气数据以及（如果安装了适配器）来自weatherunderground和darksky的天气数据。"
 	}
 };
