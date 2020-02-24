@@ -39,8 +39,8 @@ systemDictionary = {
 		"zh-cn": "工厂所有者的密码"
     },
     "pollinterval": {
-        "en": "Polling interval",
-		"de": "Abrufintervall",
+        "en": "Polling interval (in ms)",
+		"de": "Abrufintervall (in ms)",
 		"ru": "Интервал опроса",
 		"pt": "Intervalo de pesquisa",
 		"nl": "Polling-interval",
@@ -171,8 +171,8 @@ systemDictionary = {
 		"zh-cn": "请设置面板效率和表面。您应该从面板的官方数据表中获得此信息。"
 	},
 	"panel tilt": {
-		"en": "Panel or roof tilt",
-		"de": "Panel oder Dachneigung",
+		"en": "Panel or roof tilt degrees (°)",
+		"de": "Panel oder Dachneigung in Grad (°)",
 		"ru": "Панель или наклон крыши",
 		"pt": "Inclinação do painel ou do telhado",
 		"nl": "Paneel of dakhelling",
@@ -183,8 +183,8 @@ systemDictionary = {
 		"zh-cn": "面板或屋顶倾斜"
 	},
 	"panel dir": {
-		"en": "Panel orienation (azimuth, S = 180°)",
-		"de": "Panelausrichtung (Azimut, S = 180°)",
+		"en": "Panel orienation (° azimuth, S = 180°)",
+		"de": "Panelausrichtung (° Azimut, S = 180°)",
 		"ru": "Ориентация панели (азимут, S = 180°)",
 		"pt": "Orientação do painel (azimute, S = 180°)",
 		"nl": "Paneel orienation (azimuth, S = 180°)",
@@ -207,27 +207,27 @@ systemDictionary = {
 		"zh-cn": "面板面积（m²）"
 	},
 	"panel efficiency": {
-		"en": "Panel efficiency",
-		"de": "Panel-Effizienz",
-		"ru": "Эффективность панели",
-		"pt": "Eficiência do painel",
-		"nl": "Paneel efficiëntie",
-		"fr": "Efficacité du panneau",
-		"it": "Efficienza del pannello",
-		"es": "Eficiencia del panel",
-		"pl": "Wydajność panelu",
+		"en": "Panel efficiency (%)",
+		"de": "Panel-Effizienz (%)",
+		"ru": "Эффективность панели (%)",
+		"pt": "Eficiência do painel (%)",
+		"nl": "Paneel efficiëntie (%)",
+		"fr": "Efficacité du panneau (%)",
+		"it": "Efficienza del pannello (%)",
+		"es": "Eficiencia del panel (%)",
+		"pl": "Wydajność panelu (%)",
 		"zh-cn": "面板效率"
 	},
 	"battery capacity": {
-		"en": "Battery capacity",
-		"de": "Batteriekapazität",
-		"ru": "Емкость батареи",
-		"pt": "Capacidade de carga",
-		"nl": "Batterij capaciteit",
-		"fr": "Capacité de la batterie",
-		"it": "Capacità della batteria",
-		"es": "Capacidad de la batería",
-		"pl": "Pojemność baterii",
+		"en": "Battery capacity (%)",
+		"de": "Batteriekapazität (%)",
+		"ru": "Емкость батареи (%)",
+		"pt": "Capacidade de carga (%)",
+		"nl": "Batterij capaciteit (%)",
+		"fr": "Capacité de la batterie (%)",
+		"it": "Capacità della batteria (%)",
+		"es": "Capacidad de la batería (%)",
+		"pl": "Pojemność baterii (%)",
 		"zh-cn": "电池容量"
 	},
 	"The power forecast makes partly use of the script from the <a href=\"https://forum.iobroker.net/topic/4953/script-sonnenstand-und-einstrahlung\" target=\"_blank\">ioBroker forum</a> and uses the suncalc npm module.": {
@@ -255,15 +255,15 @@ systemDictionary = {
 		"zh-cn": "请输入一个介于5到100之间的最大MinSoC。默认值为40。"
 	},
 	"maximum minsoc": {
-		"en": "Maximum MinSoC",
-		"de": "Maximaler MinSoC",
-		"ru": "Максимальный MinSoC",
-		"pt": "MinSoC máximo",
-		"nl": "Maximale MinSoC",
-		"fr": "MinSoC maximum",
-		"it": "MinSoC massimo",
-		"es": "Máximo MinSoC",
-		"pl": "Maksymalna MinSoC",
+		"en": "Maximum MinSoC (%)",
+		"de": "Maximaler MinSoC (%)",
+		"ru": "Максимальный MinSoC (%)",
+		"pt": "MinSoC máximo (%)",
+		"nl": "Maximale MinSoC (%)",
+		"fr": "MinSoC maximum (%)",
+		"it": "MinSoC massimo (%)",
+		"es": "Máximo MinSoC (%)",
+		"pl": "Maksymalna MinSoC (%)",
 		"zh-cn": "最大MinSoC"
 	},
 	"max minsoc description": {
