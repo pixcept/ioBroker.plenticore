@@ -279,15 +279,15 @@ systemDictionary = {
 		"zh-cn": "定义由预测功能设置的最大MinSoC值。默认值为40，可能的值为5到100，其中100表示电池将完全不放电。"
 	},
 	"The forecast uses weather data from kachelmannwetter and (if adapters installed) from weatherunderground and darksky.": {
-		"en": "The forecast uses weather data from kachelmannwetter and (if adapters installed) from weatherunderground and darksky.",
-		"de": "Die Vorhersage verwendet Wetterdaten von kachelmannwetter und (falls Adapter installiert) von weatherunderground und darksky.",
-		"ru": "Прогноз использует данные о погоде от kachelmannwetter и (если установлены адаптеры) от weatherunderground и darksky.",
-		"pt": "A previsão usa dados climáticos de kachelmannwetter e (se adaptadores instalados) de weatherunderground e darksky.",
-		"nl": "De voorspelling maakt gebruik van weergegevens van kachelmannwetter en (indien adapters geïnstalleerd) van weatherunderground en darksky.",
-		"fr": "Les prévisions utilisent les données météorologiques de kachelmannwetter et (si des adaptateurs sont installés) de weatherunderground et darksky.",
-		"it": "La previsione utilizza i dati meteorologici di Kachelmannwetter e (se gli adattatori sono installati) di Weatherunderground e Darksky.",
-		"es": "El pronóstico utiliza datos meteorológicos de kachelmannwetter y (si hay adaptadores instalados) de weatherunderground y dark dark.",
-		"pl": "Prognoza wykorzystuje dane pogodowe z kachelmannwetter i (jeśli zainstalowane są adaptery) z Weatherunderground i Darksky.",
+		"en": "The forecast uses weather data from kachelmannwetter and (if adapters installed) from weatherunderground, daswetter.com and darksky.",
+		"de": "Die Vorhersage verwendet Wetterdaten von kachelmannwetter und (falls Adapter installiert) von weatherunderground, daswetter.com und darksky.",
+		"ru": "Прогноз использует данные о погоде от kachelmannwetter и (если установлены адаптеры) от weatherunderground, daswetter.com и darksky.",
+		"pt": "A previsão usa dados climáticos de kachelmannwetter e (se adaptadores instalados) de weatherunderground, daswetter.com e darksky.",
+		"nl": "De voorspelling maakt gebruik van weergegevens van kachelmannwetter en (indien adapters geïnstalleerd) van weatherunderground, daswetter.com en darksky.",
+		"fr": "Les prévisions utilisent les données météorologiques de kachelmannwetter et (si des adaptateurs sont installés) de weatherunderground, daswetter.com et darksky.",
+		"it": "La previsione utilizza i dati meteorologici di Kachelmannwetter e (se gli adattatori sono installati) di Weatherunderground, daswetter.com e Darksky.",
+		"es": "El pronóstico utiliza datos meteorológicos de kachelmannwetter y (si hay adaptadores instalados) de weatherunderground, daswetter.com y dark dark.",
+		"pl": "Prognoza wykorzystuje dane pogodowe z kachelmannwetter i (jeśli zainstalowane są adaptery) z Weatherunderground, daswetter.com i Darksky.",
 		"zh-cn": "天气预报使用来自kachelmannwetter的天气数据以及（如果安装了适配器）来自weatherunderground和darksky的天气数据。"
 	}
 };
