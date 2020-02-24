@@ -289,5 +289,17 @@ systemDictionary = {
 		"es": "El pronóstico utiliza datos meteorológicos de kachelmannwetter y (si hay adaptadores instalados) de weatherunderground, daswetter.com y dark dark.",
 		"pl": "Prognoza wykorzystuje dane pogodowe z kachelmannwetter i (jeśli zainstalowane są adaptery) z Weatherunderground, daswetter.com i Darksky.",
 		"zh-cn": "天气预报使用来自kachelmannwetter的天气数据以及（如果安装了适配器）来自weatherunderground和darksky的天气数据。"
+	},
+	"second panel info": {
+		"en": "You can specify a second panel surface if you need to, e. g. when you have two separate panels for eastern and western orientation (optional)",
+		"de": "Sie können bei Bedarf eine zweite Fläche angeben, z. B. bei Ost- und Westausrichtung (optional).",
+		"ru": "Вы можете указать вторую поверхность панели, если вам нужно (необязательно)",
+		"pt": "Você pode especificar uma segunda superfície do painel se precisar (opcional)",
+		"nl": "U kunt desgewenst een tweede paneeloppervlak opgeven (optioneel)",
+		"fr": "Vous pouvez spécifier une deuxième surface de panneau si vous en avez besoin (facultatif)",
+		"it": "Se necessario, è possibile specificare una seconda superficie del pannello (opzionale)",
+		"es": "Puede especificar una segunda superficie de panel si lo necesita (opcional)",
+		"pl": "W razie potrzeby możesz określić drugą powierzchnię panelu (opcjonalnie)",
+		"zh-cn": "如果需要，您可以指定第二个面板表面（可选）"
 	}
 };

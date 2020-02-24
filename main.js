@@ -126,6 +126,29 @@ function startAdapter(options) {
 					adapter.log.debug('Panel surface: ' + adapter.config.panel_surface + 'm²');
 				}
 
+				if(adapter.config.panel_tilt_2) {
+					adapter.config.panel_tilt_2 = parseInt(adapter.config.panel_tilt_2);
+					adapter.log.debug('2nd Panel tilt: ' + adapter.config.panel_tilt_2 + '°');
+				}
+				if(adapter.config.panel_dir_2) {
+					adapter.config.panel_dir_2 = parseInt(adapter.config.panel_dir_2);
+					adapter.log.debug('2nd Panel direction: ' + adapter.config.panel_dir_2 + '°');
+				}
+				if(adapter.config.panel_efficiency_2) {
+					if(adapter.config.panel_efficiency_2.indexOf(',') > -1) {
+						adapter.config.panel_efficiency_2 = adapter.config.panel_efficiency_2.replace(',', '.');
+					}
+					adapter.config.panel_efficiency_2 = parseFloat(adapter.config.panel_efficiency_2);
+					adapter.log.debug('2nd Panel efficiency: ' + adapter.config.panel_efficiency_2 + '%');
+				}
+				if(adapter.config.panel_surface_2) {
+					if(adapter.config.panel_surface_2.indexOf(',') > -1) {
+						adapter.config.panel_surface_2 = adapter.config.panel_surface_2.replace(',', '.');
+					}
+					adapter.config.panel_surface_2 = parseFloat(adapter.config.panel_surface_2);
+					adapter.log.debug('2nd Panel surface: ' + adapter.config.panel_surface_2 + 'm²');
+				}
+
 
 				if(adapter.config.enable_minsoc && !adapter.config.battery_capacity) {
 					adapter.log.warn('Could not enable dynamic MinSoC setting because no battery capacity was entered.');
