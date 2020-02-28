@@ -6,15 +6,18 @@ const plenticore = require('./lib/plenticore');
 const weather = require('./lib/weather');
 
 const schedule = require('node-schedule');
-const adapterName = require('./package.json').name.split('.').pop();
+const packageJson = require('./package.json');
+const adapterName = packageJson.name.split('.').pop();
+const adapterVersion = packageJson.version;
 
 let adapter;
 var debugRequests;
-let useInternalForecast = false;
 
 let sunSchedule;
 let dailySchedule;
 let weatherTimer = null;
+
+const patchVersion = '.2';
 
 function startAdapter(options) {
 	options = options || {};
@@ -81,7 +84,8 @@ function startAdapter(options) {
 			adapter.log.warn('[START] Password not set');
 		} else {
 			debugRequests = (adapter.config.debug ? true : false);
-			adapter.log.info('[START] Starting plenticore adapter');
+			adapter.log.info('[START] Starting adapter ' + adapterName + ' v' + adapterVersion + '' + patchVersion);
+
 			adapter.setState('info.connection', true, true);
 			adapter.getForeignObject('system.config', (err, obj) => {
 				let runSetup = true;
