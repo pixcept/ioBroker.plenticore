@@ -167,7 +167,7 @@ function startAdapter(options) {
 						adapter.config.enable_forecast = false;
 					} else {
 						runSetup = false;
-						adapter.log.warn('Enabling experimental support for Kachelmannwetter.');
+						//adapter.log.warn('Enabling experimental support for Kachelmannwetter.');
 						weather.init(adapter, function(err, res) {
 							if(err) {
 								adapter.log.warn('Kachelmannwetter lib failed to init.');
