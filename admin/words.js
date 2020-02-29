@@ -219,15 +219,15 @@ systemDictionary = {
 		"zh-cn": "面板效率"
 	},
 	"battery capacity": {
-		"en": "Battery capacity (%)",
-		"de": "Batteriekapazität (%)",
-		"ru": "Емкость батареи (%)",
-		"pt": "Capacidade de carga (%)",
-		"nl": "Batterij capaciteit (%)",
-		"fr": "Capacité de la batterie (%)",
-		"it": "Capacità della batteria (%)",
-		"es": "Capacidad de la batería (%)",
-		"pl": "Pojemność baterii (%)",
+		"en": "Battery capacity (Wh)",
+		"de": "Batteriekapazität (Wh)",
+		"ru": "Емкость батареи (Wh)",
+		"pt": "Capacidade de carga (Wh)",
+		"nl": "Batterij capaciteit (Wh)",
+		"fr": "Capacité de la batterie (Wh)",
+		"it": "Capacità della batteria (Wh)",
+		"es": "Capacidad de la batería (Wh)",
+		"pl": "Pojemność baterii (Wh)",
 		"zh-cn": "电池容量"
 	},
 	"The power forecast makes partly use of the script from the <a href=\"https://forum.iobroker.net/topic/4953/script-sonnenstand-und-einstrahlung\" target=\"_blank\">ioBroker forum</a> and uses the suncalc npm module.": {
