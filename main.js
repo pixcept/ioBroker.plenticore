@@ -17,7 +17,7 @@ let sunSchedule;
 let dailySchedule;
 let weatherTimer = null;
 
-const patchVersion = '.5';
+const patchVersion = '.6';
 
 function startAdapter(options) {
 	options = options || {};
