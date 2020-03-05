@@ -209,6 +209,7 @@
 		"pollinterval": 20000,
 		"wfc_instance": "",
 		"enable_minsoc": false,
+		"enable_battery_management": false,
 		"max_minsoc": 40,
 		"battery_capacity": 0,
 		"panel_tilt": 30,

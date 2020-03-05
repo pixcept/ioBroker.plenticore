@@ -301,5 +301,29 @@ systemDictionary = {
 		"es": "Puede especificar una segunda superficie de panel si lo necesita (opcional)",
 		"pl": "W razie potrzeby możesz określić drugą powierzchnię panelu (opcjonalnie)",
 		"zh-cn": "如果需要，您可以指定第二个面板表面（可选）"
+	},
+	"enable battery management": {
+		"en": "Enable dynamic battery management",
+		"de": "Dynamisches Batteriemanagement aktivieren",
+		"ru": "Включить динамическое управление батареями",
+		"pt": "Ativar gerenciamento dinâmico de bateria",
+		"nl": "Schakel dynamisch batterijbeheer in",
+		"fr": "Activer la gestion dynamique de la batterie",
+		"it": "Abilita la gestione dinamica della batteria",
+		"es": "Habilite la gestión dinámica de la batería.",
+		"pl": "Włącz dynamiczne zarządzanie baterią",
+		"zh-cn": "启用动态电池管理"
+	},
+	"battery management description": {
+		"en": "The intelligent battery management of KOSTAL seems not to be ready to enable as it only relies on the previous day(s)'s generated (and maybe consumed) power. This can lead to suboptimal battery charging. This option dynamically enabled and disables the setting depending on the power forecast.",
+		"de": "Das intelligente Batteriemanagement von KOSTAL scheint nicht zur Verwendung bereit zu sein, da es nur auf dem erzeugten (und möglicherweise verbrauchten) Strom des Vortages bzw. der Vortage beruht. Dies kann zu einem suboptimalen Verhalten bei der Batterieladung führen. Diese Option aktiviert und deaktiviert die Einstellung im Wechselrichter abhängig von der Ertragsprognose.",
+		"ru": "Интеллектуальное управление батареями KOSTAL, по-видимому, не готово к включению, поскольку оно зависит только от энергии (и, возможно, потребляемой) энергии предыдущего дня. Это может привести к неоптимальной зарядке аккумулятора. Эта опция динамически включается и отключает настройку в зависимости от прогноза мощности.",
+		"pt": "O gerenciamento inteligente de bateria do KOSTAL parece não estar pronto para ser ativado, pois depende apenas da energia gerada (e talvez consumida) dos dias anteriores. Isso pode levar a um carregamento de bateria abaixo do ideal. Esta opção é ativada dinamicamente e desabilita a configuração, dependendo da previsão de energia.",
+		"nl": "Het intelligente batterijbeheer van KOSTAL lijkt niet gereed te zijn om in te schakelen, omdat het alleen afhankelijk is van de gegenereerde (en misschien verbruikte) stroom van de vorige dag (en). Dit kan leiden tot suboptimale batterijlading. Deze optie wordt dynamisch ingeschakeld en deactiveert de instelling afhankelijk van de vermogensprognose.",
+		"fr": "La gestion intelligente de la batterie de KOSTAL ne semble pas prête à être activée car elle ne dépend que de l'énergie générée (et peut-être consommée) de la veille. Cela peut conduire à une charge de batterie sous-optimale. Cette option est activée dynamiquement et désactive le paramètre en fonction des prévisions de puissance.",
+		"it": "La gestione intelligente della batteria di KOSTAL sembra non essere pronta per essere abilitata poiché si basa solo sulla potenza generata (e forse consumata) del giorno o dei giorni precedenti. Ciò può portare a una carica della batteria non ottimale. Questa opzione abilita e disabilita dinamicamente l'impostazione in base alla previsione di potenza.",
+		"es": "La gestión inteligente de la batería de KOSTAL parece no estar lista para habilitar, ya que solo se basa en la energía generada (y quizás consumida) del día (s) anterior (es). Esto puede conducir a una carga de batería subóptima. Esta opción habilita dinámicamente y deshabilita la configuración según el pronóstico de potencia.",
+		"pl": "Inteligentne zarządzanie akumulatorami w KOSTAL wydaje się nie być gotowe do włączenia, ponieważ opiera się tylko na energii wygenerowanej (i być może zużytej) z dnia poprzedniego. Może to prowadzić do nieoptymalnego ładowania akumulatora. Ta opcja dynamicznie włącza i wyłącza ustawienie w zależności od prognozy mocy.",
+		"zh-cn": "KOSTAL的智能电池管理似乎还没有准备好启用，因为它仅依赖于前一天的发电（或消耗）功率。这可能导致电池充电效果欠佳。该选项将动态启用并根据功率预测禁用设置。"
 	}
 };
