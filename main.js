@@ -54,7 +54,7 @@ function startAdapter(options) {
 	adapter.on('stateChange', function(id, state) {
 		// Warning, state can be null if it was deleted
 		try {
-			adapter.log.debug('stateChange ' + id + ' ' + JSON.stringify(state));
+			adapter.log.info('stateChange ' + id + ' ' + JSON.stringify(state));
 
 			if(!id) {
 				return;
