@@ -17,6 +17,8 @@ let sunSchedule;
 let dailySchedule;
 let weatherTimer = null;
 
+let reloginTimer = null;
+
 const patchVersion = '.6';
 
 function startAdapter(options) {
@@ -39,6 +41,9 @@ function startAdapter(options) {
 		}
 		if(weatherTimer) {
 			clearInterval(weatherTimer);
+		}
+		if(reloginTimer) {
+			clearTimeout(reloginTimer);
 		}
 		weather.unload();
 		plenticore.unload(function() {
@@ -200,64 +205,75 @@ function main() {
 	
 	adapter.log.debug('[START] Started Adapter with: ' + adapter.config.ipaddress);
 
-	plenticore.login();
+	plenticore.login(function(error) {
+		if(error) {
+			adapter.log.warn('Failed starting plenticore adapter (login sequence failed). Trying again in 30 seconds.');
+			if(reloginTimer) {
+				clearTimeout(reloginTimer);
+			}
+			reloginTimer = setTimeout(function() {
+				reloginTimer = null;
+				main();
+			}, 30000);
+			return;
+		}
+		adapter.subscribeStates('*');
 
-	adapter.subscribeStates('*');
-	
-	if(adapter.config.enable_forecast) {
-		adapter.log.info('Enabling forecast data.');
-		sunSchedule = schedule.scheduleJob('* * * * *', function(){
+		if(adapter.config.enable_forecast) {
+			adapter.log.info('Enabling forecast data.');
+			sunSchedule = schedule.scheduleJob('* * * * *', function(){
+				plenticore.storeSunPanelData();
+			});
 			plenticore.storeSunPanelData();
-		});
-		plenticore.storeSunPanelData();
-	} else {
-		adapter.log.info('Not enabling forecast data.');
-	}
-	
-	dailySchedule = schedule.scheduleJob('0 0 * * *', function() {
-		plenticore.calcPowerAverages(true);
-	});
-	
-	plenticore.calcPowerAverages(false);
-	
-	if(adapter.config.enable_forecast) {
-		adapter.log.info('Enabling MinSoC forecast data.');
-		weatherTimer = setInterval(function() {
-			plenticore.calcMinSoC();
-		}, 15 * 60 * 1000); // each 15 min
-		
-		let needed = 0;
-		for(let weatherAdapter in plenticore.weatherAdapters) {
-			needed++;
-		}
-		for(let weatherAdapter in plenticore.weatherAdapters) {
-			adapter.objects.getObjectView('system', 'instance', {
-				startkey: 'system.adapter.' + weatherAdapter,
-				endkey: 'system.adapter.' + weatherAdapter + '.\u9999'
-			}, function(err, doc) {
-			    if(doc && doc.rows && doc.rows.length) {
-					let adapter_id = doc.rows[0].id;
-					adapter_id = adapter_id.replace(/^system\.adapter\./, '');
-					adapter.log.info('Using ' + adapter_id + ' in weather forcast.');
-					plenticore.weatherAdapters[weatherAdapter]['instance'] = adapter_id;
-					adapter.subscribeForeignStates(adapter_id + '.*');
-			    }
-				needed--;
-				if(needed < 1) {
-					plenticore.calcMinSoC();
-				} else {
-					adapter.log.info('Still ' + needed + ' adapters to check.');
-				}
-		   });
-		}
-		if(needed < 1) {
-			plenticore.calcMinSoC();
 		} else {
-			adapter.log.info('Still ' + needed + ' adapters to check.');
+			adapter.log.info('Not enabling forecast data.');
 		}
-	} else {
-		adapter.log.info('Not enabling MinSoC forecast data.');
-	}
+
+		dailySchedule = schedule.scheduleJob('0 0 * * *', function() {
+			plenticore.calcPowerAverages(true);
+		});
+
+		plenticore.calcPowerAverages(false);
+
+		if(adapter.config.enable_forecast) {
+			adapter.log.info('Enabling MinSoC forecast data.');
+			weatherTimer = setInterval(function() {
+				plenticore.calcMinSoC();
+			}, 15 * 60 * 1000); // each 15 min
+
+			let needed = 0;
+			for(let weatherAdapter in plenticore.weatherAdapters) {
+				needed++;
+			}
+			for(let weatherAdapter in plenticore.weatherAdapters) {
+				adapter.objects.getObjectView('system', 'instance', {
+					startkey: 'system.adapter.' + weatherAdapter,
+					endkey: 'system.adapter.' + weatherAdapter + '.\u9999'
+				}, function(err, doc) {
+					if(doc && doc.rows && doc.rows.length) {
+						let adapter_id = doc.rows[0].id;
+						adapter_id = adapter_id.replace(/^system\.adapter\./, '');
+						adapter.log.info('Using ' + adapter_id + ' in weather forcast.');
+						plenticore.weatherAdapters[weatherAdapter]['instance'] = adapter_id;
+						adapter.subscribeForeignStates(adapter_id + '.*');
+					}
+					needed--;
+					if(needed < 1) {
+						plenticore.calcMinSoC();
+					} else {
+						adapter.log.info('Still ' + needed + ' adapters to check.');
+					}
+			   });
+			}
+			if(needed < 1) {
+				plenticore.calcMinSoC();
+			} else {
+				adapter.log.info('Still ' + needed + ' adapters to check.');
+			}
+		} else {
+			adapter.log.info('Not enabling MinSoC forecast data.');
+		}
+	});
 }
 
 function processStateChangeAck(id, state) {
