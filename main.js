@@ -71,7 +71,9 @@ function startAdapter(options) {
 				return;
 			}
 			
-			state = state.val;
+			if(state !== null) {
+				state = state.val;
+			}
 			adapter.log.debug("id=" + id);
 			
 			if('undefined' !== typeof state && null !== state) {
