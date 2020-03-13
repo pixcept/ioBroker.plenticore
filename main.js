@@ -12,7 +12,6 @@ const adapterVersion = packageJson.version;
 let adapter;
 var debugRequests;
 
-let dailySchedule;
 let weatherTimer = null;
 
 let reloginTimer = null;
@@ -31,9 +30,6 @@ function startAdapter(options) {
 	plenticore.init(adapter, utils, weather);
 
 	adapter.on('unload', function(callback) {
-		if(dailySchedule) {
-			dailySchedule.cancel();
-		}
 		if(weatherTimer) {
 			clearInterval(weatherTimer);
 		}
