@@ -5,7 +5,6 @@ const ioBLib = require('@strathcole/iob-lib').ioBLib;
 const plenticore = require('./lib/plenticore');
 const weather = require('./lib/weather');
 
-const schedule = require('node-schedule');
 const packageJson = require('./package.json');
 const adapterName = packageJson.name.split('.').pop();
 const adapterVersion = packageJson.version;
@@ -13,7 +12,6 @@ const adapterVersion = packageJson.version;
 let adapter;
 var debugRequests;
 
-let sunSchedule;
 let dailySchedule;
 let weatherTimer = null;
 
@@ -33,9 +31,6 @@ function startAdapter(options) {
 	plenticore.init(adapter, utils, weather);
 
 	adapter.on('unload', function(callback) {
-		if(sunSchedule) {
-			sunSchedule.cancel();
-		}
 		if(dailySchedule) {
 			dailySchedule.cancel();
 		}
@@ -59,23 +54,23 @@ function startAdapter(options) {
 			if(!id) {
 				return;
 			}
-			
+
 			if(state && id.substr(0, adapter.namespace.length + 1) !== adapter.namespace + '.') {
 				processStateChangeForeign(id, state);
 				return;
 			}
 			id = id.substring(adapter.namespace.length + 1); // remove instance name and id
-			
+
 			if(state && state.ack) {
 				processStateChangeAck(id, state);
 				return;
 			}
-			
+
 			if(state !== null) {
 				state = state.val;
 			}
 			adapter.log.debug("id=" + id);
-			
+
 			if('undefined' !== typeof state && null !== state) {
 				processStateChange(id, state);
 			}
@@ -189,12 +184,12 @@ function startAdapter(options) {
 						});
 					}
 				}
-				
+
 				if(runSetup === true) {
 					plenticore.setup(function() {
 						main();
 					});
-				} 
+				}
 			});
 		}
 	});
@@ -204,7 +199,7 @@ function startAdapter(options) {
 
 
 function main() {
-	
+
 	adapter.log.debug('[START] Started Adapter with: ' + adapter.config.ipaddress);
 
 	plenticore.login(function(error) {
@@ -223,19 +218,12 @@ function main() {
 
 		if(adapter.config.enable_forecast) {
 			adapter.log.info('Enabling forecast data.');
-			sunSchedule = schedule.scheduleJob('* * * * *', function(){
-				plenticore.storeSunPanelData();
-			});
 			plenticore.storeSunPanelData();
 		} else {
 			adapter.log.info('Not enabling forecast data.');
 		}
 
-		dailySchedule = schedule.scheduleJob('0 0 * * *', function() {
-			plenticore.calcPowerAverages(true);
-		});
-
-		plenticore.calcPowerAverages(false);
+		plenticore.calcPowerAverages();
 
 		if(adapter.config.enable_forecast) {
 			adapter.log.info('Enabling MinSoC forecast data.');
@@ -294,7 +282,7 @@ function processStateChangeForeign(id, state) {
 		chkId = plenticore.weatherAdapters[weatherAdapter]['fc_id'];
 		chkId = chkId.replace('%%D%%', '1');
 		chkId = chkId.replace('%%H%%', plenticore.weatherAdapters[weatherAdapter]['fc_min']);
-		
+
 		if(id === chkId + '.' + plenticore.weatherAdapters[weatherAdapter]['sky']
 			|| (plenticore.weatherAdapters[weatherAdapter]['visibility'] !== null && id === chkId + '.' + plenticore.weatherAdapters[weatherAdapter]['visibility'])) {
 			plenticore.calcMinSoC();
@@ -304,7 +292,7 @@ function processStateChangeForeign(id, state) {
 
 function processStateChange(id, value) {
 	adapter.log.debug('StateChange: ' + JSON.stringify([id, value]));
-	
+
 	plenticore.changeSetting(id, value);
 	return;
 }
