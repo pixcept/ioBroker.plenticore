@@ -63,14 +63,14 @@ Dieser Kanal enthält Informationen über die AC-Seite des Wechselrichters. Die 
 #### plenticore.X.devices.local.battery
 
 `plenticore.X.devices.local.battery.Cycles` - die gesamte Anzahl der Batteriezyklen bis jetzt  
-`[**] plenticore.X.devices.local.battery.DynamicSoc" - true, wenn dynamisches SoC aktiviert ist (nur wenn auch `SmartBatteryControl" true ist)  
-`[**] plenticore.X.devices.local.battery.MinHomeConsumption" - der minimale Stromverbrauch im Haus, ab dem Batterie genutzt wird  
-`[**] plenticore.X.devices.local.battery.MinSoc" - der gewünschte minimale SoC (State of Charge) der Batterie. Der tatsächliche SoC kann bei fehlender Sonnenenergie unter diesen Wert sinken.  
+`[**] plenticore.X.devices.local.battery.DynamicSoc` - true, wenn dynamisches SoC aktiviert ist (nur wenn auch `SmartBatteryControl" true ist)  
+`[**] plenticore.X.devices.local.battery.MinHomeConsumption` - der minimale Stromverbrauch im Haus, ab dem Batterie genutzt wird  
+`[**] plenticore.X.devices.local.battery.MinSoc` - der gewünschte minimale SoC (State of Charge) der Batterie. Der tatsächliche SoC kann bei fehlender Sonnenenergie unter diesen Wert sinken.  
 `plenticore.X.devices.local.battery.MinSocDummy` - Dieser Wert wird vom Adapter gesetzt, wenn das MinSoC-Management in der Konfiguration deaktiviert ist. Er soll zeigen, auf welchen Wert das MinSoC gesetzt würde.  
 `plenticore.X.devices.local.battery.P` - die aktuelle Batterieleistung (negativ beim Laden, positiv beim Entladen)  
 `plenticore.X.devices.local.battery.Charge_P` - die aktuelle Ladeleistung der Batterie (0 bei Entladung)  
 `plenticore.X.devices.local.battery.Discharge_P` - die aktuelle Entladeleistung der Batterie (0 beim Laden)  
-`[**] plenticore.X.devices.local.battery.SmartBatteryControl" - true, wenn das Smart Battery Management aktiviert ist. Gemäß dem offiziellen Handbuch darf dies nur dann aktiviert werden, wenn keine weitere AC-Quelle wie ein zweiter Wechselrichter beteiligt ist.  
+`[**] plenticore.X.devices.local.battery.SmartBatteryControl` - true, wenn das Smart Battery Management aktiviert ist. Gemäß dem offiziellen Handbuch darf dies nur dann aktiviert werden, wenn keine weitere AC-Quelle wie ein zweiter Wechselrichter beteiligt ist.  
 `plenticore.X.devices.local.battery.SoC` - der aktuelle Ladezustand der Batterie  
 
 #### plenticore.X.devices.local.inverter
@@ -87,36 +87,36 @@ Dieser Kanal enthält Informationen und Einstellungen des Geräts selbst
 
 #### plenticore.X.scb.modbus
 
-`[**] plenticore.X.scb.modbus.ModbusEnable' - true, wenn der Modbus tcp aktiviert ist  
-`[**] plenticore.X.scb.modbus.ModbusUnitId' - Modbus-Device-ID des Geräts
+`[**] plenticore.X.scb.modbus.ModbusEnable` - true, wenn der Modbus tcp aktiviert ist  
+`[**] plenticore.X.scb.modbus.ModbusUnitId` - Modbus-Device-ID des Geräts
 
 #### plenticore.X.scb.network
 
-`[**] plenticore.X.scb.network.hostname" - der aktuelle Hostname des Wechselrichters  
-`[**] plenticore.X.scb.network.IPv4Auto" - DHCP für die IP-Adresseneinstellungen des Wechselrichters verwenden.  
-`[**] plenticore.X.scb.network.IPv4Address' - die aktuelle IP-Adresse des Wechselrichters  
+`[**] plenticore.X.scb.network.hostname` - der aktuelle Hostname des Wechselrichters  
+`[**] plenticore.X.scb.network.IPv4Auto` - DHCP für die IP-Adresseneinstellungen des Wechselrichters verwenden.  
+`[**] plenticore.X.scb.network.IPv4Address` - die aktuelle IP-Adresse des Wechselrichters  
 `[**] plenticore.X.scb.network.IPv4DNS1` und `plenticore.X.scb.network.IPv4DNS2` - die derzeit verwendeten DNS-Server  
 `[**] plenticore.X.scb.network.IPv4Gateway` - das derzeit verwendete Netzwerk-Gateway  
-`[**] plenticore.X.scb.network.IPv4Subnetmask' - die Netzwerk-Subnetzmaske  
+`[**] plenticore.X.scb.network.IPv4Subnetmask` - die Netzwerk-Subnetzmaske  
 
 #### plenticore.X.scb.time
 
-`[**] plenticore.X.scb.time.NTPservers' - die derzeit verwendeten Zeitserver (NTP). Dies können mehrere, durch Leerzeichen getrennte, Server sein.  
-`[**] plenticore.X.scb.time.NTPuse' - NTP verwenden, um die aktuellen Gerätezeit zu setzen.  
-`[**] plenticore.X.scb.time.Timezone" - die Zeitzone des Geräts
+`[**] plenticore.X.scb.time.NTPservers` - die derzeit verwendeten Zeitserver (NTP). Dies können mehrere, durch Leerzeichen getrennte, Server sein.  
+`[**] plenticore.X.scb.time.NTPuse` - NTP verwenden, um die aktuellen Gerätezeit zu setzen.  
+`[**] plenticore.X.scb.time.Timezone` - die Zeitzone des Geräts
 
 ### plenticore.X.scb.statistic.EnergyFlow
 
 Die Datenpunkte in diesem Abschnitt enthalten die Statistiken, die in der Plenticore-Web-Benutzeroberfläche sichtbar sind. Nachfolgend werden nur die `Day` (Tag) Datenpunkte erwähnt, aber jeder von ihnen ist auch für `Month` (Monat), `Year` (Jahr) und `Total` (Insgesamt) verfügbar.
 
-`plenticore.0.scb.statistic.EnergyFlow.AutarkyDay' - die Autarkie in Prozent für den aktuellen Tag  
+`plenticore.0.scb.statistic.EnergyFlow.AutarkyDay` - die Autarkie in Prozent für den aktuellen Tag  
 `plenticore.0.scb.statistic.EnergyFlow.CO2SavingDay` - die geschätzte CO2-Einsparung in kg für den aktuellen Tag  
-`plenticore.0.scb.statistic.energyFlow.energyHomeDay' - der gesamte Hausverbrauch in Wh für den aktuellen Tag  
-`plenticore.0.scb.statistic.EnergyFlow.EnergyHomePvDay' - der gesamte Hausverbrauch, der von der PV-Anlage für den aktuellen Tag bereitgestellt wird  
-`plenticore.0.scb.statistic.EnergyFlow.EnergyHomeBatDay' - der gesamte von der Batterie bereitgestellte Hausverbrauch für den aktuellen Tag  
-`plenticore.0.scb.statistic.EnergyFlow.EnergyHomeGridDay' - der gesamte vom Stromnetz bereitgestellte Hausverbrauch für den aktuellen Tag  
-`plenticore.0.scb.statistic.EnergyFlow.EnergyToGridDay' - die gesamte in das Stromnetz eingespeiste Leistung für den aktuellen Tag  
-`plenticore.0.scb.statistic.EnergyFlow.OwnConsumptionRateDay' - die Eigenverbrauchsquote (erzeugte Anlagenleistung, die NICHT ins Netz geht) für den aktuellen Tag  
+`plenticore.0.scb.statistic.energyFlow.energyHomeDay` - der gesamte Hausverbrauch in Wh für den aktuellen Tag  
+`plenticore.0.scb.statistic.EnergyFlow.EnergyHomePvDay` - der gesamte Hausverbrauch, der von der PV-Anlage für den aktuellen Tag bereitgestellt wird  
+`plenticore.0.scb.statistic.EnergyFlow.EnergyHomeBatDay` - der gesamte von der Batterie bereitgestellte Hausverbrauch für den aktuellen Tag  
+`plenticore.0.scb.statistic.EnergyFlow.EnergyHomeGridDay` - der gesamte vom Stromnetz bereitgestellte Hausverbrauch für den aktuellen Tag  
+`plenticore.0.scb.statistic.EnergyFlow.EnergyToGridDay` - die gesamte in das Stromnetz eingespeiste Leistung für den aktuellen Tag  
+`plenticore.0.scb.statistic.EnergyFlow.OwnConsumptionRateDay` - die Eigenverbrauchsquote (erzeugte Anlagenleistung, die NICHT ins Netz geht) für den aktuellen Tag  
 `plenticore.0.scb.statistic.EnergyFlow.YieldDay` - der Gesamtertrag der Anlage für den aktuellen Tag
 
 ## Prognose-Daten
@@ -163,7 +163,7 @@ Die Prognosewerte können dann verwendet werden, um den MinSoC der Batterie einz
 `plenticore.0.forecast.day1.power.Xh.power` - geschätzte Gesamtleistung der Anlage zur Sonnenstunde X des Vorhersagetages, wobei 1h die Stunde des Sonnenaufgangs ist  
 `plenticore.0.forecast.day1.power.Xh.power_high` - geschätzte Gesamtleistung der Anlage in Sonnenstunde X des Vorhersagetages, aber ohne Berücksichtigung der Sichtweiten- oder Regendaten  
 `plenticore.0.forecast.day1.power.Xh.time` - die Zeit, zu der die Sonnenstunde für `plenticore.0.forecast.power.Xh.power` beginnt  
-`plenticore.0.forecast.day1.sun.sunrise' - Sonnenaufgang des Vorhersagedatums
+`plenticore.0.forecast.day1.sun.sunrise` - Sonnenaufgang des Vorhersagedatums
 `plenticore.0.forecast.day1.sun.sunset` - Sonnenuntergang des Vorhersagedatums  
 
 ## Changelog
