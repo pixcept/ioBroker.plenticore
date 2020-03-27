@@ -9,8 +9,9 @@
 [![Build Status](https://travis-ci.org/StrathCole/ioBroker.plenticore.svg?branch=master)](https://travis-ci.org/StrathCole/ioBroker.plenticore)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://github.com/StrathCole/iobroker.plenticore/blob/master/LICENSE)
 
-# ioBroker.plenticore
+Eine deutsche Beschreibung ist [hier zu finden](https://github.com/StrathCole/ioBroker.plenticore/blob/master/README_de.md).
 
+# ioBroker.plenticore
 
 An ioBroker adapter for KOSTAL Plenticore Plus inverter (i. e. Plenticore Plus 8.5)
 
@@ -34,11 +35,9 @@ The inverter has modbus tcp enabled so you could use the modbus adapter to query
 
 The adapter should fill some objects under the plenticore.X object tree. Some of those are read-only, e. g. the current PV output or home power consumption. Others are changeable, e. g. the battery's minimum SoC or the battery management modes. I tested the adapter on the Plenticore Plus 10.
 
-I have not yet implemented all the API endpoints, especially the energy flow statistics that are used for the "statistics" page on the web interface. Also the adapter is highly lacking translations as I am completely new to developing for ioBroker.
-
 ## Objects
 
-Following is an excerpt of the most important objects used and filled by this adapter. All Settings marked with `[**]` should be editable but not all of them were tested and there may be (and will be) bugs.
+Following is an excerpt of the most important objects used and filled by this adapter. All Settings marked with `[**]` should be editable but not all of them were tested and there might be bugs.
 
 ### plenticore.X.devices.local
 
@@ -166,8 +165,8 @@ The forecast values can then be used to set the MinSoC of the battery, enable or
 `plenticore.0.forecast.day1.power.Xh.power` - estimated total power from plant on sun hour X of the forecast day, where 1h is the hour of sunrise  
 `plenticore.0.forecast.day1.power.Xh.power_high` - estimated total power from plant on sun hour X of the forecast day, but without keeping into account the visibility or rain data  
 `plenticore.0.forecast.day1.power.Xh.time` - the time the sun hour for `plenticore.0.forecast.power.Xh.power` starts  
-`plenticore.0.forecast.day1.sun.sunrise` - sunrise time of forecast date (either today or tomorrow)  
-`plenticore.0.forecast.day1.sun.sunset` - sunset time of forecast date (either today or tomorrow)  
+`plenticore.0.forecast.day1.sun.sunrise` - sunrise time of forecast date  
+`plenticore.0.forecast.day1.sun.sunset` - sunset time of forecast date  
 
 ## Changelog
 
