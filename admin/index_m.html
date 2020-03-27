@@ -167,6 +167,11 @@
 				return;
 			}
 			
+			if(obj['min_minsoc'] < 5 || obj['min_minsoc'] > 100 || obj['min_minsoc'] >= obj['max_minsoc']) {
+				showError(_('Please enter a minimum MinSoC between 5 and 100. Default is 40. Value must be lower than maximum MinSoC.'));
+				return;
+			}
+			
             callback(obj);
         }
     </script>
@@ -306,6 +311,16 @@
 					<input type="number" class="value" id="max_minsoc" />
 					<label for="max_minsoc" class="translate">maximum minsoc</label>
 					<p><small class="translate">max minsoc description</small></p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col s6 input-field">
+					
+				</div>
+				<div class="col s6 input-field">
+					<input type="number" class="value" id="min_minsoc" />
+					<label for="min_minsoc" class="translate">minimum minsoc</label>
+					<p><small class="translate">min minsoc description</small></p>
 				</div>
 			</div>
 		</div>

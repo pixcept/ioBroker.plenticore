@@ -278,6 +278,30 @@ systemDictionary = {
 		"pl": "Definiuje maksymalną wartość MinSoC ustawioną przez funkcję prognozy. Wartość domyślna to 40, możliwe wartości to od 5 do 100, gdzie 100 oznacza, że akumulator w ogóle nie zostanie rozładowany.",
 		"zh-cn": "定义由预测功能设置的最大MinSoC值。默认值为40，可能的值为5到100，其中100表示电池将完全不放电。"
 	},
+	"minimum minsoc": {
+		"en": "Minimum MinSoC (%)",
+		"de": "Minimum MinSoC (%)",
+		"ru": "Минимальный MinSoC (%)",
+		"pt": "MinSoC mínimo (%)",
+		"nl": "Minimale MinSoC (%)",
+		"fr": "MinSoC minimum (%)",
+		"it": "MinSoC minimo (%)",
+		"es": "MinSoC mínimo (%)",
+		"pl": "Minimalna MinSoC (%)",
+		"zh-cn": "最小MinSoC（％）"
+	},
+	"min_minsoc description": {
+		"en": "Defines the mminimum MinSoC value that is set by the forecast feature. Default value is 40, possible values are 5 to 100. Must be lower than maximum MinSoC.",
+		 de": "Definiert den minimalen MinSoC-Wert, der von der Prognosefunktion festgelegt wird. Der Standardwert ist 40, mögliche Werte sind 5 bis 100. Muss niedriger als der maximale MinSoC sein",
+		"ru": "Определяет минимальное значение MinSoC, установленное функцией прогноза. Значение по умолчанию 40, возможные значения от 5 до 100. Должно быть ниже максимального значения MinSoC",
+		"pt": "Define o valor mínimo de MinSoC definido pelo recurso de previsão. O valor padrão é 40, os valores possíveis são de 5 a 100. Deve ser menor que o MinSoC máximo",
+		"nl": "Definieert de minimale MinSoC-waarde die is ingesteld door de prognosefunctie. De standaardwaarde is 40, mogelijke waarden zijn 5 tot 100. Moet lager zijn dan de maximale MinSoC",
+		"fr": "Définit la valeur MinSoC minimale définie par la fonction de prévision. La valeur par défaut est 40, les valeurs possibles sont de 5 à 100. Doit être inférieur au MinSoC maximum",
+		"it": "Definisce il valore MinSoC minimo impostato dalla funzione di previsione. Il valore predefinito è 40, i valori possibili sono da 5 a 100. Deve essere inferiore al massimo MinSoC",
+		"es": "Define el valor mínimo MinSoC que establece la función de pronóstico. El valor predeterminado es 40, los valores posibles son de 5 a 100. Debe ser inferior al MinSoC máximo",
+		"pl": "Definiuje minimalną wartość MinSoC ustawioną przez funkcję prognozy. Wartość domyślna to 40, możliwe wartości to od 5 do 100. Musi być niższa niż maksymalna wartość MinSoC",
+		"zh-cn": "定义由预测功能设置的最小MinSoC值。默认值为40，可能的值为5到100。必须小于最大MinSoC"
+	},
 	"The forecast uses weather data from kachelmannwetter and (if adapters installed) from weatherunderground and darksky.": {
 		"en": "The forecast uses weather data from kachelmannwetter and (if adapters installed) from weatherunderground, daswetter.com and darksky.",
 		"de": "Die Vorhersage verwendet Wetterdaten von kachelmannwetter und (falls Adapter installiert) von weatherunderground, daswetter.com und darksky.",
@@ -325,5 +349,17 @@ systemDictionary = {
 		"es": "La gestión inteligente de la batería de KOSTAL parece no estar lista para habilitar, ya que solo se basa en la energía generada (y quizás consumida) del día (s) anterior (es). Esto puede conducir a una carga de batería subóptima. Esta opción habilita dinámicamente y deshabilita la configuración según el pronóstico de potencia.",
 		"pl": "Inteligentne zarządzanie akumulatorami w KOSTAL wydaje się nie być gotowe do włączenia, ponieważ opiera się tylko na energii wygenerowanej (i być może zużytej) z dnia poprzedniego. Może to prowadzić do nieoptymalnego ładowania akumulatora. Ta opcja dynamicznie włącza i wyłącza ustawienie w zależności od prognozy mocy.",
 		"zh-cn": "KOSTAL的智能电池管理似乎还没有准备好启用，因为它仅依赖于前一天的发电（或消耗）功率。这可能导致电池充电效果欠佳。该选项将动态启用并根据功率预测禁用设置。"
+	},
+	"Please enter a minimum MinSoC between 5 and 100. Default is 40. Value must be lower than maximum MinSoC.": {
+		"en": "Please enter a minimum MinSoC between 5 and 100. Default is 40. Value must be lower than maximum MinSoC.",
+		"de": "Bitte geben Sie einen minimalen MinSoC zwischen 5 und 100 ein. Der Standardwert ist 40. Der Wert muss niedriger als der maximale MinSoC sein.",
+		"ru": "Пожалуйста, введите минимальный MinSoC от 5 до 100. По умолчанию 40. Значение должно быть меньше максимального MinSoC.",
+		"pt": "Digite um MinSoC mínimo entre 5 e 100. O padrão é 40. O valor deve ser menor que o MinSoC máximo.",
+		"nl": "Voer een minimum MinSoC in tussen 5 en 100. Standaard is 40. Waarde moet lager zijn dan maximum MinSoC.",
+		"fr": "Veuillez entrer un MinSoC minimum entre 5 et 100. La valeur par défaut est 40. La valeur doit être inférieure au MinSoC maximum.",
+		"it": "Inserisci un MinSoC minimo tra 5 e 100. Il valore predefinito è 40. Il valore deve essere inferiore al MinSoC massimo.",
+		"es": "Ingrese un MinSoC mínimo entre 5 y 100. El valor predeterminado es 40. El valor debe ser inferior al MinSoC máximo.",
+		"pl": "Wprowadź minimalną wartość MinSoC między 5 a 100. Wartość domyślna to 40. Wartość musi być niższa niż maksymalna wartość MinSoC.",
+		"zh-cn": "请输入介于5到100之间的最小MinSoC。默认值为40。该值必须小于最大MinSoC。"
 	}
 };

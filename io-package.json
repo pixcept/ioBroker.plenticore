@@ -4,7 +4,16 @@
 		"version": "2.1.0",
 		"news": {
 			"2.1.0": {
-				"en": "Added further forecast sources to provide better power forecasts\nAdded second day forecast"
+				"en": "Added further forecast sources to provide better power forecasts\nAdded second day forecast\nImproved code and fixed some minor issues\nNew dependency for xml2js",
+				"de": "Weitere Prognosequellen hinzugefügt, um bessere Energieprognosen bereitzustellen\nPrognose für den zweiten Tag hinzugefügt\nVerbesserter Code und Behebung einiger kleinerer Probleme\nNeue Abhängigkeit für xml2js",
+				"ru": "Добавлены дополнительные источники прогнозов для обеспечения лучших прогнозов мощности\nДобавлен прогноз на второй день\nУлучшен код и исправлены некоторые незначительные проблемы\nНовая зависимость для xml2js",
+				"pt": "Adicionadas outras fontes de previsão para fornecer melhores previsões de energia\nPrevisão do segundo dia adicionada\nCódigo aprimorado e corrigidos alguns problemas menores\nNova dependência para xml2js",
+				"nl": "Verdere bronnen voor prognoses toegevoegd om betere energieprognoses te bieden\nTweede dagvoorspelling toegevoegd\nVerbeterde code en enkele kleine problemen opgelost\nNieuwe afhankelijkheid voor xml2js",
+				"fr": "Ajout de sources de prévisions supplémentaires pour fournir de meilleures prévisions de puissance\nAjout des prévisions du deuxième jour\nAmélioration du code et correction de quelques problèmes mineurs\nNouvelle dépendance pour xml2js",
+				"it": "Aggiunte ulteriori fonti di previsione per fornire migliori previsioni di potenza\nAggiunta previsione secondo giorno\nCodice migliorato e risolti alcuni problemi minori\nNuova dipendenza per xml2js",
+				"es": "Se agregaron más fuentes de pronóstico para proporcionar mejores pronósticos de potencia.\nPronóstico del segundo día agregado\nCódigo mejorado y solucionado algunos problemas menores\nNueva dependencia para xml2js",
+				"pl": "Dodano dalsze źródła prognoz, aby zapewnić lepsze prognozy mocy\nDodano prognozę na drugi dzień\nPoprawiony kod i naprawione drobne problemy\nNowa zależność dla xml2js",
+				"zh-cn": "添加了更多的预测源，以提供更好的功率预测\n添加了第二天的预测\n改进了代码并修复了一些小问题\nxml2js的新依赖项"
 			},
 			"2.0.0": {
 				"en": "Code rework\nOursourcing of functions",
