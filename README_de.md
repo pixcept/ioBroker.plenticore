@@ -140,8 +140,8 @@ Die Prognosewerte können dann verwendet werden, um den MinSoC der Batterie einz
 
 `plenticore.0.forecast.current.power.generated` - erzeugte Anlagenleistung am aktuellen Tag bis zur aktuellen Zeit  
 `plenticore.0.forecast.current.power.max` - berechnete maximale Anlagenleistung bei klarem Himmel (0% Wolkenbedeckung)  
-`plenticore.0.forecast.current.power.sky` - berechnete Anlagenleistung unter Berücksichtigung der aktuellen Wolkenbedeckung
-`plenticore.0.forecast.current.power.skyvis` - berechnete Anlagenleistung unter Berücksichtigung der aktuellen Wolkenbedeckung und Sichtweite
+`plenticore.0.forecast.current.power.sky` - berechnete Anlagenleistung unter Berücksichtigung der aktuellen Wolkenbedeckung  
+`plenticore.0.forecast.current.power.skyvis` - berechnete Anlagenleistung unter Berücksichtigung der aktuellen Wolkenbedeckung und Sichtweite  
 `plenticore.0.forecast.current.power.skyvisrain` - berechnete Anlagenleistung unter Berücksichtigung der aktuellen Wolkenbedeckung, Sichtweite und Regenvorhersage von Wetteradaptern  
 `plenticore.0.forecast.current.visibility.*` - aktuelle Sichtweitenvorhersage, die vom entsprechenden Wetteradapter bereitgestellt wird  
 `plenticore.0.forecast.current.rain.*` - aktuelle Regenvorhersage, die vom entsprechenden Wetteradapter bereitgestellt wird  
@@ -163,7 +163,7 @@ Die Prognosewerte können dann verwendet werden, um den MinSoC der Batterie einz
 `plenticore.0.forecast.day1.power.Xh.power` - geschätzte Gesamtleistung der Anlage zur Sonnenstunde X des Vorhersagetages, wobei 1h die Stunde des Sonnenaufgangs ist  
 `plenticore.0.forecast.day1.power.Xh.power_high` - geschätzte Gesamtleistung der Anlage in Sonnenstunde X des Vorhersagetages, aber ohne Berücksichtigung der Sichtweiten- oder Regendaten  
 `plenticore.0.forecast.day1.power.Xh.time` - die Zeit, zu der die Sonnenstunde für `plenticore.0.forecast.power.Xh.power` beginnt  
-`plenticore.0.forecast.day1.sun.sunrise` - Sonnenaufgang des Vorhersagedatums
+`plenticore.0.forecast.day1.sun.sunrise` - Sonnenaufgang des Vorhersagedatums  
 `plenticore.0.forecast.day1.sun.sunset` - Sonnenuntergang des Vorhersagedatums  
 
 ## Changelog
