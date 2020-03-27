@@ -63,7 +63,7 @@ Dieser Kanal enthält Informationen über die AC-Seite des Wechselrichters. Die 
 #### plenticore.X.devices.local.battery
 
 `plenticore.X.devices.local.battery.Cycles` - die gesamte Anzahl der Batteriezyklen bis jetzt  
-`[**] plenticore.X.devices.local.battery.DynamicSoc` - true, wenn dynamisches SoC aktiviert ist (nur wenn auch `SmartBatteryControl" true ist)  
+`[**] plenticore.X.devices.local.battery.DynamicSoc` - true, wenn dynamisches SoC aktiviert ist (nur wenn auch `SmartBatteryControl` true ist)  
 `[**] plenticore.X.devices.local.battery.MinHomeConsumption` - der minimale Stromverbrauch im Haus, ab dem Batterie genutzt wird  
 `[**] plenticore.X.devices.local.battery.MinSoc` - der gewünschte minimale SoC (State of Charge) der Batterie. Der tatsächliche SoC kann bei fehlender Sonnenenergie unter diesen Wert sinken.  
 `plenticore.X.devices.local.battery.MinSocDummy` - Dieser Wert wird vom Adapter gesetzt, wenn das MinSoC-Management in der Konfiguration deaktiviert ist. Er soll zeigen, auf welchen Wert das MinSoC gesetzt würde.  
