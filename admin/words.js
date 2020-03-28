@@ -290,9 +290,9 @@ systemDictionary = {
 		"pl": "Minimalna MinSoC (%)",
 		"zh-cn": "最小MinSoC（％）"
 	},
-	"min_minsoc description": {
+	"min minsoc description": {
 		"en": "Defines the mminimum MinSoC value that is set by the forecast feature. Default value is 40, possible values are 5 to 100. Must be lower than maximum MinSoC.",
-		 de": "Definiert den minimalen MinSoC-Wert, der von der Prognosefunktion festgelegt wird. Der Standardwert ist 40, mögliche Werte sind 5 bis 100. Muss niedriger als der maximale MinSoC sein",
+		"de": "Definiert den minimalen MinSoC-Wert, der von der Prognosefunktion festgelegt wird. Der Standardwert ist 40, mögliche Werte sind 5 bis 100. Muss niedriger als der maximale MinSoC sein",
 		"ru": "Определяет минимальное значение MinSoC, установленное функцией прогноза. Значение по умолчанию 40, возможные значения от 5 до 100. Должно быть ниже максимального значения MinSoC",
 		"pt": "Define o valor mínimo de MinSoC definido pelo recurso de previsão. O valor padrão é 40, os valores possíveis são de 5 a 100. Deve ser menor que o MinSoC máximo",
 		"nl": "Definieert de minimale MinSoC-waarde die is ingesteld door de prognosefunctie. De standaardwaarde is 40, mogelijke waarden zijn 5 tot 100. Moet lager zijn dan de maximale MinSoC",

@@ -3,6 +3,18 @@
 		"name": "plenticore",
 		"version": "2.1.0",
 		"news": {
+			"2.1.1": {
+				"en": "Fixed problems in config and translations",
+				"de": "Probleme in Konfiguration und Übersetzungen behoben",
+				"ru": "Исправлены проблемы в конфиге и переводах",
+				"pt": "Corrigidos problemas na configuração e traduções",
+				"nl": "Vaste problemen in configuratie en vertalingen",
+				"fr": "Correction de problèmes dans la configuration et les traductions",
+				"it": "Risolti problemi di configurazione e traduzioni",
+				"es": "Problemas resueltos en la configuración y las traducciones",
+				"pl": "Naprawiono problemy z konfiguracją i tłumaczeniami",
+				"zh-cn": "解决了配置和翻译中的问题"
+			},
 			"2.1.0": {
 				"en": "Added further forecast sources to provide better power forecasts\nAdded second day forecast\nImproved code and fixed some minor issues\nNew dependency for xml2js",
 				"de": "Weitere Prognosequellen hinzugefügt, um bessere Energieprognosen bereitzustellen\nPrognose für den zweiten Tag hinzugefügt\nVerbesserter Code und Behebung einiger kleinerer Probleme\nNeue Abhängigkeit für xml2js",
@@ -219,6 +231,7 @@
 		"wfc_instance": "",
 		"enable_minsoc": false,
 		"enable_battery_management": false,
+		"min_minsoc": 5,
 		"max_minsoc": 40,
 		"battery_capacity": 0,
 		"panel_tilt": 30,

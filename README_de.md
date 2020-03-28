@@ -168,6 +168,9 @@ Die Prognosewerte können dann verwendet werden, um den MinSoC der Batterie einz
 
 ## Changelog
 
+### 2.1.1
+- Probleme in Konfiguration und Übersetzungen behoben
+
 ### 2.1.0
 - Weitere Wetterdaten-Quellen hinzugefügt, um bessere Leistungsprognosen zu ermöglichen
 - Prognose für den zweiten Tag hinzugefügt

@@ -136,6 +136,8 @@
 					var value = $this.val();
 					if (id === 'password') {
 						value = encrypt(secret, value);
+					} else if(id === 'min_minsoc' || id === 'max_minsoc') {
+						value = parseInt(value);
 					}
 					obj[id] = value;
                 }

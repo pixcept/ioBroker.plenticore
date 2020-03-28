@@ -170,6 +170,9 @@ The forecast values can then be used to set the MinSoC of the battery, enable or
 
 ## Changelog
 
+### 2.1.1
+-   Fixed problems in config and translations
+
 ### 2.1.0
 -   Added further forecast sources to provide better power forecasts
 -   Added second day forecast
