@@ -1,7 +1,7 @@
 {
 	"common": {
 		"name": "plenticore",
-		"version": "2.1.0",
+		"version": "2.1.1",
 		"news": {
 			"2.1.1": {
 				"en": "Fixed problems in config and translations",
