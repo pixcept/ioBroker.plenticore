@@ -168,6 +168,9 @@ Die Prognosewerte können dann verwendet werden, um den MinSoC der Batterie einz
 
 ## Changelog
 
+### 2.1.2
+- Einstellung für minimalen Ladezustand hinzugefügt, ab dem das Batteriemanagement aktiviert werden darf
+
 ### 2.1.1
 - Probleme in Konfiguration und Übersetzungen behoben
 

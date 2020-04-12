@@ -361,5 +361,41 @@ systemDictionary = {
 		"es": "Ingrese un MinSoC mínimo entre 5 y 100. El valor predeterminado es 40. El valor debe ser inferior al MinSoC máximo.",
 		"pl": "Wprowadź minimalną wartość MinSoC między 5 a 100. Wartość domyślna to 40. Wartość musi być niższa niż maksymalna wartość MinSoC.",
 		"zh-cn": "请输入介于5到100之间的最小MinSoC。默认值为40。该值必须小于最大MinSoC。"
+	},
+	"Please enter a value between 0 and 100 for enabling battery management. Default is 10.": {
+		"en": "Please enter a value between 0 and 100 for enabling battery management. Default is 10.",
+		"de": "Bitte geben Sie einen Wert zwischen 0 und 100 ein, ab dem das Batteriemanagement frühestens aktiviert werden soll. Standard ist 10.",
+		"ru": "Пожалуйста, введите значение от 0 до 100, чтобы включить управление батареей. По умолчанию 10.",
+		"pt": "Digite um valor entre 0 e 100 para ativar o gerenciamento da bateria. O padrão é 10.",
+		"nl": "Voer een waarde in tussen 0 en 100 om batterijbeheer in te schakelen. Standaard is 10.",
+		"fr": "Veuillez entrer une valeur entre 0 et 100 pour activer la gestion de la batterie. La valeur par défaut est 10.",
+		"it": "Inserire un valore compreso tra 0 e 100 per abilitare la gestione della batteria. L'impostazione predefinita è 10.",
+		"es": "Ingrese un valor entre 0 y 100 para habilitar la administración de la batería. El valor predeterminado es 10.",
+		"pl": "Wprowadź wartość od 0 do 100, aby włączyć zarządzanie baterią. Domyślnie jest to 10.",
+		"zh-cn": "请输入介于0到100之间的值以启用电池管理。默认值是10。"
+	},
+	"battery management minimum soc": {
+		"en": "Minimum SoC for enabling battery management",
+		"de": "Minimaler SoC zur Aktivierung des Batteriemanagements",
+		"ru": "Минимальный SoC для включения управления батареями",
+		"pt": "SoC mínimo para permitir o gerenciamento da bateria",
+		"nl": "Minimale SoC om batterijbeheer mogelijk te maken",
+		"fr": "SoC minimum pour permettre la gestion de la batterie",
+		"it": "SoC minimo per consentire la gestione della batteria",
+		"es": "SoC mínimo para permitir la gestión de la batería.",
+		"pl": "Minimalne SoC umożliwiające zarządzanie bateriami",
+		"zh-cn": "支持电池管理的最小SoC"
+	},
+	"bm min soc description": {
+		"en": "With battery management enabled the battery might not be charged in the morning. This can lead to power fetched from grid when the battery was discharged during the night and there is a consumption peak in the morning that cannot be fulfilled by the power plant. Here you can set a minimum SoC value the battery will be charged to on available plant power regardless the battery management status.",
+		"de": "Bei aktiviertem Batteriemanagement wird der Akku möglicherweise morgens nicht aufgeladen. Dies kann dazu führen, dass Strom aus dem Netz bezogen wird, wenn die Batterie nachts entladen wurde und es morgens einen Verbrauchsspitzenwert gibt, der von der PV-Leistung nicht gedeckt werden kann. Hier können Sie einen minimalen Ladestand der Batterie festlegen, ab dem das Batteriemanagement aktiviert werden darf.",
+		"ru": "При включенном управлении батареями батарея может не заряжаться утром. Это может привести к отключению питания от сети, когда батарея разряжалась ночью, а утром наблюдается пик потребления, который не может быть достигнут электростанцией. Здесь вы можете установить минимальное значение SoC, до которого аккумулятор будет заряжаться при доступной мощности установки, независимо от состояния управления аккумулятором.",
+		"pt": "Com o gerenciamento de bateria ativado, a bateria pode não ser carregada pela manhã. Isso pode levar à obtenção de energia da rede quando a bateria foi descarregada durante a noite e há um pico de consumo pela manhã que não pode ser atingido pela usina. Aqui você pode definir um valor mínimo de SoC em que a bateria será carregada com a energia disponível da planta, independentemente do status de gerenciamento da bateria.",
+		"nl": "Als batterijbeheer is ingeschakeld, wordt de batterij mogelijk 's ochtends niet opgeladen. Dit kan ertoe leiden dat het elektriciteitsnet uit het net wordt gehaald wanneer de batterij 's nachts is ontladen en dat er' s ochtends een verbruikspiek is die niet kan worden opgevangen door de elektriciteitscentrale. Hier kunt u een minimale SoC-waarde instellen waarop de batterij wordt opgeladen op beschikbare fabrieksstroom, ongeacht de status van het batterijbeheer.",
+		"fr": "Lorsque la gestion de la batterie est activée, la batterie peut ne pas être chargée le matin. Cela peut conduire à une alimentation récupérée sur le réseau lorsque la batterie a été déchargée pendant la nuit et il y a un pic de consommation le matin qui ne peut pas être satisfait par la centrale électrique. Ici, vous pouvez définir une valeur SoC minimale à laquelle la batterie sera chargée sur la puissance de l'installation disponible quel que soit l'état de gestion de la batterie.",
+		"it": "Con la gestione della batteria abilitata, la batteria potrebbe non essere caricata al mattino. Ciò può comportare il prelievo di energia dalla rete quando la batteria è scarica durante la notte e c'è un picco di consumo al mattino che non può essere soddisfatto dalla centrale elettrica. Qui è possibile impostare un valore SoC minimo a cui verrà addebitata la batteria alla potenza dell'impianto disponibile indipendentemente dallo stato di gestione della batteria.",
+		"es": "Con la gestión de la batería habilitada, es posible que la batería no se cargue por la mañana. Esto puede llevar a la energía extraída de la red cuando la batería se descargó durante la noche y hay un pico de consumo en la mañana que la planta de energía no puede cumplir. Aquí puede establecer un valor mínimo de SoC en el que se cargará la batería con la energía disponible de la planta, independientemente del estado de administración de la batería.",
+		"pl": "Przy włączonym zarządzaniu baterią bateria może nie być ładowana rano. Może to prowadzić do energii pobieranej z sieci, gdy akumulator był rozładowywany w nocy, a rano występuje szczyt zużycia, którego elektrownia nie może osiągnąć. Tutaj możesz ustawić minimalną wartość SoC, do której akumulator będzie ładowany przy dostępnej mocy instalacji, niezależnie od stanu zarządzania baterią.",
+		"zh-cn": "启用电池管理后，早上可能无法为电池充电。当电池在夜间放电时，这可能会导致从电网获取电力，而早晨则出现消耗高峰，这是发电厂无法满足的。在这里，您可以设置最小SoC值，而不管电池管理状态如何，都可以使用可用的工厂电源为电池充电。"
 	}
 };

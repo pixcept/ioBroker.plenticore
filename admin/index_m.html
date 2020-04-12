@@ -136,7 +136,7 @@
 					var value = $this.val();
 					if (id === 'password') {
 						value = encrypt(secret, value);
-					} else if(id === 'min_minsoc' || id === 'max_minsoc') {
+					} else if(id === 'min_minsoc' || id === 'max_minsoc' || id === 'enable_bm_minsoc') {
 						value = parseInt(value);
 					}
 					obj[id] = value;
@@ -171,6 +171,11 @@
 			
 			if(obj['min_minsoc'] < 5 || obj['min_minsoc'] > 100 || obj['min_minsoc'] >= obj['max_minsoc']) {
 				showError(_('Please enter a minimum MinSoC between 5 and 100. Default is 40. Value must be lower than maximum MinSoC.'));
+				return;
+			}
+			
+			if(obj['enable_bm_minsoc'] < 0 || obj['enable_bm_minsoc'] > 100) {
+				showError(_('Please enter a value between 0 and 100 for enabling battery management. Default is 10.'));
 				return;
 			}
 			
@@ -317,7 +322,9 @@
 			</div>
 			<div class="row">
 				<div class="col s6 input-field">
-					
+					<input type="number" class="value" id="enable_bm_minsoc" />
+					<label for="enable_bm_minsoc" class="translate">battery management minimum soc</label>
+					<p><small class="translate">bm min soc description</small></p>
 				</div>
 				<div class="col s6 input-field">
 					<input type="number" class="value" id="min_minsoc" />

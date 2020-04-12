@@ -1,8 +1,20 @@
 {
 	"common": {
 		"name": "plenticore",
-		"version": "2.1.1",
+		"version": "2.1.2",
 		"news": {
+			"2.1.2": {
+				"en": "Added setting for minimum SoC to enable battery management",
+				"de": "Einstellung für minimalen Ladezustand hinzugefügt, ab dem das Batteriemanagement aktiviert werden darf",
+				"ru": "Добавлена настройка минимального SoC для включения управления батареей",
+				"pt": "Configuração adicionada para SoC mínimo para permitir o gerenciamento da bateria",
+				"nl": "Instelling toegevoegd voor minimale SoC om batterijbeheer mogelijk te maken",
+				"fr": "Ajout d'un paramètre pour un SoC minimum pour permettre la gestion de la batterie",
+				"it": "Aggiunta impostazione per SoC minimo per abilitare la gestione della batteria",
+				"es": "Se agregó configuración para SoC mínimo para permitir la administración de la batería",
+				"pl": "Dodano ustawienie minimalnego SoC, aby umożliwić zarządzanie baterią",
+				"zh-cn": "添加了用于最小SoC的设置以启用电池管理"
+			},
 			"2.1.1": {
 				"en": "Fixed problems in config and translations",
 				"de": "Probleme in Konfiguration und Übersetzungen behoben",
@@ -231,6 +243,7 @@
 		"wfc_instance": "",
 		"enable_minsoc": false,
 		"enable_battery_management": false,
+		"enable_bm_minsoc": 10,
 		"min_minsoc": 5,
 		"max_minsoc": 40,
 		"battery_capacity": 0,
