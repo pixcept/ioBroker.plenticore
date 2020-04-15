@@ -16,7 +16,7 @@ let weatherTimer = null;
 
 let reloginTimer = null;
 
-const patchVersion = 'r219';
+const patchVersion = 'r220';
 
 function startAdapter(options) {
 	options = options || {};
@@ -102,7 +102,9 @@ function startAdapter(options) {
 				}
 
 				if(!adapter.config.iob_lon || !adapter.config.iob_lat) {
-					adapter.log.warn('Astro functions not available as system\'s longitude and latitude were not found. Please check ioBroker global system config.');
+					adapter.log.error('Astro functions not available as system\'s longitude and latitude were not found. Please check ioBroker global system config.');
+					adapter.terminate && adapter.terminate() || process.exit();
+					return;
 				}
 
 				if(adapter.config.panel_tilt) {
