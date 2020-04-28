@@ -234,7 +234,7 @@ function main() {
 				needed++;
 			}
 			for(let weatherAdapter in plenticore.weatherAdapters) {
-				adapter.objects.getObjectView('system', 'instance', {
+				adapter.getObjectView('system', 'instance', {
 					startkey: 'system.adapter.' + weatherAdapter,
 					endkey: 'system.adapter.' + weatherAdapter + '.\u9999'
 				}, function(err, doc) {
