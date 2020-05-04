@@ -1,8 +1,20 @@
 {
 	"common": {
 		"name": "plenticore",
-		"version": "2.1.2",
+		"version": "2.1.3",
 		"news": {
+			"2.1.3": {
+				"en": "Fixed wrong hour of weather forecast from daswetter adapter",
+				"de": "Falsche Stunde der Wettervorhersage vom Daswetter-Adapter",
+				"ru": "Исправлен неправильный час прогноза погоды от адаптера Daswetter",
+				"pt": "Corrigida a hora incorreta da previsão do tempo no adaptador daswetter",
+				"nl": "Foutief weerbericht van daswetter-adapter opgelost",
+				"fr": "Correction de la mauvaise heure de prévision météo de l'adaptateur daswetter",
+				"it": "Risolto il problema con l'ora sbagliata delle previsioni del tempo dall'adattatore daswetter",
+				"es": "Se corrigió la hora incorrecta del pronóstico del tiempo del adaptador daswetter",
+				"pl": "Naprawiono błędną godzinę prognozy pogody z adaptera daswetter",
+				"zh-cn": "修复了来自daswetter适配器的天气预报错误时间"
+			},
 			"2.1.2": {
 				"en": "Added setting for minimum SoC to enable battery management",
 				"de": "Einstellung für minimalen Ladezustand hinzugefügt, ab dem das Batteriemanagement aktiviert werden darf",
