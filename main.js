@@ -16,7 +16,7 @@ let weatherTimer = null;
 
 let reloginTimer = null;
 
-const patchVersion = 'r222';
+const patchVersion = 'r223';
 
 function startAdapter(options) {
 	options = options || {};
