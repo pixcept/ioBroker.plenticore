@@ -71,6 +71,7 @@ Dieser Kanal enthält Informationen über die AC-Seite des Wechselrichters. Die 
 `plenticore.X.devices.local.battery.Charge_P` - die aktuelle Ladeleistung der Batterie (0 bei Entladung)  
 `plenticore.X.devices.local.battery.Discharge_P` - die aktuelle Entladeleistung der Batterie (0 beim Laden)  
 `[**] plenticore.X.devices.local.battery.SmartBatteryControl` - true, wenn das Smart Battery Management aktiviert ist. Gemäß dem offiziellen Handbuch darf dies nur dann aktiviert werden, wenn keine weitere AC-Quelle wie ein zweiter Wechselrichter beteiligt ist.  
+`[**] plenticore.X.devices.local.battery.ExternControl` - 0 für interne Steuerung, 1 für externe Steuerung via Digital I/O, 2 für externe Steuerung via Modbus TCP
 `plenticore.X.devices.local.battery.SoC` - der aktuelle Ladezustand der Batterie  
 
 #### plenticore.X.devices.local.inverter
