@@ -4,7 +4,16 @@
 		"version": "2.1.4",
 		"news": {
 			"2.1.4": {
-				"en": "Disable smart battery control as long as SoC is lower than MinSoC + 8% to avoid using grid power on consumption peaks\nEnable new external battery control setting"
+				"en": "Disable smart battery control as long as SoC is lower than MinSoC + 8% to avoid using grid power on consumption peaks\nDisable darksky usage (discontinued)",
+				"de": "Deaktivieren der intelligenten Batteriesteuerung, solange der SoC unter MinSoC + 8% liegt, um zu vermeiden, dass bei Verbrauchsspitzen Netzstrom verwendet wird\nDarksky-Nutzung deaktivieren (eingestellt)",
+				"ru": "Отключите интеллектуальное управление батареей, пока SoC ниже MinSoC + 8%, чтобы избежать использования энергии сети при пиках потребления\nОтключить использование даркского (снято с производства)",
+				"pt": "Desative o controle de bateria inteligente, desde que SoC seja inferior a MinSoC + 8% para evitar o uso de energia da rede em picos de consumo\nDesativar o uso do darksky (descontinuado)",
+				"nl": "Schakel slimme batterijcontrole uit zolang SoC lager is dan MinSoC + 8% om te voorkomen dat het elektriciteitsnet wordt gebruikt bij verbruikspieken\nDarksky-gebruik uitschakelen (stopgezet)",
+				"fr": "Désactivez le contrôle intelligent de la batterie tant que le SoC est inférieur à MinSoC + 8% pour éviter d'utiliser l'alimentation du réseau sur les pics de consommation\nDésactiver l'utilisation de Darksky (abandonné)",
+				"it": "Disabilitare il controllo intelligente della batteria fintanto che SoC è inferiore a MinSoC + 8% per evitare di utilizzare la rete in caso di picchi di consumo\nDisabilita l'utilizzo di darksky (interrotto)",
+				"es": "Desactive el control inteligente de la batería siempre que el SoC sea inferior a MinSoC + 8% para evitar el uso de la energía de la red en picos de consumo\nDeshabilitar el uso de darksky (descontinuado)",
+				"pl": "Wyłącz inteligentną kontrolę baterii tak długo, jak SoC jest niższa niż MinSoC + 8%, aby uniknąć wykorzystywania mocy sieci w szczytach zużycia\nWyłącz użycie Darksky (wycofane)",
+				"zh-cn": "只要SoC低于MinSoC + 8％，就禁用智能电池控制，以避免在功耗峰值时使用电网电源\n禁用深色天空用法（已停产）"
 			},
 			"2.1.3": {
 				"en": "Fixed wrong hour of weather forecast from daswetter adapter",

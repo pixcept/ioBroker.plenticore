@@ -302,9 +302,9 @@ systemDictionary = {
 		"pl": "Definiuje minimalną wartość MinSoC ustawioną przez funkcję prognozy. Wartość domyślna to 40, możliwe wartości to od 5 do 100. Musi być niższa niż maksymalna wartość MinSoC",
 		"zh-cn": "定义由预测功能设置的最小MinSoC值。默认值为40，可能的值为5到100。必须小于最大MinSoC"
 	},
-	"The forecast uses weather data from kachelmannwetter and (if adapters installed) from weatherunderground and darksky.": {
-		"en": "The forecast uses weather data from kachelmannwetter and (if adapters installed) from weatherunderground, daswetter.com and darksky.",
-		"de": "Die Vorhersage verwendet Wetterdaten von kachelmannwetter und (falls Adapter installiert) von weatherunderground, daswetter.com und darksky.",
+	"The forecast uses weather data from kachelmannwetter and (if adapters installed) from weatherunderground.": {
+		"en": "The forecast uses weather data from kachelmannwetter and (if adapters installed) from weatherunderground, daswetter.com.",
+		"de": "Die Vorhersage verwendet Wetterdaten von kachelmannwetter und (falls Adapter installiert) von weatherunderground, daswetter.com.",
 		"ru": "Прогноз использует данные о погоде от kachelmannwetter и (если установлены адаптеры) от weatherunderground, daswetter.com и darksky.",
 		"pt": "A previsão usa dados climáticos de kachelmannwetter e (se adaptadores instalados) de weatherunderground, daswetter.com e darksky.",
 		"nl": "De voorspelling maakt gebruik van weergegevens van kachelmannwetter en (indien adapters geïnstalleerd) van weatherunderground, daswetter.com en darksky.",
@@ -397,5 +397,17 @@ systemDictionary = {
 		"es": "Con la gestión de la batería habilitada, es posible que la batería no se cargue por la mañana. Esto puede llevar a la energía extraída de la red cuando la batería se descargó durante la noche y hay un pico de consumo en la mañana que la planta de energía no puede cumplir. Aquí puede establecer un valor mínimo de SoC en el que se cargará la batería con la energía disponible de la planta, independientemente del estado de administración de la batería.",
 		"pl": "Przy włączonym zarządzaniu baterią bateria może nie być ładowana rano. Może to prowadzić do energii pobieranej z sieci, gdy akumulator był rozładowywany w nocy, a rano występuje szczyt zużycia, którego elektrownia nie może osiągnąć. Tutaj możesz ustawić minimalną wartość SoC, do której akumulator będzie ładowany przy dostępnej mocy instalacji, niezależnie od stanu zarządzania baterią.",
 		"zh-cn": "启用电池管理后，早上可能无法为电池充电。当电池在夜间放电时，这可能会导致从电网获取电力，而早晨则出现消耗高峰，这是发电厂无法满足的。在这里，您可以设置最小SoC值，而不管电池管理状态如何，都可以使用可用的工厂电源为电池充电。"
+	},
+	"No location set in ioBroker system config": {
+		"en": "You have not set location info in the main system config of ioBroker. This adapter needs location information to work, so please set location info before starting it.",
+		"de": "Sie haben in der Systemkonfiguration von ioBroker keine Standortinformationen hinterlegt. Dieser Adapter benötigt Standortinformationen, damit er funktioniert. Legen Sie daher die Standortinformationen fest, bevor Sie den Adapter starten.",
+		"ru": "Вы не указали информацию о местоположении в основной конфигурации системы ioBroker. Этому адаптеру для работы требуется информация о местоположении, поэтому перед его запуском укажите информацию о местоположении.",
+		"pt": "Você não definiu as informações de localização na configuração do sistema principal do ioBroker. Este adaptador precisa de informações de localização para funcionar, portanto, defina as informações de localização antes de iniciá-lo.",
+		"nl": "U heeft geen locatiegegevens ingesteld in de hoofdsysteemconfiguratie van ioBroker. Deze adapter heeft locatiegegevens nodig om te werken, dus stel locatiegegevens in voordat u deze start.",
+		"fr": "Vous n'avez pas défini les informations de localisation dans la configuration principale du système d'ioBroker. Cet adaptateur a besoin d'informations de localisation pour fonctionner, veuillez donc définir les informations de localisation avant de le démarrer.",
+		"it": "Non hai impostato le informazioni sulla posizione nella configurazione di sistema principale di ioBroker. Questo adattatore necessita delle informazioni sulla posizione per funzionare, quindi imposta le informazioni sulla posizione prima di avviarlo.",
+		"es": "No ha establecido la información de ubicación en la configuración del sistema principal de ioBroker. Este adaptador necesita información de ubicación para funcionar, así que configure la información de ubicación antes de iniciarlo.",
+		"pl": "Nie ustawiłeś informacji o lokalizacji w głównej konfiguracji systemu ioBroker. Ten adapter wymaga do działania informacji o lokalizacji, więc przed uruchomieniem ustaw informacje o lokalizacji.",
+		"zh-cn": "您尚未在ioBroker的主系统配置中设置位置信息。该适配器需要位置信息才能工作，因此请在启动之前设置位置信息。"
 	}
 };
