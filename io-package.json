@@ -263,7 +263,7 @@
 		"loglevel": "info",
 		"type": "energy",
 		"connectionType": "local",
-		"dataSource": "pull",
+		"dataSource": "poll",
 		"license": "MIT",
 		"messagebox": true,
 		"materialize": true,
