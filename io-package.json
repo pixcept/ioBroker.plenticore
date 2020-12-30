@@ -1,8 +1,20 @@
 {
 	"common": {
 		"name": "plenticore",
-		"version": "2.1.4",
+		"version": "2.1.5",
 		"news": {
+			"2.1.5": {
+				"en": "Package information fixed",
+				"de": "Paketinformationen korrigiert",
+				"ru": "Информация о пакете исправлена",
+				"pt": "Informações do pacote corrigidas",
+				"nl": "Pakketinformatie opgelost",
+				"fr": "Informations sur le paquet corrigées",
+				"it": "Informazioni sul pacchetto corrette",
+				"es": "Información del paquete arreglada",
+				"pl": "Informacje o pakiecie naprawione",
+				"zh-cn": "包裹信息固定"
+			},
 			"2.1.4": {
 				"en": "Disable smart battery control as long as SoC is lower than MinSoC + 8% to avoid using grid power on consumption peaks\nDisable darksky usage (discontinued)",
 				"de": "Deaktivieren der intelligenten Batteriesteuerung, solange der SoC unter MinSoC + 8% liegt, um zu vermeiden, dass bei Verbrauchsspitzen Netzstrom verwendet wird\nDarksky-Nutzung deaktivieren (eingestellt)",
