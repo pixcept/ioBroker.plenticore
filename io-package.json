@@ -1,8 +1,20 @@
 {
 	"common": {
 		"name": "plenticore",
-		"version": "2.1.5",
+		"version": "2.1.6",
 		"news": {
+			"2.1.6": {
+				"en": "Copyright year updated",
+				"de": "Copyright-Jahr aktualisiert",
+				"ru": "Год авторского права обновлен",
+    				"pt": "Ano de copyright atualizado",
+    				"nl": "Copyrightjaar bijgewerkt",
+    				"fr": "Année de copyright mise à jour",
+    				"it": "Anno di copyright aggiornato",
+    				"es": "Año de copyright actualizado",
+    				"pl": "Zaktualizowano rok praw autorskich",
+    				"zh-cn": "版权年份已更新"
+			},
 			"2.1.5": {
 				"en": "Package information fixed",
 				"de": "Paketinformationen korrigiert",

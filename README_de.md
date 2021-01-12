@@ -169,6 +169,9 @@ Die Prognosewerte können dann verwendet werden, um den MinSoC der Batterie einz
 
 ## Changelog
 
+### 2.1.6
+- Copyright-Jahr aktualisiert
+
 ### 2.1.5
 - Paketinformationen korrigiert
 
@@ -249,7 +252,7 @@ Die Prognosewerte können dann verwendet werden, um den MinSoC der Batterie einz
 
 The MIT License (MIT)
 
-Copyright (c) 2020 Marius Burkard
+Copyright (c) 2021 Marius Burkard
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
