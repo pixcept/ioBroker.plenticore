@@ -169,6 +169,13 @@ Die Prognosewerte können dann verwendet werden, um den MinSoC der Batterie einz
 
 ## Changelog
 
+### 2.1.5
+- Paketinformationen korrigiert
+
+### 2.1.4
+- Deaktivieren der intelligenten Batteriesteuerung, solange der SoC unter MinSoC + 8% liegt, um zu vermeiden, dass bei Verbrauchsspitzen Netzstrom verwendet wird
+- Darksky-Nutzung deaktivieren (Dienst eingestellt)
+
 ### 2.1.3
 - Fehler mit falscher Stunde der Wettervorhersage vom Daswetter-Adapter behoben
 

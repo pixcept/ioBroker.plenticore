@@ -171,6 +171,13 @@ The forecast values can then be used to set the MinSoC of the battery, enable or
 
 ## Changelog
 
+### 2.1.5
+- Package information fixed
+
+### 2.1.4
+- Disable smart battery control as long as SoC is lower than MinSoC + 8% to avoid using grid power on consumption peaks
+- Disable darksky usage (service discontinued)
+
 ### 2.1.3
 -   Fixed wrong hour of weather forecast from daswetter adapter
 
