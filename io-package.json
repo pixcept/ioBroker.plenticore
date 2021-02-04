@@ -1,19 +1,31 @@
 {
 	"common": {
 		"name": "plenticore",
-		"version": "2.1.6",
+		"version": "2.1.7",
 		"news": {
+			"2.1.7": {
+				"en": "Update of base library",
+				"de": "Aktualisierung der Basisbibliothek",
+				"ru": "Обновление базовой библиотеки",
+				"pt": "Atualização da biblioteca base",
+				"nl": "Update van basisbibliotheek",
+				"fr": "Mise à jour de la bibliothèque de base",
+				"it": "Aggiornamento della libreria di base",
+				"es": "Actualización de la biblioteca base",
+				"pl": "Aktualizacja biblioteki podstawowej",
+				"zh-cn": "基础库的更新"
+			},
 			"2.1.6": {
 				"en": "Copyright year updated",
 				"de": "Copyright-Jahr aktualisiert",
 				"ru": "Год авторского права обновлен",
-    				"pt": "Ano de copyright atualizado",
-    				"nl": "Copyrightjaar bijgewerkt",
-    				"fr": "Année de copyright mise à jour",
-    				"it": "Anno di copyright aggiornato",
-    				"es": "Año de copyright actualizado",
-    				"pl": "Zaktualizowano rok praw autorskich",
-    				"zh-cn": "版权年份已更新"
+				"pt": "Ano de copyright atualizado",
+				"nl": "Copyrightjaar bijgewerkt",
+				"fr": "Année de copyright mise à jour",
+				"it": "Anno di copyright aggiornato",
+				"es": "Año de copyright actualizado",
+				"pl": "Zaktualizowano rok praw autorskich",
+				"zh-cn": "版权年份已更新"
 			},
 			"2.1.5": {
 				"en": "Package information fixed",
