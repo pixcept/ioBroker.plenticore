@@ -169,6 +169,9 @@ Die Prognosewerte können dann verwendet werden, um den MinSoC der Batterie einz
 
 ## Changelog
 
+### 2.1.7
+- Bibliothek aktualisiert, um js controller 3.2 zu unterstützen
+
 ### 2.1.6
 - Copyright-Jahr aktualisiert
 
