@@ -26,6 +26,18 @@ systemDictionary = {
 		"pl": "adres IP",
 		"zh-cn": "IP地址"
 	},
+    "port": {
+		"en": "Port",
+		"de": "Port",
+		"ru": "Port",
+		"pt": "Port",
+		"nl": "Port",
+		"fr": "Port",
+		"it": "Port",
+		"es": "Port",
+		"pl": "Port",
+		"zh-cn": "Port"
+	},
     "password": {
         "en": "Password for plant owner",
 		"de": "Passwort für Anlagenbesitzer",
