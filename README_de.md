@@ -169,6 +169,11 @@ Die Prognosewerte können dann verwendet werden, um den MinSoC der Batterie einz
 
 ## Changelog
 
+### 2.1.8
+- Update der met.no API auf locationforecast 2.0
+- xml2js Bibliothek entfernt
+- Aktualisierung der Basisbibliothek
+
 ### 2.1.7
 - Bibliothek aktualisiert, um js controller 3.2 zu unterstützen
 

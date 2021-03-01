@@ -1,8 +1,20 @@
 {
 	"common": {
 		"name": "plenticore",
-		"version": "2.1.7",
+		"version": "2.1.8",
 		"news": {
+			"2.1.8": {
+				"en": "Update of met.no API to locationforecast 2.0\nRemoved xml2js library\nUpdate of base library",
+				"de": "Update der met.no API auf locationforecast 2.0\nxml2js Bibliothek entfernt\nAktualisierung der Basisbibliothek",
+				"ru": "Обновление met.no API до locationforecast 2.0\nУдалена библиотека xml2js\nОбновление базовой библиотеки",
+				"pt": "Atualização da API met.no para locationforecast 2.0\nBiblioteca xml2js removida\nAtualização da biblioteca base",
+				"nl": "Update van met.no API naar locationforecast 2.0\nXml2js-bibliotheek verwijderd\nUpdate van basisbibliotheek",
+				"fr": "Mise à jour de l'API met.no vers locationforecast 2.0\nBibliothèque xml2js supprimée\nMise à jour de la bibliothèque de base",
+				"it": "Aggiornamento di met.no API alla locationforecast 2.0\nLibreria xml2js rimossa\nAggiornamento della libreria di base",
+				"es": "Actualización de la API de met.no a locationforecast 2.0\nBiblioteca xml2js eliminada\nActualización de la biblioteca base",
+				"pl": "Aktualizacja met.no API do wersji locationforecast 2.0\nUsunięto bibliotekę xml2js\nAktualizacja biblioteki podstawowej",
+				"zh-cn": "将met.no API更新为2.0\n删除了xml2js库\n基础库的更新"
+			},
 			"2.1.7": {
 				"en": "Update of base library",
 				"de": "Aktualisierung der Basisbibliothek",
