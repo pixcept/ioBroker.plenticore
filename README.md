@@ -171,6 +171,9 @@ The forecast values can then be used to set the MinSoC of the battery, enable or
 
 ## Changelog
 
+### 2.1.9
+- Fixed met.no rain forecast value
+
 ### 2.1.8
 - Update of met.no API to locationforecast 2.0
 - Removed xml2js library

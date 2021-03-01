@@ -169,6 +169,9 @@ Die Prognosewerte können dann verwendet werden, um den MinSoC der Batterie einz
 
 ## Changelog
 
+### 2.1.9
+- met.no Regenvorhersagewert korrigiert
+
 ### 2.1.8
 - Update der met.no API auf locationforecast 2.0
 - xml2js Bibliothek entfernt

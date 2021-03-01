@@ -1,8 +1,20 @@
 {
 	"common": {
 		"name": "plenticore",
-		"version": "2.1.8",
+		"version": "2.1.9",
 		"news": {
+			"2.1.9": {
+				"en": "Fixed met.no rain forecast value",
+				"de": "met.no Regenvorhersagewert korrigiert",
+				"ru": "Фиксированное значение прогноза дождя met.no",
+				"pt": "Valor de previsão de chuva met.no corrigido",
+				"nl": "Vaste voldaan. Geen regenvoorspellingswaarde",
+				"fr": "Correction de la valeur de prévision de pluie met.no",
+				"it": "Corretto il valore di previsione della pioggia met. No",
+				"es": "Valor fijo de pronóstico sin lluvia",
+				"pl": "Stała wartość prognozy dla met. Brak opadów",
+				"zh-cn": "固定的无雨预报值"
+			},
 			"2.1.8": {
 				"en": "Update of met.no API to locationforecast 2.0\nRemoved xml2js library\nUpdate of base library",
 				"de": "Update der met.no API auf locationforecast 2.0\nxml2js Bibliothek entfernt\nAktualisierung der Basisbibliothek",
