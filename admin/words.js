@@ -26,6 +26,42 @@ systemDictionary = {
 		"pl": "adres IP",
 		"zh-cn": "IP地址"
 	},
+	"port": {
+	  "en": "Port",
+	  "de": "Port",
+	  "ru": "Порт",
+	  "pt": "Porta",
+	  "nl": "Poort",
+	  "fr": "Port",
+	  "it": "Porta",
+	  "es": "Puerto",
+	  "pl": "Port",
+	  "zh-cn": "港口"
+	},
+	"use https": {
+	  "en": "Use HTTPS connection instead of HTTP",
+	  "de": "Verwenden Sie eine HTTPS-Verbindung anstelle von HTTP",
+	  "ru": "Использовать HTTPS-соединение вместо HTTP",
+	  "pt": "Use conexão HTTPS em vez de HTTP",
+	  "nl": "HTTPS-verbinding gebruiken in plaats van HTTP",
+	  "fr": "Utiliser la connexion HTTPS au lieu de HTTP",
+	  "it": "Usa la connessione HTTPS invece di HTTP",
+	  "es": "Utilice la conexión HTTPS en lugar de HTTP",
+	  "pl": "Użyj połączenia HTTPS zamiast HTTP",
+	  "zh-cn": "使用 HTTPS 连接而不是 HTTP"
+	},
+	"Please enter a valid port.": {
+	  "en": "Please enter a valid port.",
+	  "de": "Bitte geben Sie einen gültigen Port ein.",
+	  "ru": "Пожалуйста, введите действующий порт",
+	  "pt": "Por favor, insira uma porta válida",
+	  "nl": "Voer a.u.b. een geldige poort in",
+	  "fr": "Veuillez saisir un port valide",
+	  "it": "Si prega di inserire una porta valida",
+	  "es": "Ingrese un puerto válido",
+	  "pl": "Proszę podać poprawny port",
+	  "zh-cn": "请输入有效的端口"
+	},
     "password": {
         "en": "Password for plant owner",
 		"de": "Passwort für Anlagenbesitzer",

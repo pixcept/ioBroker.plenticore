@@ -78,6 +78,8 @@ function startAdapter(options) {
 	adapter.on('ready', function() {
 		if(!adapter.config.ipaddress) {
 			adapter.log.warn('[START] IP address not set');
+		} else if(!adapter.config.port) {
+			adapter.log.warn('[START] Port not set');
 		} else if(!adapter.config.password) {
 			adapter.log.warn('[START] Password not set');
 		} else {
@@ -198,7 +200,7 @@ function startAdapter(options) {
 
 function main() {
 
-	adapter.log.debug('[START] Started Adapter with: ' + adapter.config.ipaddress);
+	adapter.log.debug('[START] Started Adapter with: ' + adapter.config.ipaddress + ':' + adapter.config.port);
 
 	plenticore.login(function(error) {
 		if(error) {

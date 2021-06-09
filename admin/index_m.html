@@ -114,7 +114,7 @@
 					var value = $this.val();
 					if (id === 'password') {
 						value = encrypt(secret, value);
-					} else if(id === 'min_minsoc' || id === 'max_minsoc' || id === 'enable_bm_minsoc') {
+					} else if(id === 'min_minsoc' || id === 'max_minsoc' || id === 'enable_bm_minsoc' || id === 'port') {
 						value = parseInt(value);
 					}
 					obj[id] = value;
@@ -138,6 +138,11 @@
 			
 			if(obj['enable_minsoc'] && !obj['battery_capacity']) {
 				showError(_('Please enter the battery capacity first. We need this to calculate the MinSoC.'));
+				return;
+			}
+			
+			if(!obj['port'] || obj['port'] < 1 || obj['port'] > 65535) {
+				showError(_('Please enter a valid port.'));
 				return;
 			}
 			
@@ -190,7 +195,16 @@
 					<input type="text" class="value" id="ipaddress" />
 					<label for="ipaddress" class="translate">ipaddress</label>
 				</div>
-
+				<div class="col s6 input-field">
+					<input type="text" class="value" id="port" />
+					<label for="port" class="translate">port</label>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col s6 input-field">
+					<input type="checkbox" class="value" id="https" />
+					<label for="https" class="translate">use https</label>
+				</div>
 				<div class="col s6 input-field">
 					<input type="password" class="value" id="password" />
 					<label for="password" class="translate">password</label>
