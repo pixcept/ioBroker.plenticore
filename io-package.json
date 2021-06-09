@@ -1,8 +1,20 @@
 {
 	"common": {
 		"name": "plenticore",
-		"version": "2.1.9",
+		"version": "2.2.0",
 		"news": {
+			"2.2.0": {
+				"en": "Fixed state value types for new version of js-controller\nAllow providing a custom port for connection to converter\nAllow using https connection to converter\nFixed some state object types",
+				"de": "Korrigierte Zustandswerttypen für die neue Version des js-Controllers\nEin benutzerdefinierter Port für die Verbindung zum Wechselrichter kann angegeben werden\nDie Verbindung zum Wechselrichter kann nun auch via https erfolgen\nEinige Zustandsobjekttypen korrigiert",
+				"ru": "Типы фиксированных значений состояния для новой версии js-controller\nРазрешить предоставление настраиваемого порта для подключения к конвертеру\nРазрешить использование https-подключения к конвертеру\nИсправлены некоторые типы объектов состояния",
+				"pt": "Tipos de valor de estado fixo para a nova versão do js-controller\nPermitir o fornecimento de uma porta personalizada para conexão ao conversor\nPermitir o uso de conexão https para conversor\nAlguns tipos de objeto de estado foram corrigidos",
+				"nl": "Vaste waardetypes voor nieuwe versie van js-controller\nSta het verstrekken van een aangepaste poort toe voor verbinding met de converter\nSta het gebruik van https-verbinding met converter toe\nSommige typen statusobjecten opgelost",
+				"fr": "Types de valeurs d'état fixes pour la nouvelle version de js-controller\nPermet de fournir un port personnalisé pour la connexion au convertisseur\nAutoriser l'utilisation de la connexion https au convertisseur\nCorrection de certains types d'objets d'état",
+				"it": "Tipi di valori di stato fissi per la nuova versione di js-controller\nConsenti di fornire una porta personalizzata per la connessione al convertitore\nConsenti l'utilizzo della connessione https al convertitore\nRisolti alcuni tipi di oggetti di stato",
+				"es": "Tipos de valores de estado fijos para la nueva versión de js-controller\nPermitir proporcionar un puerto personalizado para la conexión al convertidor\nPermitir el uso de la conexión https al convertidor\nSe corrigieron algunos tipos de objetos de estado.",
+				"pl": "Naprawiono typy wartości stanu dla nowej wersji js-controller\nUmożliwiają dostarczenie niestandardowego portu do połączenia z konwerterem\nZezwól na używanie połączenia https z konwerterem\nNaprawiono niektóre typy obiektów stanu object",
+				"zh-cn": "修复了新版本 js-controller 的状态值类型\n允许提供用于连接转换器的自定义端口\n允许使用 https 连接到转换器\n修复了一些状态对象类型"
+			},
 			"2.1.9": {
 				"en": "Fixed met.no rain forecast value",
 				"de": "met.no Regenvorhersagewert korrigiert",

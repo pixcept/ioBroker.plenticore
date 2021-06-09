@@ -169,6 +169,13 @@ Die Prognosewerte können dann verwendet werden, um den MinSoC der Batterie einz
 
 ## Changelog
 
+### 2.2.0
+- Korrigierte Zustandswerttypen für die neue Version des js-Controllers  
+  Achtung: Bitte nach dem Update einmal den State scb.export.LastExportOk löschen und den Adapter neu starten
+- Ein benutzerdefinierter Port für die Verbindung zum Wechselrichter kann angegeben werden
+- Die Verbindung zum Wechselrichter kann nun auch via https erfolgen
+- Einige Zustandsobjekttypen korrigiert
+
 ### 2.1.9
 - met.no Regenvorhersagewert korrigiert
 
