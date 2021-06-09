@@ -47,7 +47,17 @@
                 if ($key.attr('type') === 'checkbox') {
                     // do not call onChange direct, because onChange could expect some arguments
                     $key.prop('checked', settings[id])
-                        .on('change', () => onChange())
+                        .on('change', function() {
+							if($(this).attr('id') === 'https') {
+								if($('#port').val() === '80' && $(this).is(':checked')) {
+									$('#port').val('443');
+								} else if($('#port').val() === '443' && !$(this).is(':checked')) {
+									$('#port').val('80');
+								}
+							}
+
+							onChange();
+						});
                         ;
                 } else {
                     // do not call onChange direct, because onChange could expect some arguments
