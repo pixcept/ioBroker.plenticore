@@ -327,13 +327,6 @@
 					<label for="max_minsoc" class="translate">maximum minsoc</label>
 					<p><small class="translate">max minsoc description</small></p>
 				</div>
-  <div class="col s6 input-field">
-    <select>
-      <option value="battery_strategy_1">Double day forecast vs. battery capacity</option>
-      <option value="battery_strategy_2"> Remaining forecast vs. space in battery</option>
-    </select>
-    <label>Select battery strategy</label>
-  </div>			
 			</div>
 			<div class="row">
 				<div class="col s6 input-field">
@@ -341,6 +334,13 @@
 					<label for="enable_bm_minsoc" class="translate">battery management minimum soc</label>
 					<p><small class="translate">bm min soc description</small></p>
 				</div>
+  <div class="col s6 input-field">
+    <select>
+      <option value="battery_strategy_1">Strategy 1: Double day forecast vs. battery capacity</option>
+      <option value="battery_strategy_2">Strategy 2: Remaining forecast vs. space in battery</option>
+    </select>
+    <label>Select battery strategy</label>
+  </div>			
 				<div class="col s6 input-field">
 					<input type="number" class="value" id="min_minsoc" />
 					<label for="min_minsoc" class="translate">minimum minsoc</label>
