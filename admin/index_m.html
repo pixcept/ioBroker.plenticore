@@ -171,6 +171,11 @@
 				return;
 			}
 			
+			if(obj['max_feed_in_percentage'] < 30 || obj['max_feed_in_percentage'] > 100 ) {
+				showError(_('Please enter a maximum feed-in percentage between 30 and 100. Default is 70.'));
+				return;
+			}
+			
             callback(obj);
         }
     </script>
@@ -333,6 +338,11 @@
 					<input type="number" class="value" id="min_minsoc" />
 					<label for="min_minsoc" class="translate">minimum minsoc</label>
 					<p><small class="translate">min minsoc description</small></p>
+				</div>
+				<div class="col s6 input-field">
+					<input type="number" class="value" id="max_feed_in_percentage" />
+					<label for="max_feed_in_percentage" class="translate">maximum feed-in percentage</label>
+					<p><small class="translate">max feed-in description</small></p>
 				</div>
 			</div>
 		</div>

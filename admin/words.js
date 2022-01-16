@@ -338,6 +338,18 @@ systemDictionary = {
 		"pl": "Definiuje minimalną wartość MinSoC ustawioną przez funkcję prognozy. Wartość domyślna to 40, możliwe wartości to od 5 do 100. Musi być niższa niż maksymalna wartość MinSoC",
 		"zh-cn": "定义由预测功能设置的最小MinSoC值。默认值为40，可能的值为5到100。必须小于最大MinSoC"
 	},
+	"max feed-in description": {
+		"en": "Defines the maximum percentage, which is can by feed-in (e.g. max. 70%)",
+		"de": "Definiert den Prozentsatz der maximalen Leistung, die eingespeist werden darf (z.B. max. 70% der Panel-Leistung)",
+		"ru": "TODO: Translation required for max feed-in description",
+		"pt": "TODO: Translation required for max feed-in description",
+		"nl": "TODO: Translation required for max feed-in description",
+		"fr": "TODO: Translation required for max feed-in description",
+		"it": "TODO: Translation required for max feed-in description",
+		"es": "TODO: Translation required for max feed-in description",
+		"pl": "TODO: Translation required for max feed-in description",
+		"zh-cn": "TODO: Translation required for max feed-in description"
+	},
 	"The forecast uses weather data from kachelmannwetter and (if adapters installed) from weatherunderground.": {
 		"en": "The forecast uses weather data from kachelmannwetter and (if adapters installed) from weatherunderground, daswetter.com.",
 		"de": "Die Vorhersage verwendet Wetterdaten von kachelmannwetter und (falls Adapter installiert) von weatherunderground, daswetter.com.",
