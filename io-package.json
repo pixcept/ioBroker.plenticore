@@ -217,8 +217,9 @@
 		"panel_tilt": 30,
 		"panel_dir": 180,
 		"panel_surface": 0,
-		"panel_efficiency": 19.2
-	},
+		"panel_efficiency": 19.2,
+		"max_feed_in_percentage": 70
+},
 	"objects": [],
 	"instanceObjects": [
 		{
