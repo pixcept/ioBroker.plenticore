@@ -338,7 +338,7 @@ systemDictionary = {
 		"pl": "Definiuje minimalną wartość MinSoC ustawioną przez funkcję prognozy. Wartość domyślna to 40, możliwe wartości to od 5 do 100. Musi być niższa niż maksymalna wartość MinSoC",
 		"zh-cn": "定义由预测功能设置的最小MinSoC值。默认值为40，可能的值为5到100。必须小于最大MinSoC"
 	},
-	"maximum feed-in percentage (%)": {
+	"maximum feed-in percentage": {
 		"en": "Maximum feed-in percentage (%)",
 		"de": "Maximale Einspeisung in Prozent (%)",
 		"ru": "Maksimal'nyy protsent podachi (%)",
