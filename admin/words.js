@@ -341,26 +341,26 @@ systemDictionary = {
 	"maximum feed-in percentage (%)": {
 		"en": "Maximum feed-in percentage (%)",
 		"de": "Maximale Einspeisung in Prozent (%)",
-		"ru": "TODO: Translation required for max feed-in (%)",
-		"pt": "TODO: Translation required for max feed-in (%)",
-		"nl": "TODO: Translation required for max feed-in (%)",
-		"fr": "TODO: Translation required for max feed-in (%)",
-		"it": "TODO: Translation required for max feed-in (%)",
-		"es": "TODO: Translation required for max feed-in (%)",
-		"pl": "TODO: Translation required for max feed-in (%)",
-		"zh-cn": "TODO: Translation required for max feed-in （％）"
+		"ru": "Maksimal'nyy protsent podachi (%)",
+		"pt": "Porcentagem máxima de alimentação (%)",
+		"nl": "Maximaal terugleverpercentage (%)",
+		"fr": "Pourcentage d'alimentation maximal (%)",
+		"it": "Percentuale massima di immissione in rete (%)",
+		"es": "Porcentaje máximo de alimentación (%)",
+		"pl": "Maksymalny procent podawania (%)",
+		"zh-cn": "最大进料百分比 （％）"
 	},
 	"max feed-in description": {
 		"en": "Defines the maximum percentage, which is can by feed-in (e.g. max. 70%)",
 		"de": "Definiert den Prozentsatz der maximalen Leistung, die eingespeist werden darf (z.B. max. 70% der Panel-Leistung)",
-		"ru": "TODO: Translation required for max feed-in description",
-		"pt": "TODO: Translation required for max feed-in description",
-		"nl": "TODO: Translation required for max feed-in description",
-		"fr": "TODO: Translation required for max feed-in description",
-		"it": "TODO: Translation required for max feed-in description",
-		"es": "TODO: Translation required for max feed-in description",
-		"pl": "TODO: Translation required for max feed-in description",
-		"zh-cn": "TODO: Translation required for max feed-in description"
+		"ru": "Определяет процент максимальной мощности, которая может подаваться (например, макс. 70% мощности панели).",
+		"pt": "Define a porcentagem da potência máxima que pode ser alimentada (por exemplo, máx. 70% da potência do painel)",
+		"nl": "Bepaalt het percentage van het maximale vermogen dat mag worden teruggeleverd (bijv. max. 70% van het paneelvermogen)",
+		"fr": "Définit le pourcentage de la puissance maximale pouvant être injectée (par ex. max. 70 % de la puissance du panneau)",
+		"it": "Definisce la percentuale della potenza massima che può essere immessa (es. max. 70% della potenza del pannello)",
+		"es": "Define el porcentaje de la potencia máxima que se puede alimentar (por ejemplo, máx. 70% de la potencia del panel)",
+		"pl": "Określa procent maksymalnej mocy, jaka może być doprowadzona (np. maks. 70% mocy panelu)",
+		"zh-cn": "定义可以馈入的最大功率的百分比（例如，最大 70% 的面板功率）"
 	},
 	"The forecast uses weather data from kachelmannwetter and (if adapters installed) from weatherunderground.": {
 		"en": "The forecast uses weather data from kachelmannwetter and (if adapters installed) from weatherunderground, daswetter.com.",
