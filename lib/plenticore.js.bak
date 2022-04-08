@@ -1573,7 +1573,9 @@ function getForecastDataFor(time) {
 			adapter.log.info('Missing minTime or maxTime for ' + hindex);
 			continue;
 		}
-		if(forecastHours[hindex].minTime > time.getTime() + (60 * 30 * 1000) || forecastHours[hindex].maxTime < time.getTime() - (60 * 30 * 1000)) {
+		// for performance reasons check first against the limits of the interval (before checking in detail all timestamps in the code lines below)
+		// skip if either the minTime of the interval is above the currently relevant interval OR maxTime if lower than the relevant interval
+		if( (forecastHours[hindex].minTime > time.getTime() + (20 * 60 * 1000)) || (forecastHours[hindex].maxTime < time.getTime() - (45 * 60 * 1000)) ) {
 			//adapter.log.info('NOT Matching hindex for time ' + time + ' is ' + hindex + ' (' + forecastHours[hindex].minTime + ' -> ' + forecastHours[hindex].maxTime + ')');
 			continue;
 		}
@@ -1584,10 +1586,10 @@ function getForecastDataFor(time) {
 				if(!forecastHours[hindex]['timeData'] || !forecastHours[hindex]['timeData'][idx]) {
 					continue;
 				}
-				if(forecastHours[hindex]['timeData'][idx] > time.getTime() + (20*60*1000)) {
-					continue;
-				}
-				if(forecastHours[hindex]['timeData'][idx] < time.getTime() - (45*60*1000)) {
+				// check the timestamp of each entry
+				// skip if value is above the upper limit or below the lower limit
+				if( (forecastHours[hindex]['timeData'][idx] > time.getTime() + (20*60*1000)) || (forecastHours[hindex]['timeData'][idx] < time.getTime() - (45*60*1000)) ) {
+					adapter.log.debug('Skip case 2; time: ' + time.getTime() + ' ; minTime: ' + forecastHours[hindex].minTime + ' ; maxTime: ' + forecastHours[hindex].maxTime + ' ; timeData: ' + forecastHours[hindex]['timeData'][idx] + ' ; hindex: ' + hindex + ' ; idx: ' + idx);
 					continue;
 				}
 				data[dataIdx].push(forecastHours[hindex][dataIdx+'Data'][idx]);

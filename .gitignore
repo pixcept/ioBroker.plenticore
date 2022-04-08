@@ -4,3 +4,4 @@ kostal
 node_modules
 .gitignore
 .npmignore
+*.bak
