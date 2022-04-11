@@ -3,6 +3,18 @@
 		"name": "plenticore",
 		"version": "2.2.1",
 		"news": {
+			"2.2.1": {
+				"en": "Fixed forecast zickzack [PastCoder]",
+				"de": "Prognose-Zickzack behoben [PastCoder]",
+				"ru": "Исправлен прогноз Zickzack [PastCoder]",
+				"pt": "Zickzack de previsão fixo [PastCoder]",
+				"nl": "Vaste voorspelling zickzack [PastCoder]",
+				"fr": "Zickzack de prévision fixe [PastCoder]",
+				"it": "Zickzack di previsione fisso [PastCoder]",
+				"es": "Se corrigió el zickzack del pronóstico [PastCoder]",
+				"pl": "Naprawiono zickzack prognozy [PastCoder]",
+				"zh-cn": "固定预测 zickzack [PastCoder]"
+			},
 			"2.2.0": {
 				"en": "Fixed state value types for new version of js-controller\nAllow providing a custom port for connection to converter\nAllow using https connection to converter\nFixed some state object types",
 				"de": "Korrigierte Zustandswerttypen für die neue Version des js-Controllers\nEin benutzerdefinierter Port für die Verbindung zum Wechselrichter kann angegeben werden\nDie Verbindung zum Wechselrichter kann nun auch via https erfolgen\nEinige Zustandsobjekttypen korrigiert",
@@ -198,8 +210,9 @@
 		"enabled": false,
 		"compact": true,
 		"stopTimeout": 2000,
-		"dependencies": [
-		]
+		"dependencies": {
+			"js-controller": ">=2.0.0"
+		}
 	},
 	"native": {
 		"ipaddress": "",

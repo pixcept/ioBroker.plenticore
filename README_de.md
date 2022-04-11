@@ -169,6 +169,9 @@ Die Prognosewerte können dann verwendet werden, um den MinSoC der Batterie einz
 
 ## Changelog
 
+### 2.2.1
+- Prognose-Zickzack behoben [PastCoder]
+
 ### 2.2.0
 - Korrigierte Zustandswerttypen für die neue Version des js-Controllers  
   Achtung: Bitte nach dem Update einmal den State scb.export.LastExportOk löschen und den Adapter neu starten
@@ -270,7 +273,7 @@ Die Prognosewerte können dann verwendet werden, um den MinSoC der Batterie einz
 
 The MIT License (MIT)
 
-Copyright (c) 2021 Marius Burkard
+Copyright (c) 2022 Marius Burkard
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
