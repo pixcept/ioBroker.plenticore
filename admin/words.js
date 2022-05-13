@@ -338,29 +338,29 @@ systemDictionary = {
 		"pl": "Definiuje minimalną wartość MinSoC ustawioną przez funkcję prognozy. Wartość domyślna to 40, możliwe wartości to od 5 do 100. Musi być niższa niż maksymalna wartość MinSoC",
 		"zh-cn": "定义由预测功能设置的最小MinSoC值。默认值为40，可能的值为5到100。必须小于最大MinSoC"
 	},
-	"maximum feed-in percentage": {
-		"en": "Maximum feed-in percentage (%)",
-		"de": "Maximale Einspeisung in Prozent (%)",
-		"ru": "Maksimal'nyy protsent podachi (%)",
-		"pt": "Porcentagem máxima de alimentação (%)",
-		"nl": "Maximaal terugleverpercentage (%)",
-		"fr": "Pourcentage d'alimentation maximal (%)",
-		"it": "Percentuale massima di immissione in rete (%)",
-		"es": "Porcentaje máximo de alimentación (%)",
-		"pl": "Maksymalny procent podawania (%)",
-		"zh-cn": "最大进料百分比 （％）"
+	"maximum feed-in power": {
+		"en": "Maximum feed-in power (W)",
+		"de": "Maximale Einspeisung (W)",
+		"ru": "Максимальная потребляемая мощность (W)",
+		"pt": "Potência máxima de alimentação (W)",
+		"nl": "Maximaal terugleververmogen (W)",
+		"fr": "Puissance d'alimentation maximale (W)",
+		"it": "Massima potenza di immissione (W)",
+		"es": "Potencia máxima de alimentación (W)",
+		"pl": "Maksymalna moc zasilania (W)",
+		"zh-cn": "最大馈电功率 （W）"
 	},
 	"max feed-in description": {
-		"en": "Defines the maximum percentage, which is can by feed-in (e.g. max. 70%)",
-		"de": "Definiert den Prozentsatz der maximalen Leistung, die eingespeist werden darf (z.B. max. 70% der Panel-Leistung)",
-		"ru": "Определяет процент максимальной мощности, которая может подаваться (например, макс. 70% мощности панели).",
-		"pt": "Define a porcentagem da potência máxima que pode ser alimentada (por exemplo, máx. 70% da potência do painel)",
-		"nl": "Bepaalt het percentage van het maximale vermogen dat mag worden teruggeleverd (bijv. max. 70% van het paneelvermogen)",
-		"fr": "Définit le pourcentage de la puissance maximale pouvant être injectée (par ex. max. 70 % de la puissance du panneau)",
-		"it": "Definisce la percentuale della potenza massima che può essere immessa (es. max. 70% della potenza del pannello)",
-		"es": "Define el porcentaje de la potencia máxima que se puede alimentar (por ejemplo, máx. 70% de la potencia del panel)",
-		"pl": "Określa procent maksymalnej mocy, jaka może być doprowadzona (np. maks. 70% mocy panelu)",
-		"zh-cn": "定义可以馈入的最大功率的百分比（例如，最大 70% 的面板功率）"
+		"en": "Defines the maximum power, which is can by feed-in (e.g. max. 70% of 10.000kWh peak --> 7000W)",
+		"de": "Definiert die maximale Leistung, die eingespeist werden darf (z.B. max. 70% von 10.000kWh Peakleistung --> 7000W)",
+		"ru": "Определяет максимальную мощность, которая может подаваться (например, макс. 70% пиковой мощности 10 000 кВтч --> 7000 Вт)",
+		"pt": "Define a potência máxima que pode ser alimentada (por exemplo, máx. 70% da potência de pico de 10.000kWh --> 7000W)",
+		"nl": "Definieert het maximale vermogen dat mag worden teruggeleverd (bijv. max. 70% van 10.000 kWh piekvermogen --> 7000W)",
+		"fr": "finit la puissance maximale pouvant être injectée (par ex. max. 70 % de la puissance de crête de 10 000 kWh --> 7 000 W)",
+		"it": "Definisce la potenza massima che può essere immessa (es. max. 70% di potenza di picco di 10.000 kWh --> 7000 W)",
+		"es": "Define la potencia máxima que se puede alimentar (p. ej., máx. 70 % de una potencia máxima de 10 000 kWh --> 7000 W)",
+		"pl": "Określa maksymalną moc, jaka może być podawana (np. maks. 70% mocy szczytowej 10 000 kWh --> 7000 W)",
+		"zh-cn": "定义可以馈入的最大功率（例如，最大 10,000kWh 峰值功率的 70% --> 7000W"
 	},
 	"The forecast uses weather data from kachelmannwetter and (if adapters installed) from weatherunderground.": {
 		"en": "The forecast uses weather data from kachelmannwetter and (if adapters installed) from weatherunderground, daswetter.com.",
@@ -457,6 +457,30 @@ systemDictionary = {
 		"es": "Con la gestión de la batería habilitada, es posible que la batería no se cargue por la mañana. Esto puede llevar a la energía extraída de la red cuando la batería se descargó durante la noche y hay un pico de consumo en la mañana que la planta de energía no puede cumplir. Aquí puede establecer un valor mínimo de SoC en el que se cargará la batería con la energía disponible de la planta, independientemente del estado de administración de la batería.",
 		"pl": "Przy włączonym zarządzaniu baterią bateria może nie być ładowana rano. Może to prowadzić do energii pobieranej z sieci, gdy akumulator był rozładowywany w nocy, a rano występuje szczyt zużycia, którego elektrownia nie może osiągnąć. Tutaj możesz ustawić minimalną wartość SoC, do której akumulator będzie ładowany przy dostępnej mocy instalacji, niezależnie od stanu zarządzania baterią.",
 		"zh-cn": "启用电池管理后，早上可能无法为电池充电。当电池在夜间放电时，这可能会导致从电网获取电力，而早晨则出现消耗高峰，这是发电厂无法满足的。在这里，您可以设置最小SoC值，而不管电池管理状态如何，都可以使用可用的工厂电源为电池充电。"
+	},
+	"battery strategy": {
+		"en": "Select battery strategy.",
+		"de": "Batteriestrategie auswählen.",
+		"ru": "Выберите стратегию батареи.",
+		"pt": "Selecione a estratégia da bateria.",
+		"nl": "Selecteer batterijstrategie.",
+		"fr": "Sélectionnez la stratégie de la batterie.",
+		"it": "Seleziona la strategia della batteria.",
+		"es": "Seleccione la estrategia de la batería.",
+		"pl": "Wybierz strategię baterii.",
+		"zh-cn": "选择电池策略。"
+	},
+	"battery strategy description": {
+		"en": "Strategy #1: Switch smart battery management on, if (minimum SoC is reached) AND (remaining power until sunset - remaining consumption - free battery capacity) >= 2 * battery capacity.       Strategy #2: Switch smart battery management on, if (minimum SoC is reached) AND (hours with forecast > maximum feedinpower) AND (remaining power until sunset - remaining consumption - free battery capacity) > 0",
+		"de": "Strategie #1: Intelligentes Batteriemanagement einschalten, wenn (Mindest-SoC erreicht) UND (Restleistung bis Sonnenuntergang – Restverbrauch – freie Batteriekapazität) >= 2 * Batteriekapazität. Strategie #2: Intelligentes Batteriemanagement einschalten, wenn (minimaler SoC erreicht) UND (Stunden mit Prognose > maximale Einspeiseleistung) UND (Restleistung bis Sonnenuntergang – Restverbrauch – freie Batteriekapazität) > 0",
+		"ru": "Стратегия № 1: включить интеллектуальное управление батареями, если (достигнут минимальный уровень SoC) И (остаточная мощность до захода солнца — оставшееся потребление — свободная емкость батареи) >= 2 * емкость батареи. Стратегия № 2: Включите интеллектуальное управление батареями, если (достигнут минимум SoC) И (количество часов с прогнозом > максимальной мощности питания) И (остаточная мощность до захода солнца — оставшееся потребление — свободная емкость батареи) > 0",
+		"pt": "Estratégia nº 1: Ative o gerenciamento inteligente de bateria, se (soC mínimo for atingido) E (energia restante até o pôr do sol - consumo restante - capacidade livre da bateria) >= 2 * capacidade da bateria. Estratégia nº 2: Ative o gerenciamento inteligente de bateria, se (soC mínimo for atingido) AND (horas com previsão > alimentação máxima de alimentação) AND (energia restante até o pôr do sol - consumo restante - capacidade livre da bateria) > 0",
+		"nl": "Strategie #1: Schakel slim batterijbeheer in, als (minimale SoC is bereikt) EN (resterend vermogen tot zonsondergang - resterend verbruik - vrije batterijcapaciteit) >= 2 * batterijcapaciteit. Strategie #2: Schakel slim batterijbeheer in, indien (minimale SoC is bereikt) AND (uren met voorspelling > maximaal voedingsvermogen) AND (resterend vermogen tot zonsondergang - resterend verbruik - vrije batterijcapaciteit) > 0",
+		"fr": "Stratégie n°1 : activez la gestion intelligente de la batterie si (le SoC minimum est atteint) ET (puissance restante jusqu'au coucher du soleil - consommation restante - capacité de la batterie libre) >= 2 * capacité de la batterie. Stratégie n°2 : activer la gestion intelligente de la batterie, si (le SoC minimum est atteint) ET (heures avec prévision > puissance d'alimentation maximale) ET (puissance restante jusqu'au coucher du soleil - consommation restante - capacité de batterie libre) > 0",
+		"it": "Strategie #1: attiva la gestione intelligente della batteria, se (viene raggiunto il minimo SoC) E (potenza residua fino al tramonto - consumo residuo - capacità della batteria libera) >= 2 * capacità della batteria. Strategia n. 2: attivare la gestione intelligente della batteria, se (viene raggiunto il minimo SoC) AND (ore con previsione > potenza massima di alimentazione) AND (potenza residua fino al tramonto - consumo residuo - capacità della batteria libera) > 0",
+		"es": "Strategia n. 1: active la administración inteligente de la batería si (se alcanza el SoC mínimo) Y (energía restante hasta la puesta del sol - consumo restante - capacidad libre de la batería) >= 2 * capacidad de la batería. Estrategia n.º 2: active la gestión inteligente de la batería si (se alcanza el SoC mínimo) Y (horas con previsión > potencia de alimentación máxima) Y (energía restante hasta la puesta del sol - consumo restante - capacidad libre de la batería) > 0",
+		"pl": "Strategia nr 1: Włącz inteligentne zarządzanie baterią, jeśli (osiągnięto minimalny SoC) ORAZ (pozostała moc do zachodu słońca - pozostałe zużycie - wolna pojemność baterii) >= 2 * pojemność baterii. Strategia nr 2: Włącz inteligentne zarządzanie baterią, jeśli (osiągnięto minimalny SoC) ORAZ (godziny z prognozą > maksymalna moc zasilania) ORAZ (pozostała moc do zachodu słońca - pozostały poziom zużycia - wolna pojemność baterii) > 0",
+		"zh-cn": "策略#1：开启智能电池管理，如果（达到最低 SoC）和（直到日落的剩余电量 - 剩余电量 - 可用电池容量）>= 2 * 电池容量。策略#2：开启智能电池管理，如果（达到最低 SoC）AND（预测小时数 > 最大供电）AND（剩余电量直到日落 - 剩余消耗 - 无电池容量）> 0"
 	},
 	"No location set in ioBroker system config": {
 		"en": "You have not set location info in the main system config of ioBroker. This adapter needs location information to work, so please set location info before starting it.",

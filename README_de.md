@@ -167,7 +167,28 @@ Die Prognosewerte können dann verwendet werden, um den MinSoC der Batterie einz
 `plenticore.0.forecast.day1.sun.sunrise` - Sonnenaufgang des Vorhersagedatums  
 `plenticore.0.forecast.day1.sun.sunset` - Sonnenuntergang des Vorhersagedatums  
 
+## Intelligente Batteriesteuerung
+
+Die intelligente Batteriesteuerung von KOSTAL nutzt keine Wettervorhersage. Daher steuert sie nicht immer ideal, um einerseits den Ladung des Speicher sicherzustellen und andererseits möglichsten in die Abregelung zu kommen. 
+Dieser Adapter probiert dies zu optimieren. Hierfür werden zwei Strategien angeboten, welche in den Einstellungen des Adapter ausgewählt werden können.
+
+### Strategie 1: Double day forecast vs. battery capacity
+
+Kurzbeschreibung: Intelligentes Batteriemanagement einschalten, wenn (Mindest-SoC erreicht) UND (Restleistung bis Sonnenuntergang – Restverbrauch – freie Batteriekapazität) >= 2 * Batteriekapazität.
+
+### Strategie 2: Remaining forecast vs. consumption and free battery capacity
+
+Kurzbeschreibung: Intelligentes Batteriemanagement einschalten, wenn (minimaler SoC erreicht) UND (Stunden mit Prognose > maximale Einspeiseleistung) UND (Restleistung bis Sonnenuntergang – Restverbrauch – freie Batteriekapazität) > 0
+
+Details: 
+- Sind alle stundenweisen Prognosewerte kleiner als "Maximale Einspeisung", wird die KOSTAL-Steuerung nicht aktiviert. Die maximale Einspeisung wird hierbei um 15% geringer angenommen, um auch Schwankungen durch Wolken vorwegzunehmen.
+- Zwischen 15 Uhr und Sonnenaufgang wird die Einstellung der Intelligenten Steuerung von KOSTAL nicht verändert. Die KOSTAL-Steuerung scheint besser zu arbeiten, wenn sie nicht unnötig oft ein-/ausgeschaltet wird. In diesem Zeitraum hat die KOSTAL-Steuerung keinen Nachteil.
+- Es wird eine Hysterese verwendet, um seltener ein-/auszuschalten. Es wird ausgeschaltet, wenn der aktuelle SoC kleiner ist als der "Minimaler SoC zur Aktivierung des Batteriemanagements" oder wenn die freie Leistung unter 0 ist. Es wird eingeschaltet, wenn der aktuelle SoC größer ist als  "Minimaler SoC zur Aktivierung des Batteriemanagements"+1 und die freie Leistung größer als 10% der Batteriekapazität.
+
 ## Changelog
+
+### 2.2.2
+- Alternative intelligente Batteriestrategie hinzugefügt (Beschreibung siehe oben) [PastCoder]
 
 ### 2.2.1
 - Prognose-Zickzack behoben [PastCoder]

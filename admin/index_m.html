@@ -124,7 +124,7 @@
 					var value = $this.val();
 					if (id === 'password') {
 						value = encrypt(secret, value);
-					} else if(id === 'min_minsoc' || id === 'max_minsoc' || id === 'enable_bm_minsoc' || id === 'port') {
+					} else if(id === 'min_minsoc' || id === 'max_minsoc' || id === 'enable_bm_minsoc' || id === 'port'  || id === 'max_feed_in_power') {
 						value = parseInt(value);
 					}
 					obj[id] = value;
@@ -171,8 +171,8 @@
 				return;
 			}
 			
-			if(obj['max_feed_in_percentage'] < 30 || obj['max_feed_in_percentage'] > 100 ) {
-				showError(_('Please enter a maximum feed-in percentage between 30 and 100. Default is 70.'));
+			if(obj['max_feed_in_power'] < 0) {
+				showError(_('Please enter a maximum feed-in power bigger than 0. Default is 5000.'));
 				return;
 			}
 			
@@ -336,14 +336,22 @@
 				</div>
 				<div class="col s6 input-field">
 					<input type="number" class="value" id="min_minsoc" />
-					<label for="min_minsoc" class="translate">minimum minsoc</label>
+					<label for="" class="translate">minimum minsoc</label>
 					<p><small class="translate">min minsoc description</small></p>
 				</div>
 				<div class="col s6 input-field">
-					<input type="number" class="value" id="max_feed_in_percentage" />
-					<label for="max_feed_in_percentage" class="translate">maximum feed-in percentage</label>
+					<input type="number" class="value" id="max_feed_in_power" />
+					<label for="max_feed_in_power" class="translate">maximum feed-in power</label>
 					<p><small class="translate">max feed-in description</small></p>
 				</div>
+				<div class="col s6 input-field">
+					<select class="value" id="battery_strategy">
+					<option value="1">1: Double day forecast vs. battery capacity</option>
+					<option value="2">2: Remaining forecast vs. consumption and free battery capacity</option>
+					</select>
+					<label for="battery_strategy" class="translate">battery strategy</label>
+					<p><small class="translate">battery strategy description</small></p>
+				</div>			
 			</div>
 		</div>
 
