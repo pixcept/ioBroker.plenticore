@@ -194,6 +194,9 @@
 				return;
 			}
 			
+			// set all setting objects to null which were used in earlier versions of the adapter but are not used anymore.
+			obj['max_feed_in_percentage'] = null;
+			
             callback(obj);
         }
     </script>
