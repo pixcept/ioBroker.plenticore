@@ -43,6 +43,12 @@
                 var id = $key.attr('id');
 				if (id === 'password') {
 					settings[id] = decrypt(secret, settings[id]);
+				} else if (id === 'battery_strategy') {
+					// select item from dropdown list
+					
+					var $sel = $('#' + id);
+					$sel.val(settings[id]);
+					$sel.select();
 				}
                 if ($key.attr('type') === 'checkbox') {
                     // do not call onChange direct, because onChange could expect some arguments
