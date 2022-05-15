@@ -63,6 +63,18 @@
                     // do not call onChange direct, because onChange could expect some arguments
 					if(id === 'pollinterval' && !settings[id]) {
 						settings[id] = 60000;
+					} else if(id === 'max_feed_in_power' && !settings[id]) {
+						// Code to migrate from old setting max_feed_in_percentage (percentage limit) to new setting max_feed_in_power (absolute value)
+
+						if (settings['max_feed_in_percentage'] && settings['panel_surface'] && settings['panel_efficiency']) {
+							let wp = settings['panel_surface'] * 10 * settings['panel_efficiency']; // * 1000 / 100
+
+							if(settings['panel_surface_2'] && settings['panel_efficiency_2']) {
+								wp = wp + (settings['panel_surface_2'] * 10 * settings['panel_efficiency_2']);
+							}		
+						
+							settings[id] = wp * 100 / settings['max_feed_in_percentage'];
+						} 			
 					}
                     $key.val(settings[id])
                         .on('change', () => onChange())
