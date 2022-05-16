@@ -99,23 +99,6 @@
 			}
 		}
 		
-		function fillInstances(id, arr, val, append) {
-            var $sel = $('#' + id);
-			if(!append) {
-	            $sel.html('<option value="">' + _('none') + '</option>');
-			}
-            for (var i = 0; i < arr.length; i++) {
-                var _id = arr[i]._id.replace('system.adapter.', '');
-				var _name = _id;
-				if(arr[i]._name) {
-					_name = arr[i]._name;
-				}
-                // Take first value
-                $sel.append('<option value="' + _id + '"' + ((_id === val) ? ' selected' : '') + '>' + _name + '</option>');
-            }
-            $sel.select();
-        }
-		
         // This will be called by the admin adapter when the settings page loads
         function load(settings, onChange) {
             // example: select elements with id=key and class=value and insert value
