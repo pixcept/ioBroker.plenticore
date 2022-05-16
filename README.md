@@ -169,7 +169,28 @@ The forecast values can then be used to set the MinSoC of the battery, enable or
 `plenticore.0.forecast.day1.sun.sunrise` - sunrise time of forecast date  
 `plenticore.0.forecast.day1.sun.sunset` - sunset time of forecast date  
 
+## Smart battery control
+
+The smart battery control from KOSTAL does not use a weather forecast. Therefore, it does not always control ideally to ensure on the one hand that the battery is fully charged and on the other hand to avoind feed-in limitation as much as possible.
+This adapter tries to optimize this. Two strategies are offered for this, which can be selected in the settings of the adapter.
+
+### Strategy 1: Double day forecast vs. battery capacity
+
+Brief description: Switch smart battery management on, if (minimum SoC is reached) AND (remaining power until sunset - remaining consumption - free battery capacity) >= 2 * battery capacity.
+
+### Strategy 2: Remaining forecast vs. consumption and free battery capacity
+
+Brief description: Switch smart battery management on, if (minimum SoC is reached) AND (hours with forecast > maximum feedinpower) AND (remaining power until sunset - remaining consumption - free battery capacity) > 0"
+
+Details:
+- If all hourly forecast values ​​are lower than "Maximum feed-in", the KOSTAL control is not activated. The maximum feed-in is assumed 15% lower in order to anticipate variations caused by clouds.
+- Between 3 p.m. and sunrise, the setting of the KOSTAL smart control is not changed. The KOSTAL control seems to work better if it is not switched on/off unnecessarily often. During this period, the KOSTAL control has no disadvantage.
+- A hysteresis is used to switch on/off less often. It will turn off when the current SoC is less than the "Minimum SoC to activate battery management" or when the free power is below 0. It will turn on when the current SoC is greater than "Minimum SoC to activate battery management"+1 and the free power is greater than 10% of the battery capacity.
+
 ## Changelog
+
+### 2.2.2
+- Added alternative smart battery strategy (Description see above) [PastCoder]
 
 ### 2.2.1
 - Fixed forecast zickzack [PastCoder]

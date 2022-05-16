@@ -1,8 +1,20 @@
 {
 	"common": {
 		"name": "plenticore",
-		"version": "2.2.1",
+		"version": "2.2.2",
 		"news": {
+			"2.2.2": {
+				"en": "Added alternative smart battery strategy [PastCoder]",
+				"de": "Alternative intelligente Batteriestrategie hinzugefügt [PastCoder]",
+				"ru": "Добавлена ​​альтернативная стратегия умной батареи [PastCoder]",
+				"pt": "Adicionada estratégia alternativa de bateria inteligente [PastCoder]",
+				"nl": "Alternatieve slimme batterijstrategie toegevoegd [PastCoder]",
+				"fr": "Ajout d'une stratégie de batterie intelligente alternative [PastCoder]",
+				"it": "Aggiunta una strategia alternativa per la batteria intelligente [PastCoder]",
+				"es": "Se agregó una estrategia alternativa de batería inteligente [PastCoder]",
+				"pl": "Dodano alternatywną strategię inteligentnej baterii [PastCoder]",
+				"zh-cn": "添加了替代智能电池策略 [PastCoder]"
+			},
 			"2.2.1": {
 				"en": "Fixed forecast zickzack [PastCoder]",
 				"de": "Prognose-Zickzack behoben [PastCoder]",
@@ -231,7 +243,8 @@
 		"panel_dir": 180,
 		"panel_surface": 0,
 		"panel_efficiency": 19.2,
-		"max_feed_in_percentage": 70
+		"max_feed_in_power": 5000,
+		"battery_strategy" : "1"
 	},
 	"objects": [],
 	"instanceObjects": [

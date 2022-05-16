@@ -43,6 +43,12 @@
                 var id = $key.attr('id');
 				if (id === 'password') {
 					settings[id] = decrypt(secret, settings[id]);
+				} else if (id === 'battery_strategy') {
+					// select item from dropdown list
+					
+					var $sel = $('#' + id);
+					$sel.val(settings[id]);
+					$sel.select();
 				}
                 if ($key.attr('type') === 'checkbox') {
                     // do not call onChange direct, because onChange could expect some arguments
@@ -63,6 +69,18 @@
                     // do not call onChange direct, because onChange could expect some arguments
 					if(id === 'pollinterval' && !settings[id]) {
 						settings[id] = 60000;
+					} else if(id === 'max_feed_in_power' && !settings[id]) {
+						// Code to migrate from old setting max_feed_in_percentage (percentage limit) to new setting max_feed_in_power (absolute value)
+
+						if (settings['max_feed_in_percentage'] && settings['panel_surface'] && settings['panel_efficiency']) {
+							let wp = settings['panel_surface'] * 10 * settings['panel_efficiency']; // * 1000 / 100
+
+							if(settings['panel_surface_2'] && settings['panel_efficiency_2']) {
+								wp = wp + (settings['panel_surface_2'] * 10 * settings['panel_efficiency_2']);
+							}		
+						
+							settings[id] = wp * 100 / settings['max_feed_in_percentage'];
+						} 			
 					}
                     $key.val(settings[id])
                         .on('change', () => onChange())
@@ -80,23 +98,6 @@
 				$('#location-warning').hide();
 			}
 		}
-		
-		function fillInstances(id, arr, val, append) {
-            var $sel = $('#' + id);
-			if(!append) {
-	            $sel.html('<option value="">' + _('none') + '</option>');
-			}
-            for (var i = 0; i < arr.length; i++) {
-                var _id = arr[i]._id.replace('system.adapter.', '');
-				var _name = _id;
-				if(arr[i]._name) {
-					_name = arr[i]._name;
-				}
-                // Take first value
-                $sel.append('<option value="' + _id + '"' + ((_id === val) ? ' selected' : '') + '>' + _name + '</option>');
-            }
-            $sel.select();
-        }
 		
         // This will be called by the admin adapter when the settings page loads
         function load(settings, onChange) {
@@ -124,7 +125,7 @@
 					var value = $this.val();
 					if (id === 'password') {
 						value = encrypt(secret, value);
-					} else if(id === 'min_minsoc' || id === 'max_minsoc' || id === 'enable_bm_minsoc' || id === 'port') {
+					} else if(id === 'min_minsoc' || id === 'max_minsoc' || id === 'enable_bm_minsoc' || id === 'port'  || id === 'max_feed_in_power') {
 						value = parseInt(value);
 					}
 					obj[id] = value;
@@ -171,10 +172,13 @@
 				return;
 			}
 			
-			if(obj['max_feed_in_percentage'] < 30 || obj['max_feed_in_percentage'] > 100 ) {
-				showError(_('Please enter a maximum feed-in percentage between 30 and 100. Default is 70.'));
+			if(obj['max_feed_in_power'] < 0) {
+				showError(_('Please enter a maximum feed-in power bigger than 0. Default is 5000.'));
 				return;
 			}
+			
+			// set all setting objects to null which were used in earlier versions of the adapter but are not used anymore.
+			obj['max_feed_in_percentage'] = null;
 			
             callback(obj);
         }
@@ -340,10 +344,18 @@
 					<p><small class="translate">min minsoc description</small></p>
 				</div>
 				<div class="col s6 input-field">
-					<input type="number" class="value" id="max_feed_in_percentage" />
-					<label for="max_feed_in_percentage" class="translate">maximum feed-in percentage</label>
+					<input type="number" class="value" id="max_feed_in_power" />
+					<label for="max_feed_in_power" class="translate">maximum feed-in power</label>
 					<p><small class="translate">max feed-in description</small></p>
 				</div>
+				<div class="col s6 input-field">
+					<select class="value" id="battery_strategy">
+					<option value="1">1: Double day forecast vs. battery capacity</option>
+					<option value="2">2: Remaining forecast vs. consumption and free battery capacity</option>
+					</select>
+					<label for="battery_strategy" class="translate">battery strategy</label>
+					<p><small class="translate">battery strategy description</small></p>
+				</div>			
 			</div>
 		</div>
 
