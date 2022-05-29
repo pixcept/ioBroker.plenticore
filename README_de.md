@@ -171,6 +171,7 @@ Die Prognosewerte können dann verwendet werden, um den MinSoC der Batterie einz
 
 Die intelligente Batteriesteuerung von KOSTAL nutzt keine Wettervorhersage. Daher steuert sie nicht immer ideal, um einerseits den Ladung des Speicher sicherzustellen und andererseits möglichsten in die Abregelung zu kommen. 
 Dieser Adapter probiert dies zu optimieren. Hierfür werden zwei Strategien angeboten, welche in den Einstellungen des Adapter ausgewählt werden können.
+Wenn die Intelligente Steuerung von KOSTAL aktiv ist, entscheidet diese wann wie viel Strom ins Netz oder in den Steicher geht. Der Adapter kann nur entscheiden, ob die Intelligente Steuerung aktiv ist, aber nicht wie sich diese verhält.
 
 ### Strategie 1: Double day forecast vs. battery capacity
 
@@ -178,7 +179,11 @@ Kurzbeschreibung: Intelligentes Batteriemanagement einschalten, wenn (Mindest-So
 
 ### Strategie 2: Remaining forecast vs. consumption and free battery capacity
 
-Kurzbeschreibung: Intelligentes Batteriemanagement einschalten, wenn (minimaler SoC erreicht) UND (Stunden mit Prognose > maximale Einspeiseleistung) UND (Restleistung bis Sonnenuntergang – Restverbrauch – freie Batteriekapazität) > 0
+Kurzbeschreibung:
+Die intelligente Steuerung von Kostal wird nur aktiviert, wenn (laut Prognose) die folgenden Bedingungen beide erfüllt sind:
+- Es gibt mind. eine Stunde, in der die Einspeiseberenzung überschritten wird (ansonsten braucht man sie ja nicht, weil alles eingespeist werden kann).
+- Es ist voraussichtlich mehr Strom verfügbar als während des Tages benötigt für den Verbrauch am Tag und das Laden des Speicher (ansonsten wäre auch ohne intelligente Steuerung während des gesamten Tages Platz im Speicher frei)
+Die tatsächliche Steuerung ist etwas komplexer, da sie auch verhindert, dass die intelligente Steuerung oft ein-/ausgeschaltet wird.
 
 Details: 
 - Sind alle stundenweisen Prognosewerte kleiner als "Maximale Einspeisung", wird die KOSTAL-Steuerung nicht aktiviert. Die maximale Einspeisung wird hierbei um 15% geringer angenommen, um auch Schwankungen durch Wolken vorwegzunehmen.
