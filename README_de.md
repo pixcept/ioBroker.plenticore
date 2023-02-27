@@ -71,7 +71,9 @@ Dieser Kanal enthält Informationen über die AC-Seite des Wechselrichters. Die 
 `plenticore.X.devices.local.battery.Charge_P` - die aktuelle Ladeleistung der Batterie (0 bei Entladung)  
 `plenticore.X.devices.local.battery.Discharge_P` - die aktuelle Entladeleistung der Batterie (0 beim Laden)  
 `[**] plenticore.X.devices.local.battery.SmartBatteryControl` - true, wenn das Smart Battery Management aktiviert ist. Gemäß dem offiziellen Handbuch darf dies nur dann aktiviert werden, wenn keine weitere AC-Quelle wie ein zweiter Wechselrichter beteiligt ist.  
-`[**] plenticore.X.devices.local.battery.ExternControl` - 0 für interne Steuerung, 1 für externe Steuerung via Digital I/O, 2 für externe Steuerung via Modbus TCP
+`[**] plenticore.X.devices.local.battery.ExternControl` - Kann nur über das Webinterface als Installateur eingestellt werden. Für die Steuerung über ioBroker verwenden Sie die Zustände ExternControl_DcPowerAbs und ExternControl_MaxChargePowerAbs, während ExternControl auf 2 (Modbus TCP) eingestellt ist.
+`[**] plenticore.X.devices.local.battery.ExternControl_DcPowerAbs` - GEFAHR: Verwenden Sie diese Funktion nur, wenn Sie wissen, was Sie tun, denn eine falsche Verwendung kann Ihre Batterie beschädigen! Dieser Status ist nur verfügbar, wenn ExternControl auf 2 (Modbus TCP) eingestellt ist. Der Wert ist in Watt und kann von -10000 bis 10000 eingestellt werden. Ein negativer Wert bedeutet, dass die Batterie entladen wird, ein positiver Wert bedeutet, dass die Batterie geladen wird.
+`[**] plenticore.X.devices.local.battery.ExternControl_MaxChargePowerAbs` - GEFAHR: Verwenden Sie diese Funktion nur, wenn Sie wissen, was Sie tun, denn eine falsche Verwendung kann Ihre Batterie beschädigen! Dieser Status ist nur verfügbar, wenn ExternControl auf 2 (Modbus TCP) eingestellt ist.
 `plenticore.X.devices.local.battery.SoC` - der aktuelle Ladezustand der Batterie  
 
 #### plenticore.X.devices.local.inverter
@@ -191,6 +193,9 @@ Details:
 - Es wird eine Hysterese verwendet, um seltener ein-/auszuschalten. Es wird ausgeschaltet, wenn der aktuelle SoC kleiner ist als der "Minimaler SoC zur Aktivierung des Batteriemanagements" oder wenn die freie Leistung unter 0 ist. Es wird eingeschaltet, wenn der aktuelle SoC größer ist als  "Minimaler SoC zur Aktivierung des Batteriemanagements"+1 und die freie Leistung größer als 10% der Batteriekapazität.
 
 ## Changelog
+
+### 2.3.0
+- (Jey Cee) Möglichkeit zum Steuern des Batterieladens hinzugefügt
 
 ### 2.2.2
 - Alternative intelligente Batteriestrategie hinzugefügt (Beschreibung siehe oben) [PastCoder]
