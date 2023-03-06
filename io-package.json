@@ -1,8 +1,21 @@
 {
 	"common": {
 		"name": "plenticore",
-		"version": "2.2.2",
+		"version": "2.3.0",
 		"news": {
+			"2.3.0": {
+				"en": "Added possibility to control battery charging",
+				"de": "Möglichkeit zum Steuern des Batterieladens hinzugefügt",
+				"ru": "Добавлена ​​возможность управления зарядкой батареи",
+				"pt": "Adicionada a possibilidade de controlar o carregamento da bateria",
+				"nl": "Mogelijkheid om het opladen van de batterij te controleren toegevoegd",
+				"fr": "Ajout de la possibilité de contrôler le chargement de la batterie",
+				"it": "Aggiunta la possibilità di controllare il caricamento della batteria",
+				"es": "Se agregó la posibilidad de controlar el cargador de baterías",
+				"pl": "Dodano możliwość sterowania ładowaniem baterii",
+				"zh-cn": "添加了控制电池充电的可能性",
+				"uk": "Додано можливість керування заряджанням батареї"
+			},
 			"2.2.2": {
 				"en": "Added alternative smart battery strategy [PastCoder]",
 				"de": "Alternative intelligente Batteriestrategie hinzugefügt [PastCoder]",
