@@ -194,6 +194,9 @@ Details:
 
 ## Changelog
 
+### 2.3.1
+- Weitere Option zur Steuerung des Batteriemanagements [PastCoder]
+
 ### 2.3.0
 - (Jey Cee) Möglichkeit zum Steuern des Batterieladens hinzugefügt
 
@@ -289,7 +292,7 @@ Details:
 
 ### 0.1.2
 
-- Probleme bei der Adapterprüfung behoben, siehe https://github.com/StrathCole/ioBroker.plenticore/issues/1.
+- Probleme bei der Adapterprüfung behoben, siehe https://github.com/pixcept/ioBroker.plenticore/issues/1.
 - Statistische Datenpunkte hinzugefügt.
 
 ### 0.1.1

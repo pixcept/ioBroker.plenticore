@@ -1,8 +1,21 @@
 {
 	"common": {
 		"name": "plenticore",
-		"version": "2.3.0",
+		"version": "2.3.1",
 		"news": {
+			"2.3.1": {
+				"en": "Added further option to control battery management [PastCoder]",
+				"de": "Weitere Option zur Steuerung des Batteriemanagements [PastCoder]",
+				"ru": "Добавлена дополнительная опция для управления аккумулятором [PastCoder]",
+				"pt": "Adicionado outra opção para controlar a gestão da bateria [PastCoder]",
+				"nl": "Voegde meer optie tot controle over batterijbeheersing",
+				"fr": "Ajout d'une autre option pour contrôler la gestion de la batterie [PastCoder]",
+				"it": "Aggiunta ulteriore opzione per controllare la gestione della batteria [PastCoder]",
+				"es": "Añadido otra opción para controlar la gestión de baterías [PastCoder]",
+				"pl": "Wstępna możliwość kontroli baterii (PastCoder)",
+				"uk": "Додано додатковий варіант управління акумуляторами [PastCoder]",
+				"zh-cn": "添加控制电池管理的进一步选择[先前的Coder]"
+			},
 			"2.3.0": {
 				"en": "Added possibility to control battery charging",
 				"de": "Möglichkeit zum Steuern des Batterieladens hinzugefügt",
@@ -217,14 +230,14 @@
 		"main": "main.js",
 		"mode": "daemon",
 		"icon": "plenticore.png",
-		"extIcon": "https://raw.githubusercontent.com/StrathCole/ioBroker.plenticore/master/admin/plenticore.png",
+		"extIcon": "https://raw.githubusercontent.com/pixcept/ioBroker.plenticore/master/admin/plenticore.png",
 		"keywords": [
 			"kostal",
 			"plenticore",
 			"api",
 			"inverter"
 		],
-		"readme": "https://github.com/StrathCole/ioBroker.plenticore/blob/master/README.md",
+		"readme": "https://github.com/pixcept/ioBroker.plenticore/blob/master/README.md",
 		"loglevel": "info",
 		"type": "energy",
 		"connectionType": "local",

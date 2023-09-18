@@ -1,6 +1,6 @@
 {
   "name": "iobroker.plenticore",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "description": "plenticore",
   "author": {
     "name": "Marius Burkard",
@@ -12,7 +12,7 @@
       "email": "m.burkard@pixcept.de"
     }
   ],
-  "homepage": "https://github.com/StrathCole/ioBroker.plenticore",
+  "homepage": "https://github.com/pixcept/ioBroker.plenticore",
   "license": "MIT",
   "keywords": [
     "ioBroker",
@@ -23,7 +23,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/StrathCole/ioBroker.plenticore.git"
+    "url": "git+https://github.com/pixcept/ioBroker.plenticore.git"
   },
   "dependencies": {
     "@iobroker/adapter-core": "^2.3.1",
@@ -47,7 +47,7 @@
     "lint": "eslint"
   },
   "bugs": {
-    "url": "https://github.com/StrathCole/ioBroker.plenticore/issues"
+    "url": "https://github.com/pixcept/ioBroker.plenticore/issues"
   },
   "readmeFilename": "README.md"
 }
