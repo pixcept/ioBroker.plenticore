@@ -1,6 +1,6 @@
 {
   "name": "iobroker.plenticore",
-  "version": "2.3.1",
+  "version": "2.3.2",
   "description": "plenticore",
   "author": {
     "name": "Marius Burkard",
@@ -26,7 +26,7 @@
     "url": "git+https://github.com/pixcept/ioBroker.plenticore.git"
   },
   "dependencies": {
-    "@iobroker/adapter-core": "^2.3.1",
+    "@iobroker/adapter-core": "^3.0.4",
 	"@strathcole/iob-lib": "^0.1.4",
 	"suncalc2": "^1.8.0"
   },
