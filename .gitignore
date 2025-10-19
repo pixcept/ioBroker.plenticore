@@ -5,3 +5,6 @@ node_modules
 .gitignore
 .npmignore
 *.bak
+
+#ignore .commitinfo created by ioBroker release script
+.commitinfo
