@@ -239,6 +239,7 @@
 		],
 		"readme": "https://github.com/pixcept/ioBroker.plenticore/blob/master/README.md",
 		"loglevel": "info",
+		"tier": 2,
 		"type": "energy",
 		"connectionType": "local",
 		"dataSource": "poll",
