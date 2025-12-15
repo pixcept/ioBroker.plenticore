@@ -227,7 +227,6 @@
 			"Marius Burkard <m.burkard@pixcept.de>"
 		],
 		"platform": "Javascript/Node.js",
-		"main": "main.js",
 		"mode": "daemon",
 		"icon": "plenticore.png",
 		"extIcon": "https://raw.githubusercontent.com/pixcept/ioBroker.plenticore/master/admin/plenticore.png",
