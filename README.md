@@ -195,6 +195,10 @@ Details:
 
 ## Changelog
 
+
+### **WORK IN PROGRESS**
+- (ioBroker-Bot) Adapter requires js-controller >= 6.0.11 now.
+
 ### 2.3.1
 - Added further option to control battery management [PastCoder]
 

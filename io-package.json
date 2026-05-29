@@ -1,299 +1,303 @@
 {
-	"common": {
-		"name": "plenticore",
-		"version": "2.3.1",
-		"news": {
-			"2.3.1": {
-				"en": "Added further option to control battery management [PastCoder]",
-				"de": "Weitere Option zur Steuerung des Batteriemanagements [PastCoder]",
-				"ru": "Добавлена дополнительная опция для управления аккумулятором [PastCoder]",
-				"pt": "Adicionado outra opção para controlar a gestão da bateria [PastCoder]",
-				"nl": "Voegde meer optie tot controle over batterijbeheersing",
-				"fr": "Ajout d'une autre option pour contrôler la gestion de la batterie [PastCoder]",
-				"it": "Aggiunta ulteriore opzione per controllare la gestione della batteria [PastCoder]",
-				"es": "Añadido otra opción para controlar la gestión de baterías [PastCoder]",
-				"pl": "Wstępna możliwość kontroli baterii (PastCoder)",
-				"uk": "Додано додатковий варіант управління акумуляторами [PastCoder]",
-				"zh-cn": "添加控制电池管理的进一步选择[先前的Coder]"
-			},
-			"2.3.0": {
-				"en": "Added possibility to control battery charging",
-				"de": "Möglichkeit zum Steuern des Batterieladens hinzugefügt",
-				"ru": "Добавлена ​​возможность управления зарядкой батареи",
-				"pt": "Adicionada a possibilidade de controlar o carregamento da bateria",
-				"nl": "Mogelijkheid om het opladen van de batterij te controleren toegevoegd",
-				"fr": "Ajout de la possibilité de contrôler le chargement de la batterie",
-				"it": "Aggiunta la possibilità di controllare il caricamento della batteria",
-				"es": "Se agregó la posibilidad de controlar el cargador de baterías",
-				"pl": "Dodano możliwość sterowania ładowaniem baterii",
-				"zh-cn": "添加了控制电池充电的可能性",
-				"uk": "Додано можливість керування заряджанням батареї"
-			},
-			"2.2.2": {
-				"en": "Added alternative smart battery strategy [PastCoder]",
-				"de": "Alternative intelligente Batteriestrategie hinzugefügt [PastCoder]",
-				"ru": "Добавлена ​​альтернативная стратегия умной батареи [PastCoder]",
-				"pt": "Adicionada estratégia alternativa de bateria inteligente [PastCoder]",
-				"nl": "Alternatieve slimme batterijstrategie toegevoegd [PastCoder]",
-				"fr": "Ajout d'une stratégie de batterie intelligente alternative [PastCoder]",
-				"it": "Aggiunta una strategia alternativa per la batteria intelligente [PastCoder]",
-				"es": "Se agregó una estrategia alternativa de batería inteligente [PastCoder]",
-				"pl": "Dodano alternatywną strategię inteligentnej baterii [PastCoder]",
-				"zh-cn": "添加了替代智能电池策略 [PastCoder]"
-			},
-			"2.2.1": {
-				"en": "Fixed forecast zickzack [PastCoder]",
-				"de": "Prognose-Zickzack behoben [PastCoder]",
-				"ru": "Исправлен прогноз Zickzack [PastCoder]",
-				"pt": "Zickzack de previsão fixo [PastCoder]",
-				"nl": "Vaste voorspelling zickzack [PastCoder]",
-				"fr": "Zickzack de prévision fixe [PastCoder]",
-				"it": "Zickzack di previsione fisso [PastCoder]",
-				"es": "Se corrigió el zickzack del pronóstico [PastCoder]",
-				"pl": "Naprawiono zickzack prognozy [PastCoder]",
-				"zh-cn": "固定预测 zickzack [PastCoder]"
-			},
-			"2.2.0": {
-				"en": "Fixed state value types for new version of js-controller\nAllow providing a custom port for connection to converter\nAllow using https connection to converter\nFixed some state object types",
-				"de": "Korrigierte Zustandswerttypen für die neue Version des js-Controllers\nEin benutzerdefinierter Port für die Verbindung zum Wechselrichter kann angegeben werden\nDie Verbindung zum Wechselrichter kann nun auch via https erfolgen\nEinige Zustandsobjekttypen korrigiert",
-				"ru": "Типы фиксированных значений состояния для новой версии js-controller\nРазрешить предоставление настраиваемого порта для подключения к конвертеру\nРазрешить использование https-подключения к конвертеру\nИсправлены некоторые типы объектов состояния",
-				"pt": "Tipos de valor de estado fixo para a nova versão do js-controller\nPermitir o fornecimento de uma porta personalizada para conexão ao conversor\nPermitir o uso de conexão https para conversor\nAlguns tipos de objeto de estado foram corrigidos",
-				"nl": "Vaste waardetypes voor nieuwe versie van js-controller\nSta het verstrekken van een aangepaste poort toe voor verbinding met de converter\nSta het gebruik van https-verbinding met converter toe\nSommige typen statusobjecten opgelost",
-				"fr": "Types de valeurs d'état fixes pour la nouvelle version de js-controller\nPermet de fournir un port personnalisé pour la connexion au convertisseur\nAutoriser l'utilisation de la connexion https au convertisseur\nCorrection de certains types d'objets d'état",
-				"it": "Tipi di valori di stato fissi per la nuova versione di js-controller\nConsenti di fornire una porta personalizzata per la connessione al convertitore\nConsenti l'utilizzo della connessione https al convertitore\nRisolti alcuni tipi di oggetti di stato",
-				"es": "Tipos de valores de estado fijos para la nueva versión de js-controller\nPermitir proporcionar un puerto personalizado para la conexión al convertidor\nPermitir el uso de la conexión https al convertidor\nSe corrigieron algunos tipos de objetos de estado.",
-				"pl": "Naprawiono typy wartości stanu dla nowej wersji js-controller\nUmożliwiają dostarczenie niestandardowego portu do połączenia z konwerterem\nZezwól na używanie połączenia https z konwerterem\nNaprawiono niektóre typy obiektów stanu object",
-				"zh-cn": "修复了新版本 js-controller 的状态值类型\n允许提供用于连接转换器的自定义端口\n允许使用 https 连接到转换器\n修复了一些状态对象类型"
-			},
-			"2.1.9": {
-				"en": "Fixed met.no rain forecast value",
-				"de": "met.no Regenvorhersagewert korrigiert",
-				"ru": "Фиксированное значение прогноза дождя met.no",
-				"pt": "Valor de previsão de chuva met.no corrigido",
-				"nl": "Vaste voldaan. Geen regenvoorspellingswaarde",
-				"fr": "Correction de la valeur de prévision de pluie met.no",
-				"it": "Corretto il valore di previsione della pioggia met. No",
-				"es": "Valor fijo de pronóstico sin lluvia",
-				"pl": "Stała wartość prognozy dla met. Brak opadów",
-				"zh-cn": "固定的无雨预报值"
-			},
-			"2.1.8": {
-				"en": "Update of met.no API to locationforecast 2.0\nRemoved xml2js library\nUpdate of base library",
-				"de": "Update der met.no API auf locationforecast 2.0\nxml2js Bibliothek entfernt\nAktualisierung der Basisbibliothek",
-				"ru": "Обновление met.no API до locationforecast 2.0\nУдалена библиотека xml2js\nОбновление базовой библиотеки",
-				"pt": "Atualização da API met.no para locationforecast 2.0\nBiblioteca xml2js removida\nAtualização da biblioteca base",
-				"nl": "Update van met.no API naar locationforecast 2.0\nXml2js-bibliotheek verwijderd\nUpdate van basisbibliotheek",
-				"fr": "Mise à jour de l'API met.no vers locationforecast 2.0\nBibliothèque xml2js supprimée\nMise à jour de la bibliothèque de base",
-				"it": "Aggiornamento di met.no API alla locationforecast 2.0\nLibreria xml2js rimossa\nAggiornamento della libreria di base",
-				"es": "Actualización de la API de met.no a locationforecast 2.0\nBiblioteca xml2js eliminada\nActualización de la biblioteca base",
-				"pl": "Aktualizacja met.no API do wersji locationforecast 2.0\nUsunięto bibliotekę xml2js\nAktualizacja biblioteki podstawowej",
-				"zh-cn": "将met.no API更新为2.0\n删除了xml2js库\n基础库的更新"
-			},
-			"2.1.7": {
-				"en": "Update of base library",
-				"de": "Aktualisierung der Basisbibliothek",
-				"ru": "Обновление базовой библиотеки",
-				"pt": "Atualização da biblioteca base",
-				"nl": "Update van basisbibliotheek",
-				"fr": "Mise à jour de la bibliothèque de base",
-				"it": "Aggiornamento della libreria di base",
-				"es": "Actualización de la biblioteca base",
-				"pl": "Aktualizacja biblioteki podstawowej",
-				"zh-cn": "基础库的更新"
-			},
-			"2.1.6": {
-				"en": "Copyright year updated",
-				"de": "Copyright-Jahr aktualisiert",
-				"ru": "Год авторского права обновлен",
-				"pt": "Ano de copyright atualizado",
-				"nl": "Copyrightjaar bijgewerkt",
-				"fr": "Année de copyright mise à jour",
-				"it": "Anno di copyright aggiornato",
-				"es": "Año de copyright actualizado",
-				"pl": "Zaktualizowano rok praw autorskich",
-				"zh-cn": "版权年份已更新"
-			},
-			"2.1.5": {
-				"en": "Package information fixed",
-				"de": "Paketinformationen korrigiert",
-				"ru": "Информация о пакете исправлена",
-				"pt": "Informações do pacote corrigidas",
-				"nl": "Pakketinformatie opgelost",
-				"fr": "Informations sur le paquet corrigées",
-				"it": "Informazioni sul pacchetto corrette",
-				"es": "Información del paquete arreglada",
-				"pl": "Informacje o pakiecie naprawione",
-				"zh-cn": "包裹信息固定"
-			},
-			"2.1.4": {
-				"en": "Disable smart battery control as long as SoC is lower than MinSoC + 8% to avoid using grid power on consumption peaks\nDisable darksky usage (discontinued)",
-				"de": "Deaktivieren der intelligenten Batteriesteuerung, solange der SoC unter MinSoC + 8% liegt, um zu vermeiden, dass bei Verbrauchsspitzen Netzstrom verwendet wird\nDarksky-Nutzung deaktivieren (eingestellt)",
-				"ru": "Отключите интеллектуальное управление батареей, пока SoC ниже MinSoC + 8%, чтобы избежать использования энергии сети при пиках потребления\nОтключить использование даркского (снято с производства)",
-				"pt": "Desative o controle de bateria inteligente, desde que SoC seja inferior a MinSoC + 8% para evitar o uso de energia da rede em picos de consumo\nDesativar o uso do darksky (descontinuado)",
-				"nl": "Schakel slimme batterijcontrole uit zolang SoC lager is dan MinSoC + 8% om te voorkomen dat het elektriciteitsnet wordt gebruikt bij verbruikspieken\nDarksky-gebruik uitschakelen (stopgezet)",
-				"fr": "Désactivez le contrôle intelligent de la batterie tant que le SoC est inférieur à MinSoC + 8% pour éviter d'utiliser l'alimentation du réseau sur les pics de consommation\nDésactiver l'utilisation de Darksky (abandonné)",
-				"it": "Disabilitare il controllo intelligente della batteria fintanto che SoC è inferiore a MinSoC + 8% per evitare di utilizzare la rete in caso di picchi di consumo\nDisabilita l'utilizzo di darksky (interrotto)",
-				"es": "Desactive el control inteligente de la batería siempre que el SoC sea inferior a MinSoC + 8% para evitar el uso de la energía de la red en picos de consumo\nDeshabilitar el uso de darksky (descontinuado)",
-				"pl": "Wyłącz inteligentną kontrolę baterii tak długo, jak SoC jest niższa niż MinSoC + 8%, aby uniknąć wykorzystywania mocy sieci w szczytach zużycia\nWyłącz użycie Darksky (wycofane)",
-				"zh-cn": "只要SoC低于MinSoC + 8％，就禁用智能电池控制，以避免在功耗峰值时使用电网电源\n禁用深色天空用法（已停产）"
-			},
-			"2.1.3": {
-				"en": "Fixed wrong hour of weather forecast from daswetter adapter",
-				"de": "Falsche Stunde der Wettervorhersage vom Daswetter-Adapter",
-				"ru": "Исправлен неправильный час прогноза погоды от адаптера Daswetter",
-				"pt": "Corrigida a hora incorreta da previsão do tempo no adaptador daswetter",
-				"nl": "Foutief weerbericht van daswetter-adapter opgelost",
-				"fr": "Correction de la mauvaise heure de prévision météo de l'adaptateur daswetter",
-				"it": "Risolto il problema con l'ora sbagliata delle previsioni del tempo dall'adattatore daswetter",
-				"es": "Se corrigió la hora incorrecta del pronóstico del tiempo del adaptador daswetter",
-				"pl": "Naprawiono błędną godzinę prognozy pogody z adaptera daswetter",
-				"zh-cn": "修复了来自daswetter适配器的天气预报错误时间"
-			},
-			"2.1.2": {
-				"en": "Added setting for minimum SoC to enable battery management",
-				"de": "Einstellung für minimalen Ladezustand hinzugefügt, ab dem das Batteriemanagement aktiviert werden darf",
-				"ru": "Добавлена настройка минимального SoC для включения управления батареей",
-				"pt": "Configuração adicionada para SoC mínimo para permitir o gerenciamento da bateria",
-				"nl": "Instelling toegevoegd voor minimale SoC om batterijbeheer mogelijk te maken",
-				"fr": "Ajout d'un paramètre pour un SoC minimum pour permettre la gestion de la batterie",
-				"it": "Aggiunta impostazione per SoC minimo per abilitare la gestione della batteria",
-				"es": "Se agregó configuración para SoC mínimo para permitir la administración de la batería",
-				"pl": "Dodano ustawienie minimalnego SoC, aby umożliwić zarządzanie baterią",
-				"zh-cn": "添加了用于最小SoC的设置以启用电池管理"
-			},
-			"2.1.1": {
-				"en": "Fixed problems in config and translations",
-				"de": "Probleme in Konfiguration und Übersetzungen behoben",
-				"ru": "Исправлены проблемы в конфиге и переводах",
-				"pt": "Corrigidos problemas na configuração e traduções",
-				"nl": "Vaste problemen in configuratie en vertalingen",
-				"fr": "Correction de problèmes dans la configuration et les traductions",
-				"it": "Risolti problemi di configurazione e traduzioni",
-				"es": "Problemas resueltos en la configuración y las traducciones",
-				"pl": "Naprawiono problemy z konfiguracją i tłumaczeniami",
-				"zh-cn": "解决了配置和翻译中的问题"
-			},
-			"2.1.0": {
-				"en": "Added further forecast sources to provide better power forecasts\nAdded second day forecast\nImproved code and fixed some minor issues\nNew dependency for xml2js",
-				"de": "Weitere Prognosequellen hinzugefügt, um bessere Energieprognosen bereitzustellen\nPrognose für den zweiten Tag hinzugefügt\nVerbesserter Code und Behebung einiger kleinerer Probleme\nNeue Abhängigkeit für xml2js",
-				"ru": "Добавлены дополнительные источники прогнозов для обеспечения лучших прогнозов мощности\nДобавлен прогноз на второй день\nУлучшен код и исправлены некоторые незначительные проблемы\nНовая зависимость для xml2js",
-				"pt": "Adicionadas outras fontes de previsão para fornecer melhores previsões de energia\nPrevisão do segundo dia adicionada\nCódigo aprimorado e corrigidos alguns problemas menores\nNova dependência para xml2js",
-				"nl": "Verdere bronnen voor prognoses toegevoegd om betere energieprognoses te bieden\nTweede dagvoorspelling toegevoegd\nVerbeterde code en enkele kleine problemen opgelost\nNieuwe afhankelijkheid voor xml2js",
-				"fr": "Ajout de sources de prévisions supplémentaires pour fournir de meilleures prévisions de puissance\nAjout des prévisions du deuxième jour\nAmélioration du code et correction de quelques problèmes mineurs\nNouvelle dépendance pour xml2js",
-				"it": "Aggiunte ulteriori fonti di previsione per fornire migliori previsioni di potenza\nAggiunta previsione secondo giorno\nCodice migliorato e risolti alcuni problemi minori\nNuova dipendenza per xml2js",
-				"es": "Se agregaron más fuentes de pronóstico para proporcionar mejores pronósticos de potencia.\nPronóstico del segundo día agregado\nCódigo mejorado y solucionado algunos problemas menores\nNueva dependencia para xml2js",
-				"pl": "Dodano dalsze źródła prognoz, aby zapewnić lepsze prognozy mocy\nDodano prognozę na drugi dzień\nPoprawiony kod i naprawione drobne problemy\nNowa zależność dla xml2js",
-				"zh-cn": "添加了更多的预测源，以提供更好的功率预测\n添加了第二天的预测\n改进了代码并修复了一些小问题\nxml2js的新依赖项"
-			},
-			"2.0.0": {
-				"en": "Code rework\nOursourcing of functions",
-				"de": "Codeüberarbeitung\nOursourcing von Funktionen",
-				"ru": "Переделка кода\nНаш поиск функций",
-				"pt": "Retrabalho de código\nTerceirização de funções",
-				"nl": "Code herwerken\nOursourcing van functies",
-				"fr": "Refonte du code\nExternalisation des fonctions",
-				"it": "Rielaborazione del codice\nSourcing di funzioni",
-				"es": "Retrabajo de código\nNuestro abastecimiento de funciones",
-				"pl": "Przeróbka kodu\nNasz outsourcing funkcji",
-				"zh-cn": "代码返工\n我们的职能外包"
-			}
-		},
-		"title": "KOSTAL Plenticore API",
-		"titleLang": {
-			"en": "KOSTAL Plenticore API",
-			"de": "KOSTAL Plenticore API",
-			"ru": "KOSTAL Plenticore API",
-			"pt": "API do KOSTAL Plenticore",
-			"nl": "KOSTAL Plenticore API",
-			"fr": "API KOSTAL Plenticore",
-			"it": "API KOSTAL Plenticore",
-			"es": "API de Plenticore de KOSTAL",
-			"pl": "KOSTAL Plenticore API",
-			"zh-cn": "KOSTAL Plenticore API"
-		},
-		"desc": {
-			"en": "Adapter to communicate with a KOSTAL Plenticore Plus via local network (non-modbus)",
-			"de": "Adapter um mit einem KOSTAL Plenticore Plus im lokalen Netzwerk (nicht via modbus) zu kommunizieren",
-			"ru": "Адаптер для связи с KOSTAL Plenticore Plus через локальную сеть (не по протоколу Modbus)",
-			"pt": "Adaptador para se comunicar com um KOSTAL Plenticore Plus via rede local (não modbus)",
-			"nl": "Adapter voor communicatie met een KOSTAL Plenticore Plus via lokaal netwerk (niet-modbus)",
-			"fr": "Adaptateur pour communiquer avec un KOSTAL Plenticore Plus via un réseau local (non modbus)",
-			"it": "Adattatore per comunicare con un KOSTAL Plenticore Plus tramite rete locale (non modbus)",
-			"es": "Adaptador para comunicarse con KOSTAL Plenticore Plus a través de la red local (no modbus)",
-			"pl": "Adapter do komunikacji z KOSTAL Plenticore Plus za pośrednictwem sieci lokalnej (non-modbus)",
-			"zh-cn": "通过本地网络（非Modbus）与KOSTAL Plenticore Plus进行通信的适配器"
-		},
-		"authors": [
-			"Marius Burkard <m.burkard@pixcept.de>"
-		],
-		"platform": "Javascript/Node.js",
-		"main": "main.js",
-		"mode": "daemon",
-		"icon": "plenticore.png",
-		"extIcon": "https://raw.githubusercontent.com/pixcept/ioBroker.plenticore/master/admin/plenticore.png",
-		"keywords": [
-			"kostal",
-			"plenticore",
-			"api",
-			"inverter"
-		],
-		"readme": "https://github.com/pixcept/ioBroker.plenticore/blob/master/README.md",
-		"loglevel": "info",
-		"type": "energy",
-		"connectionType": "local",
-		"dataSource": "poll",
-		"license": "MIT",
-		"messagebox": true,
-		"materialize": true,
-		"enabled": false,
-		"compact": true,
-		"stopTimeout": 2000,
-		"dependencies": {
-			"js-controller": ">=2.0.0"
-		}
-	},
-	"native": {
-		"ipaddress": "",
-		"port": "80",
-		"https": false,
-		"password": "",
-		"pollinterval": 20000,
-		"wfc_instance": "",
-		"enable_minsoc": false,
-		"enable_battery_management": false,
-		"enable_bm_minsoc": 10,
-		"min_minsoc": 5,
-		"max_minsoc": 40,
-		"battery_capacity": 0,
-		"panel_tilt": 30,
-		"panel_dir": 180,
-		"panel_surface": 0,
-		"panel_efficiency": 19.2,
-		"max_feed_in_power": 5000,
-		"battery_strategy" : "1"
-	},
-	"objects": [],
-	"instanceObjects": [
-		{
-			"_id": "info",
-			"type": "channel",
-			"common": {
-				"name": "Adapter-Information"
-			},
-			"native": {}
-		},
-		{
-			"_id": "info.connection",
-			"type": "state",
-			"common": {
-				"role": "indicator.connected",
-				"name": "Whether the adapter is connected to the gateway",
-				"type": "boolean",
-				"read": true,
-				"write": false,
-				"def": false
-			},
-			"native": {}
-		}
-	]
+  "common": {
+    "name": "plenticore",
+    "version": "2.3.1",
+    "news": {
+      "2.3.1": {
+        "en": "Added further option to control battery management [PastCoder]",
+        "de": "Weitere Option zur Steuerung des Batteriemanagements [PastCoder]",
+        "ru": "Добавлена дополнительная опция для управления аккумулятором [PastCoder]",
+        "pt": "Adicionado outra opção para controlar a gestão da bateria [PastCoder]",
+        "nl": "Voegde meer optie tot controle over batterijbeheersing",
+        "fr": "Ajout d'une autre option pour contrôler la gestion de la batterie [PastCoder]",
+        "it": "Aggiunta ulteriore opzione per controllare la gestione della batteria [PastCoder]",
+        "es": "Añadido otra opción para controlar la gestión de baterías [PastCoder]",
+        "pl": "Wstępna możliwość kontroli baterii (PastCoder)",
+        "uk": "Додано додатковий варіант управління акумуляторами [PastCoder]",
+        "zh-cn": "添加控制电池管理的进一步选择[先前的Coder]"
+      },
+      "2.3.0": {
+        "en": "Added possibility to control battery charging",
+        "de": "Möglichkeit zum Steuern des Batterieladens hinzugefügt",
+        "ru": "Добавлена ​​возможность управления зарядкой батареи",
+        "pt": "Adicionada a possibilidade de controlar o carregamento da bateria",
+        "nl": "Mogelijkheid om het opladen van de batterij te controleren toegevoegd",
+        "fr": "Ajout de la possibilité de contrôler le chargement de la batterie",
+        "it": "Aggiunta la possibilità di controllare il caricamento della batteria",
+        "es": "Se agregó la posibilidad de controlar el cargador de baterías",
+        "pl": "Dodano możliwość sterowania ładowaniem baterii",
+        "zh-cn": "添加了控制电池充电的可能性",
+        "uk": "Додано можливість керування заряджанням батареї"
+      },
+      "2.2.2": {
+        "en": "Added alternative smart battery strategy [PastCoder]",
+        "de": "Alternative intelligente Batteriestrategie hinzugefügt [PastCoder]",
+        "ru": "Добавлена ​​альтернативная стратегия умной батареи [PastCoder]",
+        "pt": "Adicionada estratégia alternativa de bateria inteligente [PastCoder]",
+        "nl": "Alternatieve slimme batterijstrategie toegevoegd [PastCoder]",
+        "fr": "Ajout d'une stratégie de batterie intelligente alternative [PastCoder]",
+        "it": "Aggiunta una strategia alternativa per la batteria intelligente [PastCoder]",
+        "es": "Se agregó una estrategia alternativa de batería inteligente [PastCoder]",
+        "pl": "Dodano alternatywną strategię inteligentnej baterii [PastCoder]",
+        "zh-cn": "添加了替代智能电池策略 [PastCoder]"
+      },
+      "2.2.1": {
+        "en": "Fixed forecast zickzack [PastCoder]",
+        "de": "Prognose-Zickzack behoben [PastCoder]",
+        "ru": "Исправлен прогноз Zickzack [PastCoder]",
+        "pt": "Zickzack de previsão fixo [PastCoder]",
+        "nl": "Vaste voorspelling zickzack [PastCoder]",
+        "fr": "Zickzack de prévision fixe [PastCoder]",
+        "it": "Zickzack di previsione fisso [PastCoder]",
+        "es": "Se corrigió el zickzack del pronóstico [PastCoder]",
+        "pl": "Naprawiono zickzack prognozy [PastCoder]",
+        "zh-cn": "固定预测 zickzack [PastCoder]"
+      },
+      "2.2.0": {
+        "en": "Fixed state value types for new version of js-controller\nAllow providing a custom port for connection to converter\nAllow using https connection to converter\nFixed some state object types",
+        "de": "Korrigierte Zustandswerttypen für die neue Version des js-Controllers\nEin benutzerdefinierter Port für die Verbindung zum Wechselrichter kann angegeben werden\nDie Verbindung zum Wechselrichter kann nun auch via https erfolgen\nEinige Zustandsobjekttypen korrigiert",
+        "ru": "Типы фиксированных значений состояния для новой версии js-controller\nРазрешить предоставление настраиваемого порта для подключения к конвертеру\nРазрешить использование https-подключения к конвертеру\nИсправлены некоторые типы объектов состояния",
+        "pt": "Tipos de valor de estado fixo para a nova versão do js-controller\nPermitir o fornecimento de uma porta personalizada para conexão ao conversor\nPermitir o uso de conexão https para conversor\nAlguns tipos de objeto de estado foram corrigidos",
+        "nl": "Vaste waardetypes voor nieuwe versie van js-controller\nSta het verstrekken van een aangepaste poort toe voor verbinding met de converter\nSta het gebruik van https-verbinding met converter toe\nSommige typen statusobjecten opgelost",
+        "fr": "Types de valeurs d'état fixes pour la nouvelle version de js-controller\nPermet de fournir un port personnalisé pour la connexion au convertisseur\nAutoriser l'utilisation de la connexion https au convertisseur\nCorrection de certains types d'objets d'état",
+        "it": "Tipi di valori di stato fissi per la nuova versione di js-controller\nConsenti di fornire una porta personalizzata per la connessione al convertitore\nConsenti l'utilizzo della connessione https al convertitore\nRisolti alcuni tipi di oggetti di stato",
+        "es": "Tipos de valores de estado fijos para la nueva versión de js-controller\nPermitir proporcionar un puerto personalizado para la conexión al convertidor\nPermitir el uso de la conexión https al convertidor\nSe corrigieron algunos tipos de objetos de estado.",
+        "pl": "Naprawiono typy wartości stanu dla nowej wersji js-controller\nUmożliwiają dostarczenie niestandardowego portu do połączenia z konwerterem\nZezwól na używanie połączenia https z konwerterem\nNaprawiono niektóre typy obiektów stanu object",
+        "zh-cn": "修复了新版本 js-controller 的状态值类型\n允许提供用于连接转换器的自定义端口\n允许使用 https 连接到转换器\n修复了一些状态对象类型"
+      },
+      "2.1.9": {
+        "en": "Fixed met.no rain forecast value",
+        "de": "met.no Regenvorhersagewert korrigiert",
+        "ru": "Фиксированное значение прогноза дождя met.no",
+        "pt": "Valor de previsão de chuva met.no corrigido",
+        "nl": "Vaste voldaan. Geen regenvoorspellingswaarde",
+        "fr": "Correction de la valeur de prévision de pluie met.no",
+        "it": "Corretto il valore di previsione della pioggia met. No",
+        "es": "Valor fijo de pronóstico sin lluvia",
+        "pl": "Stała wartość prognozy dla met. Brak opadów",
+        "zh-cn": "固定的无雨预报值"
+      },
+      "2.1.8": {
+        "en": "Update of met.no API to locationforecast 2.0\nRemoved xml2js library\nUpdate of base library",
+        "de": "Update der met.no API auf locationforecast 2.0\nxml2js Bibliothek entfernt\nAktualisierung der Basisbibliothek",
+        "ru": "Обновление met.no API до locationforecast 2.0\nУдалена библиотека xml2js\nОбновление базовой библиотеки",
+        "pt": "Atualização da API met.no para locationforecast 2.0\nBiblioteca xml2js removida\nAtualização da biblioteca base",
+        "nl": "Update van met.no API naar locationforecast 2.0\nXml2js-bibliotheek verwijderd\nUpdate van basisbibliotheek",
+        "fr": "Mise à jour de l'API met.no vers locationforecast 2.0\nBibliothèque xml2js supprimée\nMise à jour de la bibliothèque de base",
+        "it": "Aggiornamento di met.no API alla locationforecast 2.0\nLibreria xml2js rimossa\nAggiornamento della libreria di base",
+        "es": "Actualización de la API de met.no a locationforecast 2.0\nBiblioteca xml2js eliminada\nActualización de la biblioteca base",
+        "pl": "Aktualizacja met.no API do wersji locationforecast 2.0\nUsunięto bibliotekę xml2js\nAktualizacja biblioteki podstawowej",
+        "zh-cn": "将met.no API更新为2.0\n删除了xml2js库\n基础库的更新"
+      },
+      "2.1.7": {
+        "en": "Update of base library",
+        "de": "Aktualisierung der Basisbibliothek",
+        "ru": "Обновление базовой библиотеки",
+        "pt": "Atualização da biblioteca base",
+        "nl": "Update van basisbibliotheek",
+        "fr": "Mise à jour de la bibliothèque de base",
+        "it": "Aggiornamento della libreria di base",
+        "es": "Actualización de la biblioteca base",
+        "pl": "Aktualizacja biblioteki podstawowej",
+        "zh-cn": "基础库的更新"
+      },
+      "2.1.6": {
+        "en": "Copyright year updated",
+        "de": "Copyright-Jahr aktualisiert",
+        "ru": "Год авторского права обновлен",
+        "pt": "Ano de copyright atualizado",
+        "nl": "Copyrightjaar bijgewerkt",
+        "fr": "Année de copyright mise à jour",
+        "it": "Anno di copyright aggiornato",
+        "es": "Año de copyright actualizado",
+        "pl": "Zaktualizowano rok praw autorskich",
+        "zh-cn": "版权年份已更新"
+      },
+      "2.1.5": {
+        "en": "Package information fixed",
+        "de": "Paketinformationen korrigiert",
+        "ru": "Информация о пакете исправлена",
+        "pt": "Informações do pacote corrigidas",
+        "nl": "Pakketinformatie opgelost",
+        "fr": "Informations sur le paquet corrigées",
+        "it": "Informazioni sul pacchetto corrette",
+        "es": "Información del paquete arreglada",
+        "pl": "Informacje o pakiecie naprawione",
+        "zh-cn": "包裹信息固定"
+      },
+      "2.1.4": {
+        "en": "Disable smart battery control as long as SoC is lower than MinSoC + 8% to avoid using grid power on consumption peaks\nDisable darksky usage (discontinued)",
+        "de": "Deaktivieren der intelligenten Batteriesteuerung, solange der SoC unter MinSoC + 8% liegt, um zu vermeiden, dass bei Verbrauchsspitzen Netzstrom verwendet wird\nDarksky-Nutzung deaktivieren (eingestellt)",
+        "ru": "Отключите интеллектуальное управление батареей, пока SoC ниже MinSoC + 8%, чтобы избежать использования энергии сети при пиках потребления\nОтключить использование даркского (снято с производства)",
+        "pt": "Desative o controle de bateria inteligente, desde que SoC seja inferior a MinSoC + 8% para evitar o uso de energia da rede em picos de consumo\nDesativar o uso do darksky (descontinuado)",
+        "nl": "Schakel slimme batterijcontrole uit zolang SoC lager is dan MinSoC + 8% om te voorkomen dat het elektriciteitsnet wordt gebruikt bij verbruikspieken\nDarksky-gebruik uitschakelen (stopgezet)",
+        "fr": "Désactivez le contrôle intelligent de la batterie tant que le SoC est inférieur à MinSoC + 8% pour éviter d'utiliser l'alimentation du réseau sur les pics de consommation\nDésactiver l'utilisation de Darksky (abandonné)",
+        "it": "Disabilitare il controllo intelligente della batteria fintanto che SoC è inferiore a MinSoC + 8% per evitare di utilizzare la rete in caso di picchi di consumo\nDisabilita l'utilizzo di darksky (interrotto)",
+        "es": "Desactive el control inteligente de la batería siempre que el SoC sea inferior a MinSoC + 8% para evitar el uso de la energía de la red en picos de consumo\nDeshabilitar el uso de darksky (descontinuado)",
+        "pl": "Wyłącz inteligentną kontrolę baterii tak długo, jak SoC jest niższa niż MinSoC + 8%, aby uniknąć wykorzystywania mocy sieci w szczytach zużycia\nWyłącz użycie Darksky (wycofane)",
+        "zh-cn": "只要SoC低于MinSoC + 8％，就禁用智能电池控制，以避免在功耗峰值时使用电网电源\n禁用深色天空用法（已停产）"
+      },
+      "2.1.3": {
+        "en": "Fixed wrong hour of weather forecast from daswetter adapter",
+        "de": "Falsche Stunde der Wettervorhersage vom Daswetter-Adapter",
+        "ru": "Исправлен неправильный час прогноза погоды от адаптера Daswetter",
+        "pt": "Corrigida a hora incorreta da previsão do tempo no adaptador daswetter",
+        "nl": "Foutief weerbericht van daswetter-adapter opgelost",
+        "fr": "Correction de la mauvaise heure de prévision météo de l'adaptateur daswetter",
+        "it": "Risolto il problema con l'ora sbagliata delle previsioni del tempo dall'adattatore daswetter",
+        "es": "Se corrigió la hora incorrecta del pronóstico del tiempo del adaptador daswetter",
+        "pl": "Naprawiono błędną godzinę prognozy pogody z adaptera daswetter",
+        "zh-cn": "修复了来自daswetter适配器的天气预报错误时间"
+      },
+      "2.1.2": {
+        "en": "Added setting for minimum SoC to enable battery management",
+        "de": "Einstellung für minimalen Ladezustand hinzugefügt, ab dem das Batteriemanagement aktiviert werden darf",
+        "ru": "Добавлена настройка минимального SoC для включения управления батареей",
+        "pt": "Configuração adicionada para SoC mínimo para permitir o gerenciamento da bateria",
+        "nl": "Instelling toegevoegd voor minimale SoC om batterijbeheer mogelijk te maken",
+        "fr": "Ajout d'un paramètre pour un SoC minimum pour permettre la gestion de la batterie",
+        "it": "Aggiunta impostazione per SoC minimo per abilitare la gestione della batteria",
+        "es": "Se agregó configuración para SoC mínimo para permitir la administración de la batería",
+        "pl": "Dodano ustawienie minimalnego SoC, aby umożliwić zarządzanie baterią",
+        "zh-cn": "添加了用于最小SoC的设置以启用电池管理"
+      },
+      "2.1.1": {
+        "en": "Fixed problems in config and translations",
+        "de": "Probleme in Konfiguration und Übersetzungen behoben",
+        "ru": "Исправлены проблемы в конфиге и переводах",
+        "pt": "Corrigidos problemas na configuração e traduções",
+        "nl": "Vaste problemen in configuratie en vertalingen",
+        "fr": "Correction de problèmes dans la configuration et les traductions",
+        "it": "Risolti problemi di configurazione e traduzioni",
+        "es": "Problemas resueltos en la configuración y las traducciones",
+        "pl": "Naprawiono problemy z konfiguracją i tłumaczeniami",
+        "zh-cn": "解决了配置和翻译中的问题"
+      },
+      "2.1.0": {
+        "en": "Added further forecast sources to provide better power forecasts\nAdded second day forecast\nImproved code and fixed some minor issues\nNew dependency for xml2js",
+        "de": "Weitere Prognosequellen hinzugefügt, um bessere Energieprognosen bereitzustellen\nPrognose für den zweiten Tag hinzugefügt\nVerbesserter Code und Behebung einiger kleinerer Probleme\nNeue Abhängigkeit für xml2js",
+        "ru": "Добавлены дополнительные источники прогнозов для обеспечения лучших прогнозов мощности\nДобавлен прогноз на второй день\nУлучшен код и исправлены некоторые незначительные проблемы\nНовая зависимость для xml2js",
+        "pt": "Adicionadas outras fontes de previsão para fornecer melhores previsões de energia\nPrevisão do segundo dia adicionada\nCódigo aprimorado e corrigidos alguns problemas menores\nNova dependência para xml2js",
+        "nl": "Verdere bronnen voor prognoses toegevoegd om betere energieprognoses te bieden\nTweede dagvoorspelling toegevoegd\nVerbeterde code en enkele kleine problemen opgelost\nNieuwe afhankelijkheid voor xml2js",
+        "fr": "Ajout de sources de prévisions supplémentaires pour fournir de meilleures prévisions de puissance\nAjout des prévisions du deuxième jour\nAmélioration du code et correction de quelques problèmes mineurs\nNouvelle dépendance pour xml2js",
+        "it": "Aggiunte ulteriori fonti di previsione per fornire migliori previsioni di potenza\nAggiunta previsione secondo giorno\nCodice migliorato e risolti alcuni problemi minori\nNuova dipendenza per xml2js",
+        "es": "Se agregaron más fuentes de pronóstico para proporcionar mejores pronósticos de potencia.\nPronóstico del segundo día agregado\nCódigo mejorado y solucionado algunos problemas menores\nNueva dependencia para xml2js",
+        "pl": "Dodano dalsze źródła prognoz, aby zapewnić lepsze prognozy mocy\nDodano prognozę na drugi dzień\nPoprawiony kod i naprawione drobne problemy\nNowa zależność dla xml2js",
+        "zh-cn": "添加了更多的预测源，以提供更好的功率预测\n添加了第二天的预测\n改进了代码并修复了一些小问题\nxml2js的新依赖项"
+      },
+      "2.0.0": {
+        "en": "Code rework\nOursourcing of functions",
+        "de": "Codeüberarbeitung\nOursourcing von Funktionen",
+        "ru": "Переделка кода\nНаш поиск функций",
+        "pt": "Retrabalho de código\nTerceirização de funções",
+        "nl": "Code herwerken\nOursourcing van functies",
+        "fr": "Refonte du code\nExternalisation des fonctions",
+        "it": "Rielaborazione del codice\nSourcing di funzioni",
+        "es": "Retrabajo de código\nNuestro abastecimiento de funciones",
+        "pl": "Przeróbka kodu\nNasz outsourcing funkcji",
+        "zh-cn": "代码返工\n我们的职能外包"
+      }
+    },
+    "title": "KOSTAL Plenticore API",
+    "titleLang": {
+      "en": "KOSTAL Plenticore API",
+      "de": "KOSTAL Plenticore API",
+      "ru": "KOSTAL Plenticore API",
+      "pt": "API do KOSTAL Plenticore",
+      "nl": "KOSTAL Plenticore API",
+      "fr": "API KOSTAL Plenticore",
+      "it": "API KOSTAL Plenticore",
+      "es": "API de Plenticore de KOSTAL",
+      "pl": "KOSTAL Plenticore API",
+      "zh-cn": "KOSTAL Plenticore API"
+    },
+    "desc": {
+      "en": "Adapter to communicate with a KOSTAL Plenticore Plus via local network (non-modbus)",
+      "de": "Adapter um mit einem KOSTAL Plenticore Plus im lokalen Netzwerk (nicht via modbus) zu kommunizieren",
+      "ru": "Адаптер для связи с KOSTAL Plenticore Plus через локальную сеть (не по протоколу Modbus)",
+      "pt": "Adaptador para se comunicar com um KOSTAL Plenticore Plus via rede local (não modbus)",
+      "nl": "Adapter voor communicatie met een KOSTAL Plenticore Plus via lokaal netwerk (niet-modbus)",
+      "fr": "Adaptateur pour communiquer avec un KOSTAL Plenticore Plus via un réseau local (non modbus)",
+      "it": "Adattatore per comunicare con un KOSTAL Plenticore Plus tramite rete locale (non modbus)",
+      "es": "Adaptador para comunicarse con KOSTAL Plenticore Plus a través de la red local (no modbus)",
+      "pl": "Adapter do komunikacji z KOSTAL Plenticore Plus za pośrednictwem sieci lokalnej (non-modbus)",
+      "zh-cn": "通过本地网络（非Modbus）与KOSTAL Plenticore Plus进行通信的适配器"
+    },
+    "authors": [
+      "Marius Burkard <m.burkard@pixcept.de>"
+    ],
+    "platform": "Javascript/Node.js",
+    "main": "main.js",
+    "mode": "daemon",
+    "icon": "plenticore.png",
+    "extIcon": "https://raw.githubusercontent.com/pixcept/ioBroker.plenticore/master/admin/plenticore.png",
+    "keywords": [
+      "kostal",
+      "plenticore",
+      "api",
+      "inverter"
+    ],
+    "readme": "https://github.com/pixcept/ioBroker.plenticore/blob/master/README.md",
+    "loglevel": "info",
+    "type": "energy",
+    "connectionType": "local",
+    "dataSource": "poll",
+    "license": "MIT",
+    "messagebox": true,
+    "enabled": false,
+    "compact": true,
+    "stopTimeout": 2000,
+    "dependencies": [
+      {
+        "js-controller": ">=6.0.11"
+      }
+    ],
+    "adminUI": {
+      "config": "materialize"
+    }
+  },
+  "native": {
+    "ipaddress": "",
+    "port": "80",
+    "https": false,
+    "password": "",
+    "pollinterval": 20000,
+    "wfc_instance": "",
+    "enable_minsoc": false,
+    "enable_battery_management": false,
+    "enable_bm_minsoc": 10,
+    "min_minsoc": 5,
+    "max_minsoc": 40,
+    "battery_capacity": 0,
+    "panel_tilt": 30,
+    "panel_dir": 180,
+    "panel_surface": 0,
+    "panel_efficiency": 19.2,
+    "max_feed_in_power": 5000,
+    "battery_strategy": "1"
+  },
+  "objects": [],
+  "instanceObjects": [
+    {
+      "_id": "info",
+      "type": "channel",
+      "common": {
+        "name": "Adapter-Information"
+      },
+      "native": {}
+    },
+    {
+      "_id": "info.connection",
+      "type": "state",
+      "common": {
+        "role": "indicator.connected",
+        "name": "Whether the adapter is connected to the gateway",
+        "type": "boolean",
+        "read": true,
+        "write": false,
+        "def": false
+      },
+      "native": {}
+    }
+  ]
 }
